@@ -1,0 +1,51 @@
+<div class="row h-100">
+  <!-- Partie gauche -->
+  <div class="col-md-6 bg-primary text-white d-flex flex-column justify-content-center align-items-center">
+    <h1 class="fw-bold">Bienvenue sur SunuPointage</h1>
+    <p class="mt-3">Simplifiez vos suivis, gagnez en efficacité.</p>
+    <div class="mt-5">
+      <div class="theme-item">Sécurité</div>
+      <div class="theme-item">Assurance</div>
+      <div class="theme-item">Rapidité</div>
+    </div>
+  </div>
+
+  <!-- Partie droite -->
+  <div class="col-md-6 d-flex justify-content-center align-items-center">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-75">
+      <h2 class="mb-4">Connexion</h2>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          id="email"
+          type="email"
+          class="form-control"
+          formControlName="email"
+          placeholder="Entrez votre email"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <div class="input-group">
+          <input
+            id="password"
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            class="form-control"
+            formControlName="password"
+            placeholder="Entrez votre mot de passe"
+          />
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="togglePasswordVisibility()"
+          >
+            <i [class]="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">
+        Connexion
+      </button>
+    </form>
+  </div>
+</div>
