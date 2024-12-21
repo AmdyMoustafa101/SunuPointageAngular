@@ -42,6 +42,7 @@ export class LoginComponent {
 
     this.employeService.login(email, password).subscribe({
       next: (response) => {
+        this.employeService.saveToken(response.token);
         Swal.fire('Connexion réussie', response.message, 'success');
         const role = response.user.role;
 

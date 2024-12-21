@@ -9,6 +9,7 @@ import { VigilePageComponent } from './components/Pages/vigile-page/vigile-page/
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   {path: 'departement', component: DepartementCreateComponent},
   {path: 'cohorte', component: CohortesComponent},
   {path: 'employe', component: EmployeCreateComponent},
