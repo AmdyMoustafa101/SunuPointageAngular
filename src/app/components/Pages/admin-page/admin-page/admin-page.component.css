@@ -1,0 +1,9 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Add hover effect for links */
+a.text-decoration-none:hover {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}

@@ -12,6 +12,7 @@ export interface LogoutResponse {
 
 export class EmployeService {
   private apiUrl = 'http://localhost:8002/api/employes'; // URL de l'API Laravel
+  private userData: any = null
 
   constructor(private http: HttpClient) {}
 
@@ -25,6 +26,16 @@ export class EmployeService {
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(`http://localhost:8002/api/login`, { email, password });
+  }
+
+  // Store user data
+  setUserData(user: any): void {
+    this.userData = user;
+  }
+
+  // Get user data
+  getUserData(): any {
+    return this.userData;
   }
 
   // Fonction de logout

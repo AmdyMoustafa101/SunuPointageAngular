@@ -16,6 +16,9 @@ import Swal from 'sweetalert2';
 export class LoginComponent {
   loginForm: FormGroup;
   isPasswordVisible: boolean = false;
+  email = '';
+  password = '';
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -42,6 +45,7 @@ export class LoginComponent {
 
     this.employeService.login(email, password).subscribe({
       next: (response) => {
+        this.employeService.setUserData(response.user);
         this.employeService.saveToken(response.token);
         Swal.fire('Connexion réussie', response.message, 'success');
         const role = response.user.role;

@@ -6,6 +6,7 @@ import { ApprenantCreateComponent } from './components/Apprenant/Apprenant-creat
 import { LoginComponent } from './components/login/login/login.component';
 import { AdminPageComponent } from './components/Pages/admin-page/admin-page/admin-page.component';
 import { VigilePageComponent } from './components/Pages/vigile-page/vigile-page/vigile-page.component';
+import { HistoriqueLogsComponent } from './components/historique-logs/historique-logs.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   {path: 'employe', component: EmployeCreateComponent},
   {path: 'apprenant', component: ApprenantCreateComponent},
   {path: 'admin-page', component: AdminPageComponent},
-  {path: 'vigile-page', component: VigilePageComponent}
+  {path: 'vigile-page', component: VigilePageComponent},
+  { path: 'historiques', component: HistoriqueLogsComponent},
 
 ];

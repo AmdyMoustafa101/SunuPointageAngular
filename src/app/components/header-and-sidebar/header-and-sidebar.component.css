@@ -1,0 +1,49 @@
+/* Styles pour la sidebar */
+.fixed-sidebar {
+  position: fixed;
+  top: 102px; /* Aligne avec le header */
+  left: 0;
+  width: 273px;
+  height: calc(100vh - 102px); /* Prend toute la hauteur disponible en dessous du header */
+  overflow-y: auto; /* Scroll si le contenu dépasse la hauteur */
+  background-color: #ffffff;
+  border-right: 1px solid #E8E8E8;
+  z-index: 999;
+}
+
+/* Onglet actif */
+/* Onglet actif */
+a.active {
+  position: relative;
+  font-weight: bold;
+  color: #007bff !important; /* Couleur du texte actif */
+}
+
+a.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #007bff; /* Rectangle bleu à gauche */
+  border-radius: 0 5px 5px 0; /* Coins arrondis */
+}
+
+.sidebar-hidden {
+  transform: translateX(-100%);
+}
+
+/* Transition pour l'effet de glissement */
+.fixed-sidebar {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Styles pour responsive */
+@media (max-width: 768px) {
+  .fixed-sidebar {
+    width: 100%;
+    height: calc(100vh - 102px);
+  }
+}
+

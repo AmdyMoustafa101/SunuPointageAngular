@@ -1,0 +1,43 @@
+.container {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.badge {
+  display: inline-block; /* Assure que la largeur est respectée */
+  width: 100px; /* Fixez une largeur adaptée */
+  text-align: center; /* Centre le texte horizontalement */
+  padding: 5px; /* Ajoutez un peu de padding pour une meilleure apparence */
+  font-size: 14px; /* Uniformisez la taille du texte */
+  line-height: 1.5; /* Ajustez la hauteur de ligne pour un bon alignement */
+}
+
+/* Ajustement de la marge en fonction de l'état du sidebar */
+.content {
+  margin-left: 273px; /* Largeur du sidebar */
+  margin-top: 102px; /* Hauteur du header */
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.content.collapsed {
+  margin-left: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+}
+
+

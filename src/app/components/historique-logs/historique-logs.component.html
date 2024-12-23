@@ -1,0 +1,78 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div class="content" [class.collapsed]="!isSidebarVisible">
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Historiques des Connexions</h2>
+
+    <!-- Filtres -->
+    <div class="row mb-3">
+      <div class="col-md-6 col-lg-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Rechercher par nom, prénom ou fonction"
+          [(ngModel)]="search"
+          (keyup)="onSearch()" />
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="date"
+          (change)="onSearch()" />
+      </div>
+      <div class="col-md-12 col-lg-2 text-end mt-2 mt-lg-0">
+        <button class="btn btn-primary w-100" (click)="onSearch()">Filtrer</button>
+      </div>
+    </div>
+
+    <!-- Tableau -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Fonction</th>
+            <th>Date</th>
+            <th>Heure</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let log of logs">
+            <td>{{ log.nom }}</td>
+            <td>{{ log.prenom }}</td>
+            <td>{{ log.fonction }}</td>
+            <td>{{ log.timestamp | date:'yyyy-MM-dd' }}</td>
+            <td>{{ log.timestamp | date:'HH:mm:ss' }}</td>
+            <td>
+              <span
+                  class="badge"
+                  [ngClass]="log.statut_acces === 'login' ? 'bg-success' : 'bg-danger'">
+                  {{ log.statut_acces === 'login' ? 'Connexion' : 'Déconnexion' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-3">
+      <button
+        class="btn btn-outline-primary mx-1"
+        [disabled]="currentPage === 1"
+        (click)="changePage(currentPage - 1)">
+        Précédent
+      </button>
+      <span class="mx-3 align-self-center">Page {{ currentPage }} sur {{ totalPages }}</span>
+      <button
+        class="btn btn-outline-primary mx-1"
+        [disabled]="currentPage === totalPages"
+        (click)="changePage(currentPage + 1)">
+        Suivant
+      </button>
+    </div>
+  </div>
+</div>
