@@ -1,0 +1,29 @@
+/* Ajustement de la marge en fonction de l'état du sidebar */
+.content {
+  margin-left: 273px; /* Largeur du sidebar */
+  margin-top: 102px; /* Hauteur du header */
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.content.collapsed {
+  margin-left: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+}
+
+table {
+  margin-top: 20px;
+}
+
+button i {
+  margin-right: 5px;
+}

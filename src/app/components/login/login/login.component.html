@@ -23,6 +23,10 @@
           formControlName="email"
           placeholder="Entrez votre email"
         />
+        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-danger">
+          <small *ngIf="loginForm.get('email')?.hasError('required')">L'email est requis.</small>
+          <small *ngIf="loginForm.get('email')?.hasError('email')">Entrez un email valide.</small>
+        </div>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Mot de passe</label>
@@ -41,6 +45,10 @@
           >
             <i [class]="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
           </button>
+        </div>
+        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="text-danger">
+          <small *ngIf="loginForm.get('password')?.hasError('required')">Le mot de passe est requis.</small>
+          <small *ngIf="loginForm.get('password')?.hasError('minlength')">Le mot de passe doit comporter au moins 6 caractères.</small>
         </div>
       </div>
       <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">

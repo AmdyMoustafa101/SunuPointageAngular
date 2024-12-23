@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EmployeService } from '../../../services/employe.service';
 import { CommonModule } from '@angular/common';
 
@@ -9,15 +9,13 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   loginForm: FormGroup;
   isPasswordVisible: boolean = false;
-  email = '';
-  password = '';
   errorMessage = '';
 
   constructor(
@@ -37,6 +35,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched(); // Marque tous les champs comme touchés pour afficher les erreurs
       return;
     }
 
@@ -49,6 +48,8 @@ export class LoginComponent {
         this.employeService.saveToken(response.token);
         Swal.fire('Connexion réussie', response.message, 'success');
         const role = response.user.role;
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
 
         if (role === 'administrateur') {
           this.router.navigate(['/admin-page']);
@@ -62,6 +63,4 @@ export class LoginComponent {
       },
     });
   }
-
-
 }
