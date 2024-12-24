@@ -19,20 +19,34 @@
         </button>
     </div>
 
+    <!-- Champ de recherche -->
+    <div class="d-flex justify-content-center mb-4">
+      <input
+        type="text"
+        placeholder="Rechercher par nom, prénom, matricule ou téléphone"
+        [(ngModel)]="searchQuery"
+        (input)="filterUsers()"
+        class="form-control w-50"
+      />
+    </div>
+
+
     <!-- Liste des utilisateurs -->
-    <div *ngIf="users.length > 0" class="table-responsive">
+    <div *ngIf="paginatedUsers.length > 0" class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
                     <th>Nom</th>
                     <th>Prénom</th>
+                    <th>Matricule</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let user of users">
+                <tr *ngFor="let user of paginatedUsers">
                     <td>{{ user.nom }}</td>
                     <td>{{ user.prenom }}</td>
+                    <td>{{ user.matricule }}</td>
                     <td>
                         <button
                             class="btn btn-info me-2"
@@ -50,6 +64,34 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-3">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="changePage(currentPage - 1)">
+              Précédent
+            </button>
+          </li>
+          <li
+            class="page-item"
+            *ngFor="let page of pages"
+            [class.active]="page === currentPage"
+          >
+            <button class="page-link" (click)="changePage(page)">{{ page }}</button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="changePage(currentPage + 1)">
+              Suivant
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <!-- Message si aucun utilisateur trouvé -->
+    <div *ngIf="filteredUsers.length === 0" class="alert alert-warning">
+      Aucun utilisateur trouvé pour votre recherche.
     </div>
 </div>
 
