@@ -2,49 +2,57 @@
 
 <div class="content" [class.collapsed]="!isSidebarVisible">
   <div class="container mt-4">
-    <div class="container mt-5">
-      <h2 class="text-center mb-4">Gestion des Pointages</h2>
+    <h2 class="text-center mb-4">Gestion des Pointages</h2>
 
-      <!-- Boutons de sélection -->
-      <div class="d-flex justify-content-center mb-4">
+    <!-- Sélection de la date -->
+    <div class="d-flex justify-content-center mb-4">
+        <input type="date" [(ngModel)]="selectedDate" (change)="onDateChange()" max="{{ maxDate }}" class="form-control w-25" />
+    </div>
+
+    <!-- Boutons de sélection -->
+    <div class="d-flex justify-content-center mb-4">
         <button class="btn btn-primary mx-2" (click)="loadUsers('employe')">
           <i class="fas fa-user"></i> Pointer un employé
         </button>
         <button class="btn btn-success mx-2" (click)="loadUsers('apprenant')">
           <i class="fas fa-graduation-cap"></i> Pointer un apprenant
         </button>
-      </div>
-
-      <!-- Liste des utilisateurs -->
-      <div *ngIf="users.length > 0" class="table-responsive">
-        <table class="table table-bordered">
-          <thead class="table-dark">
-            <tr>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of users">
-              <td>{{ user.nom }}</td>
-              <td>{{ user.prenom }}</td>
-              <td>
-                <button class="btn btn-info me-2" (click)="pointer(user, 'arrivee')">
-                  <i class="fas fa-sign-in-alt"></i> Arrivée
-                </button>
-                <button class="btn btn-warning" (click)="pointer(user, 'depart')">
-                  <i class="fas fa-sign-out-alt"></i> Départ
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
 
-
+    <!-- Liste des utilisateurs -->
+    <div *ngIf="users.length > 0" class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
+                    <td>
+                        <button
+                            class="btn btn-info me-2"
+                            (click)="pointer(user, 'arrivee')"
+                            [disabled]="isActionDisabled(user, 'heure_arrivee')">
+                          <i class="fas fa-sign-in-alt"></i> Arrivée
+                        </button>
+                        <button
+                            class="btn btn-warning"
+                            (click)="pointer(user, 'depart')"
+                            [disabled]="isActionDisabled(user, 'heure_depart')">
+                          <i class="fas fa-sign-out-alt"></i> Départ
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
   </div>
 
-</div>
+

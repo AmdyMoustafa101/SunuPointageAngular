@@ -6,19 +6,22 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class PointageService {
-  private apiUrl = 'http://localhost:8002/api/enregistrer-pointage'; // URL pour enregistrer
-  private statusApiUrl = 'http://localhost:3000/api/status-pointage'; // URL pour vérifier le statut
+  private apiUrl = 'http://localhost:8002/api/enregistrer-pointage';
+  private pointagesUrl = 'http://localhost:3000/api/pointages';
 
   constructor(private http: HttpClient) {}
 
-  getAuthToken() {
+  getAuthToken(): string | null {
     return localStorage.getItem('token');
   }
 
   enregistrerPointage(pointage: any): Observable<any> {
     const token = this.getAuthToken();
-    if (!token) throw new Error('Token non trouvé');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post(this.apiUrl, pointage, { headers });
+  }
+
+  getPointages(date: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.pointagesUrl}?date=${date}`);
   }
 }
