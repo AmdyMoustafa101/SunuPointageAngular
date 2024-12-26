@@ -8,6 +8,7 @@ import { AdminPageComponent } from './components/Pages/admin-page/admin-page/adm
 import { VigilePageComponent } from './components/Pages/vigile-page/vigile-page/vigile-page.component';
 import { HistoriqueLogsComponent } from './components/historique-logs/historique-logs.component';
 import { PointageComponent } from './components/pointage/pointage.component';
+import { PresenceComponent } from './components/presence/presence.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -20,5 +21,6 @@ export const routes: Routes = [
   {path: 'vigile-page', component: VigilePageComponent},
   { path: 'historiques', component: HistoriqueLogsComponent},
   { path: 'pointage', component: PointageComponent},
+  { path: 'presence', component: PresenceComponent},
 
 ];

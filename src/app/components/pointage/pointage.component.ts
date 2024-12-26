@@ -110,10 +110,11 @@ convertDateToString(selectedDate: string | Date): string {
     const formattedTime = now.toISOString().split('T')[1].slice(0, 5);
 
     const pointageData = {
-      utilisateur_id: user.id,
+      userID: user.id,
       nom: user.nom,
       prenom: user.prenom,
       matricule: user.matricule,
+      telephone: user.telephone,
       role: user.role || 'apprenant',
       date: formattedDate,
       heure_arrivee: type === 'arrivee' ? formattedTime : null,
@@ -132,6 +133,7 @@ convertDateToString(selectedDate: string | Date): string {
           <p><strong>Nom :</strong> ${user.nom}</p>
           <p><strong>Prénom :</strong> ${user.prenom}</p>
           <p><strong>Rôle :</strong> ${user.role || 'Apprenant'}</p>
+          <p><strong>Telephone :</strong> ${user.telephone}</p>
           <p><strong>Type :</strong> ${type === 'arrivee' ? 'Arrivée' : 'Départ'}</p>
           <p><strong>Date :</strong> ${formattedDate}</p>
           <p><strong>Heure :</strong> ${formattedTime}</p>

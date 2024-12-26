@@ -25,10 +25,33 @@
 
   <!-- Navigation Links -->
   <div class="px-3">
-    <a routerLink="/pointage" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="d-flex align-items-center py-2 text-dark text-decoration-none">
-      <i class="fas fa-tachometer-alt me-3"></i> Tableau de bord
-    </a>
-    <a routerLink="/cohortes" routerLinkActive="active" class="d-flex align-items-center py-2 text-dark text-decoration-none">
+    <a
+  (click)="toggleDropdown()"
+
+  class="d-flex align-items-center py-2 text-dark text-decoration-none">
+  <i class="fas fa-tachometer-alt me-3"></i> Tableau de bord
+</a>
+
+<!-- Dropdown Pointer (affiché conditionnellement) -->
+<div class="dropdown d-inline-block mx-3" *ngIf="dropdownVisible">
+  <button routerLink="/pointage"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }" class="btn btn-light dropdown-toggle" type="button" id="dropdownPointer" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="fas fa-clock me-2"></i> Pointer
+  </button>
+</div>
+
+<!-- Dropdown Liste de Présence -->
+<div routerLink="/presence"
+routerLinkActive="active"
+[routerLinkActiveOptions]="{ exact: true }"  class="dropdown d-inline-block mx-3" *ngIf="dropdownVisible">
+  <button class="btn btn-light dropdown-toggle" type="button" id="dropdownPresence" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="fas fa-users me-2"></i> Liste Présence
+  </button>
+</div>
+
+
+    <a routerLink="/cohorte" routerLinkActive="active" class="d-flex align-items-center py-2 text-dark text-decoration-none">
       <i class="fas fa-users me-3"></i> Cohortes
     </a>
     <a routerLink="/departement" routerLinkActive="active" class="d-flex align-items-center py-2 text-dark text-decoration-none">

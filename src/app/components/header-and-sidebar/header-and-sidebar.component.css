@@ -47,3 +47,22 @@ a.active::before {
   }
 }
 
+/* Boutons du dropdown */
+.btn-light {
+  color: #007bff;
+  background-color: #f8f9fa;
+  border-color: #ccc;
+  border-radius: 0.25rem;
+}
+
+.btn-light:hover {
+  color: white;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+/* Espacement entre les dropdowns */
+.mx-3 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}

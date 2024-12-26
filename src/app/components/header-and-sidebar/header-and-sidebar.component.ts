@@ -27,9 +27,14 @@ export class HeaderAndSidebarComponent  implements OnInit{
   admin: any;
 
   isSidebarVisible: boolean = true;
+  dropdownVisible: boolean = false; // Variable pour contrôler l'affichage du dropdown
 
   toggleSidebar(): void {
     this.isSidebarVisible = !this.isSidebarVisible;
+  }
+  // Méthode pour afficher/masquer le dropdown
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
   }
 
   logout() {
