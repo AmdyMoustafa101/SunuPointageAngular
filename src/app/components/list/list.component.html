@@ -1,0 +1,72 @@
+<div class="container mt-4">
+  <h2 class="text-center">Attribution de carte RFID</h2>
+
+  <!-- Navigation pour les utilisateurs -->
+  <div class="d-flex justify-content-center mb-4">
+    <button
+      class="btn btn-primary me-2"
+      [class.active]="typeUtilisateur === 'employes'"
+      (click)="changeType('employes')"
+    >
+      Employés
+    </button>
+    <button
+      class="btn btn-secondary"
+      [class.active]="typeUtilisateur === 'apprenants'"
+      (click)="changeType('apprenants')"
+    >
+      Apprenants
+    </button>
+  </div>
+
+  <!-- Afficher les messages -->
+  <div *ngIf="successMessage" class="alert alert-success text-center">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger text-center">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Liste des utilisateurs -->
+  <div *ngIf="loading" class="text-center">
+    <p>Chargement...</p>
+  </div>
+  <table *ngIf="!loading && utilisateurs.length > 0" class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Matricule</th>
+        <th>Carte RFID</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let utilisateur of utilisateurs; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ utilisateur.nom }}</td>
+        <td>{{ utilisateur.prenom }}</td>
+        <td>{{ utilisateur.matricule }}</td>
+        <td>
+          <span [ngClass]="{'text-danger': !utilisateur.cardID, 'text-success': utilisateur.cardID}">
+            {{ utilisateur.cardID || 'Non attribuée' }}
+          </span>
+        </td>
+        <td>
+          <button
+            class="btn btn-success"
+            (click)="selectUtilisateur(utilisateur)"
+            [disabled]="selectedUtilisateur === utilisateur"
+          >
+            Attribuer une carte
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && utilisateurs.length === 0" class="text-center">
+    <p>Aucun utilisateur trouvé.</p>
+  </div>
+</div>
