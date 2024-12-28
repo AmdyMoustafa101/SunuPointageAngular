@@ -38,7 +38,7 @@ export class HistoriqueLogsComponent implements OnInit {
     if (this.search) params.search = this.search;
     if (this.date) params.date = this.date;
 
-    this.http.get('http://localhost:3002/api/logs', { params }).subscribe((response: any) => {
+    this.http.get('http://localhost:3005/api/logs', { params }).subscribe((response: any) => {
       this.logs = response.logs;
       this.currentPage = response.currentPage;
       this.totalPages = response.totalPages;

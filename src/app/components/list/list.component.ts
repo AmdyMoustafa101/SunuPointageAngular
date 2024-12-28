@@ -110,7 +110,7 @@ export class ListComponent {
 
   // Écouter le WebSocket pour les scans de cartes RFID
   listenToWebSocket(): void {
-    const ws = new WebSocket('ws://localhost:3003');
+    const ws = new WebSocket('ws://localhost:3004');
     ws.onmessage = (event) => {
       const scannedCard = event.data;
       console.log('Carte scannée:', scannedCard);
@@ -161,6 +161,46 @@ export class ListComponent {
       },
     });
   }
+
+  unassignCard(utilisateur: any): void {
+    const payload = {
+      userType: this.typeUtilisateur,
+      userId: utilisateur.id,
+    };
+
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: `La carte attribuée à ${utilisateur.nom} ${utilisateur.prenom} sera supprimée.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, désattribuer !',
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.post('http://localhost:8002/api/unassign-card', payload).subscribe({
+          next: () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Succès',
+              text: `La carte a été désattribuée pour ${utilisateur.nom} ${utilisateur.prenom}.`,
+            });
+            this.fetchUtilisateurs(); // Rafraîchir la liste
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Échec',
+              text: 'Erreur lors de la désattribution de la carte.',
+            });
+            console.error(err);
+          },
+        });
+      }
+    });
+  }
+
 
 
 }

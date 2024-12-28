@@ -70,7 +70,17 @@
           >
             <i class="fa fa-id-card"></i> Attribuer une carte
           </button>
+
+          <button
+            class="btn btn-danger"
+            *ngIf="utilisateur.cardID"
+            (click)="unassignCard(utilisateur)"
+          >
+          <i class="fa fa-id-card"></i> Désattribuer carte
+          </button>
         </td>
+
+
       </tr>
     </tbody>
   </table>

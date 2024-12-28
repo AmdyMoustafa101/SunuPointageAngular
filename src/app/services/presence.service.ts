@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class PresenceService {
-  private apiUrl = 'http://localhost:3002/api/presences'; // URL de l'API Node.js
+  private apiUrl = 'http://localhost:3005/api/presences'; // URL de l'API Node.js
 
   constructor(private http: HttpClient) {}
 

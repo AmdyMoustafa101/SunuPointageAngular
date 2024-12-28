@@ -27,7 +27,7 @@ export class PresenceComponent {
 
     this.loading = true;
     this.error = '';
-    const url = `http://localhost:3002/api/presences?date=${this.selectedDate}&role=${role}`;
+    const url = `http://localhost:3005/api/presences?date=${this.selectedDate}&role=${role}`;
     this.http.get<any[]>(url).subscribe({
       next: (data) => {
         this.presences = data;
