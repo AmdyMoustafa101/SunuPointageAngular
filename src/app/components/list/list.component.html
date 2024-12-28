@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2 class="text-center">Attribution de carte RFID</h2>
+  <h2 class="text-center"><i class="fa fa-id-card"></i> Attribution de carte RFID</h2>
 
   <!-- Navigation pour les utilisateurs -->
   <div class="d-flex justify-content-center mb-4">
@@ -8,30 +8,38 @@
       [class.active]="typeUtilisateur === 'employes'"
       (click)="changeType('employes')"
     >
-      Employés
+      <i class="fa fa-user-tie"></i> Employés
     </button>
     <button
       class="btn btn-secondary"
       [class.active]="typeUtilisateur === 'apprenants'"
       (click)="changeType('apprenants')"
     >
-      Apprenants
+      <i class="fa fa-user-graduate"></i> Apprenants
     </button>
   </div>
 
-  <!-- Afficher les messages -->
-  <div *ngIf="successMessage" class="alert alert-success text-center">
-    {{ successMessage }}
-  </div>
-  <div *ngIf="errorMessage" class="alert alert-danger text-center">
-    {{ errorMessage }}
+  <!-- Barre de recherche -->
+  <div class="input-group mb-3">
+    <span class="input-group-text"><i class="fa fa-search"></i></span>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Rechercher par nom, prénom ou matricule"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange()"
+    />
   </div>
 
   <!-- Liste des utilisateurs -->
   <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
     <p>Chargement...</p>
   </div>
-  <table *ngIf="!loading && utilisateurs.length > 0" class="table table-bordered">
+
+  <table *ngIf="!loading && filteredUtilisateurs.length > 0" class="table table-bordered">
     <thead class="table-dark">
       <tr>
         <th>#</th>
@@ -43,13 +51,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let utilisateur of utilisateurs; let i = index">
-        <td>{{ i + 1 }}</td>
+      <tr *ngFor="let utilisateur of getPagedUtilisateurs(); let i = index">
+        <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
         <td>{{ utilisateur.nom }}</td>
         <td>{{ utilisateur.prenom }}</td>
         <td>{{ utilisateur.matricule }}</td>
         <td>
           <span [ngClass]="{'text-danger': !utilisateur.cardID, 'text-success': utilisateur.cardID}">
+            <i [class.fa-times-circle]="!utilisateur.cardID" [class.fa-check-circle]="utilisateur.cardID" class="fa"></i>
             {{ utilisateur.cardID || 'Non attribuée' }}
           </span>
         </td>
@@ -59,14 +68,41 @@
             (click)="selectUtilisateur(utilisateur)"
             [disabled]="selectedUtilisateur === utilisateur"
           >
-            Attribuer une carte
+            <i class="fa fa-id-card"></i> Attribuer une carte
           </button>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <div *ngIf="!loading && utilisateurs.length === 0" class="text-center">
+  <div *ngIf="!loading && filteredUtilisateurs.length === 0" class="text-center">
     <p>Aucun utilisateur trouvé.</p>
   </div>
+
+  <!-- Pagination -->
+  <nav *ngIf="filteredUtilisateurs.length > itemsPerPage" class="mt-3">
+    <ul class="pagination justify-content-center">
+      <li
+        class="page-item"
+        [class.disabled]="currentPage === 1"
+        (click)="changePage(currentPage - 1)"
+      >
+        <button class="page-link">Précédent</button>
+      </li>
+      <li
+        class="page-item"
+        *ngFor="let page of [].constructor(Math.ceil(filteredUtilisateurs.length / itemsPerPage)); let i = index"
+        [class.active]="currentPage === i + 1"
+      >
+        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+      </li>
+      <li
+        class="page-item"
+        [class.disabled]="currentPage === Math.ceil(filteredUtilisateurs.length / itemsPerPage)"
+        (click)="changePage(currentPage + 1)"
+      >
+        <button class="page-link">Suivant</button>
+      </li>
+    </ul>
+  </nav>
 </div>

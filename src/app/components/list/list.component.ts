@@ -1,22 +1,32 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user-service.service';
 import { CommonModule } from '@angular/common';
+import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
 export class ListComponent {
+  Math = Math;
   utilisateurs: any[] = [];
+  filteredUtilisateurs: any[] = [];
   typeUtilisateur: string = 'employes'; // 'employes' ou 'apprenants'
   selectedUtilisateur: any = null;
-  successMessage: string = '';
-  errorMessage: string = '';
   loading: boolean = false;
+
+  // Variables pour la recherche
+  searchTerm: string = '';
+
+  // Variables pour la pagination
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
 
   constructor(private http: HttpClient) {}
 
@@ -33,27 +43,69 @@ export class ListComponent {
       .subscribe({
         next: (data) => {
           this.utilisateurs = data;
+          this.applySearchFilter();
           this.loading = false;
         },
         error: (err) => {
-          this.errorMessage = 'Erreur lors de la récupération des données.';
-          console.error(err);
           this.loading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: 'Erreur lors de la récupération des données.',
+          });
+          console.error(err);
         },
       });
+  }
+
+  // Filtrer les utilisateurs en fonction de la recherche
+  applySearchFilter(): void {
+    this.filteredUtilisateurs = this.utilisateurs.filter((utilisateur) => {
+      const search = this.searchTerm.toLowerCase();
+      return (
+        utilisateur.nom.toLowerCase().includes(search) ||
+        utilisateur.prenom.toLowerCase().includes(search) ||
+        utilisateur.matricule.toLowerCase().includes(search)
+      );
+    });
+  }
+
+  // Gérer les changements de recherche
+  onSearchChange(): void {
+    this.applySearchFilter();
+    this.currentPage = 1; // Réinitialiser la pagination à la première page
   }
 
   // Changer le type d'utilisateur
   changeType(type: string): void {
     this.typeUtilisateur = type;
+    this.searchTerm = '';
+    this.currentPage = 1;
     this.fetchUtilisateurs();
+  }
+
+  // Obtenir les utilisateurs pour la page actuelle
+  getPagedUtilisateurs(): any[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    return this.filteredUtilisateurs.slice(start, end);
+  }
+
+  // Changer de page
+  changePage(page: number): void {
+    this.currentPage = page;
   }
 
   // Sélectionner un utilisateur pour attribuer une carte
   selectUtilisateur(utilisateur: any): void {
     this.selectedUtilisateur = utilisateur;
-    this.successMessage = `Prêt à scanner une carte pour ${utilisateur.nom} ${utilisateur.prenom}`;
-    this.errorMessage = '';
+    Swal.fire({
+      icon: 'info',
+      title: 'Prêt à scanner',
+      text: `Prêt à scanner une carte pour ${utilisateur.nom} ${utilisateur.prenom}`,
+      showConfirmButton: false,
+      timer: 2000,
+    });
   }
 
   // Écouter le WebSocket pour les scans de cartes RFID
@@ -66,7 +118,11 @@ export class ListComponent {
       if (this.selectedUtilisateur) {
         this.assignCard(scannedCard);
       } else {
-        this.errorMessage = 'Veuillez sélectionner un utilisateur avant de scanner une carte.';
+        Swal.fire({
+          icon: 'warning',
+          title: 'Alerte',
+          text: 'Veuillez sélectionner un utilisateur avant de scanner une carte.',
+        });
       }
     };
   }
@@ -81,15 +137,30 @@ export class ListComponent {
 
     this.http.post('http://localhost:8002/api/assign-card', payload).subscribe({
       next: (response: any) => {
-        this.successMessage = `Carte ${cardID} attribuée avec succès à ${this.selectedUtilisateur.nom} ${this.selectedUtilisateur.prenom}`;
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès',
+          text: `Carte ${cardID} attribuée avec succès à ${this.selectedUtilisateur.nom} ${this.selectedUtilisateur.prenom}`,
+        });
         this.selectedUtilisateur = null; // Réinitialiser la sélection
         this.fetchUtilisateurs(); // Rafraîchir la liste
       },
       error: (err) => {
-        this.errorMessage = 'Erreur lors de l\'attribution de la carte.';
+        let message = 'Erreur lors de l\'attribution de la carte.';
+        if (err.status === 400) {
+          message = err.error.message || 'Cette carte est déjà attribuée.';
+        } else if (err.status === 404) {
+          message = err.error.message || 'Utilisateur non trouvé.';
+        }
+        Swal.fire({
+          icon: 'error',
+          title: 'Échec',
+          text: message,
+        });
         console.error(err);
       },
     });
   }
+
 
 }
