@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { EmployeService } from '../../../../services/employe.service';
-import { Router } from '@angular/router';
+import { EmployeService } from '../../services/employe.service';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
+import { HistoriqueLogsComponent } from '../historique-logs/historique-logs.component';
 
 import { CommonModule } from '@angular/common';
 
 import Swal from 'sweetalert2';
-import { HeaderAndSidebarComponent } from "../../../header-and-sidebar/header-and-sidebar.component";
-
 
 @Component({
-  selector: 'app-admin-page',
+  selector: 'app-header-and-sidebar',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderAndSidebarComponent],
-  templateUrl: './admin-page.component.html',
-  styleUrl: './admin-page.component.css'
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  templateUrl: './header-and-sidebar.component.html',
+  styleUrl: './header-and-sidebar.component.css'
 })
-export class AdminPageComponent implements OnInit {
+export class HeaderAndSidebarComponent  implements OnInit{
+
   ngOnInit(): void {
     // Get user data from the service
     this.admin = this.employeService.getUserData();
@@ -25,6 +25,17 @@ export class AdminPageComponent implements OnInit {
   constructor(private fb: FormBuilder,private employeService: EmployeService, private router: Router) {}
 
   admin: any;
+
+  isSidebarVisible: boolean = true;
+  dropdownVisible: boolean = false; // Variable pour contrôler l'affichage du dropdown
+
+  toggleSidebar(): void {
+    this.isSidebarVisible = !this.isSidebarVisible;
+  }
+  // Méthode pour afficher/masquer le dropdown
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
 
   logout() {
     this.employeService.logout().subscribe({
@@ -38,9 +49,5 @@ export class AdminPageComponent implements OnInit {
       error: (err) => Swal.fire('Erreur', err.error.message, 'error'),
     });
   }
-
-
-
-
 
 }
