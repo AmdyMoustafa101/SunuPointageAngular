@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import axios from 'axios'; // Pour appeler l'API Node.js
 
 export interface LogoutResponse {
   message: string;
@@ -9,13 +10,20 @@ export interface LogoutResponse {
 @Injectable({
   providedIn: 'root',
 })
-
 export class EmployeService {
   private apiUrl = 'http://localhost:8002/api/employes'; // URL de l'API Laravel
-  private userData: any = null
+  private userData: any = null;
+  private socket: WebSocket | null = null; // WebSocket instance
+  private socketMessages$ = new Subject<any>(); // Observable pour les messages du WebSocket
+  private isLoginPage: boolean = false;
 
   constructor(private http: HttpClient) {}
 
+  setLoginPageState(state: boolean): void {
+    this.isLoginPage = state;
+}
+
+  // Méthodes HTTP existantes
   createEmploye(employeData: FormData): Observable<any> {
     return this.http.post<any>(this.apiUrl, employeData);
   }
@@ -28,12 +36,17 @@ export class EmployeService {
     return this.http.post(`http://localhost:8002/api/login`, { email, password });
   }
 
-  // Store user data
+  // Ajout dans EmployeService
+  loginByCard(rfidCardId: string): Observable<any> {
+  return this.http.post(`http://localhost:8002/api/login-by-card`, { cardID: rfidCardId });
+}
+
+
+  // Stockage des données utilisateur
   setUserData(user: any): void {
     this.userData = user;
   }
 
-  // Get user data
   getUserData(): any {
     return this.userData;
   }
@@ -42,23 +55,60 @@ export class EmployeService {
   logout(): Observable<any> {
     return this.http.post(`http://localhost:8002/api/logout`, {}, {
       headers: new HttpHeaders({
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      })
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }),
     });
   }
 
-  // Enregistrement du token dans le stockage local
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }
 
-  // Suppression du token du stockage local
   clearToken(): void {
     localStorage.removeItem('token');
   }
 
-  // Récupération du token du stockage local
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+
+  // Intégration WebSocket
+
+
+  // Envoyer un message via WebSocket
+  sendMessage(message: any): void {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify(message));
+    } else {
+      console.warn('WebSocket non connecté. Le message n\'a pas été envoyé.');
+    }
+  }
+
+  // Initialisation du WebSocket
+  initializeWebSocket() {
+    this.socket = new WebSocket('ws://localhost:3004');
+
+    this.socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.cardID) { // Ajout d'une vérification
+          this.socketMessages$.next({ type: 'card', cardID: message.cardID });
+      } else if (message.mode) {
+          this.socketMessages$.next({ type: 'mode', mode: message.mode });
+      }
+  };
+
+    this.socket.onerror = (error) => {
+        console.error('Erreur WebSocket :', error);
+    };
+
+    this.socket.onclose = () => {
+        console.warn('WebSocket déconnecté.');
+    };
+}
+
+
+  getWebSocketMessages(): Observable<any> {
+    return this.socketMessages$.asObservable();
+  }
+
 }
