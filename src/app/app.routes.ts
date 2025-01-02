@@ -11,6 +11,8 @@ import { HistoriqueLogsComponent } from './components/historique-logs/historique
 import { PointageComponent } from './components/pointage/pointage.component';
 import { PresenceComponent } from './components/presence/presence.component';
 import { ListComponent } from './components/list/list.component';
+import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -26,5 +28,7 @@ export const routes: Routes = [
   { path: 'pointage', component: PointageComponent },
   { path: 'presence', component: PresenceComponent },
   { path: 'list', component: ListComponent },
+  { path: 'forgot', component: ForgotPassComponent },
+  { path: 'change-password/:email', component: ChangePasswordComponent },
 
 ];

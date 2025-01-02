@@ -19,7 +19,9 @@ export class PieChartComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.attendanceService.getDailyData().subscribe((data) => {
+    const today = new Date().toISOString().split('T')[0];
+
+    this.attendanceService.getDailyData(today).subscribe((data) => {
       this.renderChart(data);
     });
   }
