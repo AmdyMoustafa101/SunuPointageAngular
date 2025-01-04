@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class PasswordService {
-  private apiUrl = 'http://127.0.0.1:8002/change-password'; // URL de l'API Laravel
+  private apiUrl = 'http://127.0.0.1:8002/api/change-password'; // URL de l'API Laravel
 
   constructor(private http: HttpClient) {}
 
