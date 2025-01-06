@@ -1,0 +1,19 @@
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.text-danger {
+  font-weight: bold;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+.text-success {
+  color: green !important;
+}
+
+.text-danger {
+  color: red !important;
+}

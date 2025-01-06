@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div class="row h-100">
+    <!-- Menu latéral -->
+    <div class="col-auto bg-light">
+      <app-side-nav></app-side-nav>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="col">
+      <div class="dashboard">
+        <!-- Cartes de résumé -->
+        <app-summary-cards></app-summary-cards>
+
+        <!-- Graphiques -->
+        <div class="charts mt-4">
+          <div class="row mb-3 g-3">
+            <!-- Graphique mensuel -->
+            <div class="col-12">
+              <div class="chart-container full-width">
+                <app-monthly-chart></app-monthly-chart>
+              </div>
+            </div>
+          </div>
+          <div class="row g-3">
+            <!-- Graphique hebdomadaire -->
+            <div class="col-md-6">
+              <div class="chart-container">
+                <app-weekly-chart></app-weekly-chart>
+              </div>
+            </div>
+
+            <!-- Diagramme circulaire -->
+            <div class="col-md-5">
+              <div class="chart-container">
+                <app-pie-chart></app-pie-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

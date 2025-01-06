@@ -1,0 +1,102 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div class="content" [class.collapsed]="!isSidebarVisible">
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Gestion des Pointages</h2>
+
+    <!-- Sélection de la date -->
+    <div class="d-flex justify-content-center mb-4">
+        <input type="date" [(ngModel)]="selectedDate" (change)="onDateChange()" max="{{ maxDate }}" class="form-control w-25" />
+    </div>
+
+    <!-- Boutons de sélection -->
+    <div class="d-flex justify-content-center mb-4">
+        <button class="btn btn-primary mx-2" (click)="loadUsers('employe')">
+          <i class="fas fa-user"></i> Pointer un employé
+        </button>
+        <button class="btn btn-success mx-2" (click)="loadUsers('apprenant')">
+          <i class="fas fa-graduation-cap"></i> Pointer un apprenant
+        </button>
+    </div>
+
+    <!-- Champ de recherche -->
+    <div class="d-flex justify-content-center mb-4">
+      <input
+        type="text"
+        placeholder="Rechercher par nom, prénom, matricule ou téléphone"
+        [(ngModel)]="searchQuery"
+        (input)="filterUsers()"
+        class="form-control w-50"
+      />
+    </div>
+
+
+    <!-- Liste des utilisateurs -->
+    <div *ngIf="paginatedUsers.length > 0" class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Matricule</th>
+                    <th>Telephone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of paginatedUsers">
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
+                    <td>{{ user.matricule }}</td>
+                    <td>{{ user.telephone }}</td>
+                    <td>
+                        <button
+                            class="btn btn-info me-2"
+                            (click)="pointer(user, 'arrivee')"
+                            [disabled]="isActionDisabled(user, 'heure_arrivee')">
+                          <i class="fas fa-sign-in-alt"></i> Arrivée
+                        </button>
+                        <button
+                            class="btn btn-warning"
+                            (click)="pointer(user, 'depart')"
+                            [disabled]="isActionDisabled(user, 'heure_depart')">
+                          <i class="fas fa-sign-out-alt"></i> Départ
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-3">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="changePage(currentPage - 1)">
+              Précédent
+            </button>
+          </li>
+          <li
+            class="page-item"
+            *ngFor="let page of pages"
+            [class.active]="page === currentPage"
+          >
+            <button class="page-link" (click)="changePage(page)">{{ page }}</button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="changePage(currentPage + 1)">
+              Suivant
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <!-- Message si aucun utilisateur trouvé -->
+    <div *ngIf="filteredUsers.length === 0" class="alert alert-warning">
+      Aucun utilisateur trouvé pour votre recherche.
+    </div>
+</div>
+
+  </div>
+
+
