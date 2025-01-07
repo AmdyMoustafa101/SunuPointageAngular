@@ -17,6 +17,7 @@ a.active {
   position: relative;
   font-weight: bold;
   color: #007bff !important; /* Couleur du texte actif */
+  background-color: #f9f9f9;
 }
 
 a.active::before {

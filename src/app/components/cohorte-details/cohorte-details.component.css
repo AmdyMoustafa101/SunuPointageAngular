@@ -1,0 +1,100 @@
+/* cohorte-details.component.css */
+.cohorte-details {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+h2 {
+    margin: 0;
+    color: #333;
+}
+
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.status-active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.status-terminee {
+    background-color: #9E9E9E;
+    color: white;
+}
+
+.info-section {
+    display: grid;
+    gap: 20px;
+}
+
+.info-item {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+h3 {
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.horaires-list {
+    display: grid;
+    gap: 10px;
+}
+
+.horaire-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.jours {
+    font-weight: 500;
+    color: #444;
+}
+
+.heures {
+    color: #666;
+}
+
+.error-message {
+    margin: 20px;
+    padding: 15px;
+    background-color: #ffebee;
+    color: #c62828;
+    border-radius: 4px;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .horaire-item {
+        flex-direction: column;
+        gap: 5px;
+    }
+}

@@ -1,8 +1,59 @@
 .sidebar {
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #f8f9fa;
-  }
-  
+  width: 250px; /* Largeur de la barre latérale */
+  background-color: blue; /* Couleur de fond */
+}
+
+.sidebar-header {
+  border-bottom: 1px solid #e1e1e1; /* Bordure en bas de l'en-tête */
+  padding: 20px; /* Espacement interne */
+}
+
+.logo {
+  width: 100%; /* Ajuster à la largeur de la barre latérale */
+  margin-bottom: 10px; /* Espacement en bas du logo */
+}
+
+.user-info {
+  text-align: center; /* Centrer le texte */
+}
+
+.profile-pic {
+  width: 60px; /* Taille de l'image de profil */
+  height: 60px; /* Taille de l'image de profil */
+  border-radius: 50%; /* Arrondir pour créer un cercle */
+  margin-bottom: 10px; /* Espacement en bas de l'image de profil */
+}
+
+.user-name {
+  font-weight: bold; /* Met le nom en gras */
+  margin: 5px 0; /* Espacement autour du nom */
+}
+
+.user-role {
+  font-size: 0.9rem; /* Taille de police pour le rôle */
+  color: #6c757d; /* Couleur du texte pour le rôle */
+}
+
+.nav-link {
+  font-size: 1rem; /* Taille de police des liens */
+  display: flex; /* Alignement des icônes et du texte */
+  align-items: center; /* Alignement vertical */
+  padding: 10px; /* Espacement interne pour chaque lien */
+  border-radius: 4px; /* Arrondir les coins de chaque lien */
+  transition: background-color 0.3s; /* Transition pour l'effet de survol */
+}
+
+.nav-link i {
+  margin-right: 10px; /* Espacement entre l'icône et le texte */
+  color: #007bff; /* Couleur des icônes */
+}
+
+.nav-link.active {
+  background-color: #f0f0f0; /* Couleur de fond pour le lien actif */
+  color: #5f27cd; /* Couleur du texte pour le lien actif */
+  font-weight: bold; /* Met le lien actif en gras */
+}
+
+.nav-link:hover {
+  background-color: #e9ecef; /* Couleur de fond au survol */
+}

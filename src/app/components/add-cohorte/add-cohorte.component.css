@@ -1,0 +1,49 @@
+.container {
+    margin-top: 20px;
+  }
+  
+  .main-content {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f8f9fa; /* Couleur de fond */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-section {
+    background: white;
+    padding: 80px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input.form-control,
+  select.form-control,
+  textarea.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    min-width: 100px;
+  }

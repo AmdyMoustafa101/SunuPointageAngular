@@ -1,59 +1,61 @@
-<div class="row h-100">
+<!-- login.component.html -->
+<div class="login-container">
   <!-- Partie gauche -->
-  <div class="col-md-6 bg-primary text-white d-flex flex-column justify-content-center align-items-center">
-    <h1 class="fw-bold">Bienvenue sur SunuPointage</h1>
-    <p class="mt-3">Simplifiez vos suivis, gagnez en efficacité.</p>
-    <div class="mt-5">
-      <div class="theme-item">Sécurité</div>
-      <div class="theme-item">Assurance</div>
-      <div class="theme-item">Rapidité</div>
+  <div class="left-section">
+    <div class="welcome-content">
+      <img src="assets/icons/checkmark-circle.svg" alt="Checkmark icon" class="welcome-icon">
+      <h1 class="welcome-title">Bienvenue sur SunuPointage</h1>
+      <p class="welcome-subtitle">Simplifiez vos suivis, gagnez en efficacité.</p>
+      <div class="features-list">
+        <div class="feature-item">Sécurité</div>
+        <div class="feature-item">Assurance</div>
+        <div class="feature-item">Rapidité</div>
+      </div>
     </div>
   </div>
 
   <!-- Partie droite -->
-  <div class="col-md-6 d-flex justify-content-center align-items-center">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-75">
-      <h2 class="mb-4">Connexion</h2>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input
-          id="email"
-          type="email"
-          class="form-control"
-          formControlName="email"
-          placeholder="Entrez votre email"
-        />
-        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-danger">
-          <small *ngIf="loginForm.get('email')?.hasError('required')">L'email est requis.</small>
-          <small *ngIf="loginForm.get('email')?.hasError('email')">Entrez un email valide.</small>
-        </div>
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Mot de passe</label>
-        <div class="input-group">
+  <div class="right-section">
+    <div class="login-form-container">
+      <h2 class="form-title">Connexion</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <div class="form-group">
+          <label for="email">Email</label>
           <input
-            id="password"
-            [type]="isPasswordVisible ? 'text' : 'password'"
-            class="form-control"
-            formControlName="password"
-            placeholder="Entrez votre mot de passe"
-          />
-          <button
-            type="button"
-            class="btn btn-outline-secondary"
-            (click)="togglePasswordVisibility()"
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Entrez votre email"
           >
-            <i [class]="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
-          </button>
         </div>
-        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="text-danger">
-          <small *ngIf="loginForm.get('password')?.hasError('required')">Le mot de passe est requis.</small>
-          <small *ngIf="loginForm.get('password')?.hasError('minlength')">Le mot de passe doit comporter au moins 6 caractères.</small>
+
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="password-input">
+            <input
+              id="password"
+              [type]="isPasswordVisible ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="Entrez votre mot de passe"
+            >
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility()"
+            >
+              <i [class]="isPasswordVisible ? 'far fa-eye-slash' : 'far fa-eye'"></i>
+            </button>
+          </div>
         </div>
-      </div>
-      <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">
-        Connexion
-      </button>
-    </form>
+
+        <div class="form-links">
+          <a [routerLink]="['/forgot']" class="forgot-password">Mot de passe oublié ?</a>
+        </div>
+
+        <button type="submit" class="login-button" [disabled]="loginForm.invalid">
+          Se connecter
+        </button>
+      </form>
+    </div>
   </div>
 </div>

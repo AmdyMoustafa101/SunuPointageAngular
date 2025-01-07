@@ -1,88 +1,141 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { CohorteService } from '../../services/cohorte.service';
 import { CommonModule } from '@angular/common';
-
-import Swal from 'sweetalert2';
-
+import { FormsModule } from '@angular/forms';
+import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { Router, RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { AddCohorteComponent } from '../add-cohorte/add-cohorte.component'; // Assurez-vous que le chemin est correct
 
 interface Horaire {
-  jours: { [key: string]: boolean };  // jours de la semaine
-  heure_debut: string;                // Heure de début
-  heure_fin: string;                  // Heure de fin
+  jours: string[];
+  heure_debut: string;
+  heure_fin: string;
+}
+
+interface Cohorte {
+  id: number;
+  nom: string;
+  startDate: Date;
+  endDate: Date; // Ajout de l'heure de fin
+  statut: 'active' | 'terminée'; // Changement ici pour le statut
+  annee: number; // Ajout de l'année
+  horaires: Horaire[]; // Ajout des horaires
+  isSelected?: boolean; // Ajout de la propriété pour la sélection
 }
 
 @Component({
   selector: 'app-cohortes',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [CommonModule, FormsModule, HeaderAndSidebarComponent, RouterModule, ReactiveFormsModule, AddCohorteComponent],
   templateUrl: './cohortes.component.html',
-  styleUrl: './cohortes.component.css'
+  styleUrls: ['./cohortes.component.css']
 })
 export class CohortesComponent implements OnInit {
+  cohortes: Cohorte[] = []; // Utilisation de l'interface Cohorte
+  errorMessage: string = '';
+  cohorteForm: FormGroup;
+  searchText: string = '';
+  masterCheck: boolean = false;
 
-  cohorteForm!: FormGroup;
-  jours = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
-
-  constructor(private fb: FormBuilder, private cohorteService: CohorteService) {}
-
-  ngOnInit(): void {
+  constructor(private cohortService: CohorteService, private router: Router, private fb: FormBuilder) {
     this.cohorteForm = this.fb.group({
-      nom: ['', [Validators.required, Validators.maxLength(255)]],
+      nom: ['', Validators.required],
       description: ['', Validators.required],
-      annee: [new Date().getFullYear(), [Validators.required, Validators.min(2000)]],
+      annee: ['', [Validators.required, Validators.min(1900), Validators.max(2100)]],
+      statut: ['active', Validators.required], // Ajout du statut avec valeur par défaut
       horaires: this.fb.array([]),
     });
-
-    // Ajouter une entrée de formulaire vide pour les horaires
-    this.addHoraire();
   }
 
-  // Getter pour les horaires
+  ngOnInit(): void {
+    this.loadCohortes();
+  }
+
+  loadCohortes(): void {
+    this.cohortService.getCohortes().subscribe(
+        (data: Cohorte[]) => {
+            this.cohortes = data.map(cohorte => {
+                return {
+                    ...cohorte,
+                    startDate: new Date(cohorte.startDate), // Conversion en date
+                    endDate: new Date(cohorte.endDate), // Conversion en date
+                    // Vous pouvez ajouter des propriétés pour les heures de début et de fin si nécessaire
+                    heure_debut: cohorte.horaires[0]?.heure_debut || 'Non défini', // Récupération de l'heure de début
+                    heure_fin: cohorte.horaires[0]?.heure_fin || 'Non défini', // Récupération de l'heure de fin
+                };
+            });
+        },
+        (error) => {
+            this.errorMessage = 'Erreur lors de la récupération des cohortes : ' + error.message;
+            console.error(error);
+        }
+    );
+}
+
+  viewCohorte(id: number): void {
+    this.router.navigate(['/cohorte', id]);
+  }
+
+  editCohorte(id: number): void {
+    this.router.navigate(['/cohorte/edit', id]);
+  }
+
+  archiveCohorte(id: number): void {
+    if (confirm('Êtes-vous sûr de vouloir archiver cette cohorte ?')) {
+      this.cohortService.archiveCohorte(id).subscribe(
+        () => {
+          this.loadCohortes();
+        },
+        (error) => {
+          this.errorMessage = 'Erreur lors de l\'archivage de la cohorte : ' + error.message;
+          console.error(error);
+        }
+      );
+    }
+  }
+
+  onSubmit(): void {
+    if (this.cohorteForm.valid) {
+      // Traitez l'ajout de la cohorte ici
+      console.log(this.cohorteForm.value);
+      // Ajoutez la logique pour envoyer les données au serveur ici si nécessaire
+      this.cohorteForm.reset(); // Réinitialise le formulaire
+    }
+  }
+
+  // Méthodes pour gérer les horaires
   get horaires(): FormArray {
     return this.cohorteForm.get('horaires') as FormArray;
   }
 
-  // Ajouter un horaire
   addHoraire(): void {
-    const horaireGroup = this.fb.group({
-      jours: this.fb.group(
-        this.jours.reduce((acc: any, jour) => {
-          acc[jour] = [false];
-          return acc;
-        }, {})
-      ),
+    const horaireForm = this.fb.group({
+      jours: this.fb.array([], Validators.required),
       heure_debut: ['', Validators.required],
-      heure_fin: ['', Validators.required],
+      heure_fin: ['', Validators.required]
     });
-
-    this.horaires.push(horaireGroup);
+    this.horaires.push(horaireForm);
   }
 
-  // Supprimer un horaire
   removeHoraire(index: number): void {
     this.horaires.removeAt(index);
   }
 
-  // Soumission
-  onSubmit(): void {
-    if (this.cohorteForm.valid) {
-      console.log('Données soumises :', this.cohorteForm.value);
-      // Appeler un service pour envoyer les données au backend
-      this.cohorteService.createCohorte(this.cohorteForm.value).subscribe(
-        (response) => {
-          Swal.fire('Succès', 'Employé ajouté avec succès!', 'success');
-          console.log('Cohorte créée avec succès :', response);
-        },
-        (error) => {
-          Swal.fire('Erreur', 'Une erreur est survenue lors de la création.', 'error');
-          console.error('Erreur lors de la création de la cohorte :', error);
-        }
-      );
-    } else {
-      Swal.fire('Erreur', 'Une erreur est survenue lors de la création.', 'error');
-      console.error('Le formulaire est invalide');
-    }
+  exportToCsv(): void {
+    const csvData = this.convertToCsv(this.cohortes);
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'cohortes.csv';
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
+  private convertToCsv(data: any[]): string {
+    const headers = Object.keys(data[0]).join(',') + '\n';
+    const rows = data.map(row => Object.values(row).join(',')).join('\n');
+    return headers + rows;
+  }
 }

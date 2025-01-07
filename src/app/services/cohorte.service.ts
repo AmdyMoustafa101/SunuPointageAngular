@@ -18,7 +18,27 @@ export class CohorteService {
   }
 
   getCohortes(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getCohorteById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateCohorte(id: number, cohorteData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, cohorteData).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  archiveCohorte(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}/archive`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -31,5 +51,4 @@ export class CohorteService {
     console.error(errorMessage);  // Affiche l'erreur dans la console pour le débogage
     return throwError(() => new Error(errorMessage));
   }
-
 }

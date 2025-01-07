@@ -9,10 +9,9 @@ export interface LogoutResponse {
 @Injectable({
   providedIn: 'root',
 })
-
 export class EmployeService {
   private apiUrl = 'http://localhost:8002/api/employes'; // URL de l'API Laravel
-  private userData: any = null
+  private userData: any = null;
 
   constructor(private http: HttpClient) {}
 
@@ -60,5 +59,10 @@ export class EmployeService {
   // Récupération du token du stockage local
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+   // Nouvelle méthode pour récupérer les statistiques
+   getStatistics(): Observable<{ totalEmployees: number; totalLearners: number; totalDepartments: number; totalCohorts: number }> {
+    return this.http.get<{ totalEmployees: number; totalLearners: number; totalDepartments: number; totalCohorts: number }>('http://localhost:8002/api/statistics');
   }
 }

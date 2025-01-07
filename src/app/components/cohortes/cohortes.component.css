@@ -1,0 +1,237 @@
+/* Main Layout */
+.container {
+    padding: 10rem;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+  
+  .main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Stats Section */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: relative;
+  }
+  
+  .stat-card h3 {
+    color: #666;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-card p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  
+  /* Buttons */
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+  }
+  
+  #export-btn {
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+  }
+  
+  .btn-primary {
+    background-color: #7c5cfc;
+    color: white;
+    border: none;
+  }
+  
+  .btn-secondary {
+    background-color: #25c2a0;
+    color: white;
+    border: none;
+  }
+  
+  /* Cohortes List Section */
+  .cohortes-list-container {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: relative;
+    margin-top: 2rem;
+  }
+  
+  .cohortes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .search-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .search-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    width: 300px;
+    font-size: 0.875rem;
+  }
+  
+  .cohortes-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  /* Table Styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  thead th {
+    text-align: left;
+    padding: 1rem;
+    color: #666;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+  }
+  
+  tbody td {
+    padding: 1rem;
+    color: #333;
+    border-bottom: 1px solid #eee;
+  }
+  
+  /* Status Badges
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .status-en-cours {
+    background-color: #e6f7f4;
+    color: #25c2a0;
+  }
+  
+  .status-termine {
+    background-color: #ffe5e5;
+    color: #ff4d4d;
+  } */
+
+  /* Previous styles remain... */
+
+/* Checkbox Styles */
+.checkbox-container {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+  
+  .custom-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .custom-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 2px solid #e0e0e0;
+    cursor: pointer;
+  }
+  
+  /* Selection Header */
+  .selection-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+  }
+  
+  /* Table Checkbox Column */
+  .checkbox-column {
+    width: 40px;
+    padding-left: 1rem;
+  }
+  
+  /* Selected Row Style */
+  tr.selected {
+    background-color: #f0f7ff;
+  }
+  
+  /* Cohortes Header with Search */
+  .cohortes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .search-and-filter {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .search-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    min-width: 250px;
+  }
+  
+  /* Actions Container */
+  .cohortes-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+
+  .status-badge {
+    display: inline-block;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.status-active {
+    background-color: #a5f3b0; /* Couleur de fond pour "En cours" */
+    color: #007f00; /* Couleur du texte */
+    border: 1px solid #007f00; /* Bordure correspondante */
+}
+
+.status-terminee {
+    background-color: #f8d7da; /* Couleur de fond pour "Terminé" */
+    color: #c82333; /* Couleur du texte */
+    border: 1px solid #c82333; /* Bordure correspondante */
+}

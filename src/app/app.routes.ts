@@ -13,12 +13,16 @@ import { PresenceComponent } from './components/presence/presence.component';
 import { ListComponent } from './components/list/list.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { AddCohorteComponent } from './components/add-cohorte/add-cohorte.component';
+import { CohorteDetailsComponent } from './components/cohorte-details/cohorte-details.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'departement', component: DepartementCreateComponent },
   { path: 'cohorte', component: CohortesComponent },
+  { path: 'cohorte/add', component: AddCohorteComponent }, // Ajoutez cette ligne pour la route vers add-cohorte
+  { path: 'cohorte/:id', component: CohorteDetailsComponent },
   { path: 'employe', component: EmployeCreateComponent },
   { path: 'apprenant', component: ApprenantCreateComponent },
   { path: 'admin-page', component: AdminPageComponent },
@@ -30,5 +34,4 @@ export const routes: Routes = [
   { path: 'list', component: ListComponent },
   { path: 'forgot', component: ForgotPassComponent },
   { path: 'change-password/:email', component: ChangePasswordComponent },
-
 ];

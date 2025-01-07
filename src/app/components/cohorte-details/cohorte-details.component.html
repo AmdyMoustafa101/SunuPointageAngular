@@ -1,0 +1,37 @@
+<div class="cohorte-details" class="{{ cohorte ? '' : 'hidden' }}">
+    <div class="header">
+        <h2>Détails de la Cohorte: {{ cohorte ? cohorte.nom : 'Cohorte non disponible' }}</h2>
+        <span [class]="'status-badge ' + (cohorte && cohorte.statut === 'active' ? 'status-active' : 'status-terminee')">
+            {{ cohorte && cohorte.statut === 'active' ? 'En cours' : 'Terminé' }}
+        </span>
+    </div>
+
+    <div class="info-section">
+        <div class="info-item">
+            <h3>Description</h3>
+            <p>{{ cohorte ? cohorte.description : 'Aucune description disponible.' }}</p>
+        </div>
+
+        <div class="info-item">
+            <h3>Année</h3>
+            <p>{{ cohorte ? cohorte.annee : 'Année non disponible.' }}</p>
+        </div>
+
+        <div class="info-item">
+            <h3>Horaires</h3>
+            <div class="horaires-list">
+                <div class="horaire-item" *ngIf="cohorte && cohorte.horaires.length > 0">
+                    <div class="jours">{{ cohorte.horaires[0].jours.join(', ') }}</div>
+                    <div class="heures">{{ cohorte.horaires[0].heure_debut }} - {{ cohorte.horaires[0].heure_fin }}</div>
+                </div>
+                <div *ngIf="cohorte && cohorte.horaires.length === 0">
+                    <p>Aucun horaire disponible.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="error-message" class="{{ errorMessage ? '' : 'hidden' }}">
+    {{ errorMessage }}
+</div>

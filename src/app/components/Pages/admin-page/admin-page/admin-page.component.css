@@ -1,9 +1,49 @@
 body {
   font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
 }
 
 /* Add hover effect for links */
 a.text-decoration-none:hover {
   background-color: #f8f9fa;
   border-radius: 5px;
+}
+
+.container {
+  padding: 90px;
+}
+
+.stat-card {
+  background-color: #fff; /* Couleur de fond */
+  border: 1px solid #e1e1e1; /* Bordure */
+  border-radius: 10px; /* Coins arrondis */
+  padding: 20px; /* Espacement interne */
+  transition: transform 0.2s; /* Animation sur survol */
+}
+
+.stat-card:hover {
+  transform: scale(1.05); /* Agrandissement léger au survol */
+}
+
+.card-icon {
+  font-size: 2rem; /* Taille de l'icône */
+  color: #007bff; /* Couleur de l'icône */
+  margin-bottom: 10px; /* Espacement en bas de l'icône */
+}
+
+.card-title {
+  font-weight: bold; /* Met le titre en gras */
+  margin-bottom: 10px; /* Espacement en bas du titre */
+}
+
+.card-text {
+  font-size: 1.2rem; /* Taille de la texte */
+  color: #6c757d; /* Couleur du texte */
+}
+
+.chart {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
