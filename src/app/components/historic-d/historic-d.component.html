@@ -1,0 +1,24 @@
+<div class="presences-container">
+    <h1>Gestion des présences</h1>
+  
+    <!-- Navigation pour sélectionner la vue -->
+    <nav>
+      <button [class.active]="currentView === 'daily'" (click)="currentView = 'daily'">
+        Présences journalières
+      </button>
+      <button [class.active]="currentView === 'weekly'" (click)="currentView = 'weekly'">
+        Présences hebdomadaires
+      </button>
+    </nav>
+  
+    <hr />
+  
+    <!-- Affichage dynamique des composants -->
+    <div *ngIf="currentView === 'daily'">
+      <app-daily-presences></app-daily-presences>
+    </div>
+    <div *ngIf="currentView === 'weekly'">
+      <app-weekly-presences></app-weekly-presences>
+    </div>
+  </div>
+  

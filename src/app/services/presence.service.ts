@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,10 +7,33 @@ import { Observable } from 'rxjs';
 })
 export class PresenceService {
   private apiUrl = 'http://localhost:3005/api/presences'; // URL de l'API Node.js
+  private baseUrl: string = 'http://127.0.0.1:3005';
 
   constructor(private http: HttpClient) {}
 
   getPresences(date: string, role: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}?date=${date}&role=${role}`);
   }
+
+  getPresencesByDepartement(date: string, departementId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('date', date)
+      .set('departementId', departementId);
+
+    return this.http.get(`${this.baseUrl}/api/presences/departement`, { params });
+  }
+
+  getWeeklyPresencesByDepartement(
+    dateRangeStart: string,
+    dateRangeEnd: string,
+    departementId: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('dateRangeStart', dateRangeStart)
+      .set('dateRangeEnd', dateRangeEnd)
+      .set('departementId', departementId);
+
+    return this.http.get(`${this.baseUrl}/api/weekly-presences/departement`, { params });
+  }
+  
 }

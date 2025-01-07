@@ -15,8 +15,8 @@ export class AttendanceService {
     return this.http.get<any>(url);
   }
 
-  getMonthlyData(year: string, month: string): Observable<any> {
-    const url = `${this.apiUrl}/statistiques-mois?year=${year}&month=${month}`;
+  getMonthlyData(year: string): Observable<any> {
+    const url = `${this.apiUrl}/statistiques-mois?year=${year}`;
     return this.http.get<any>(url);
   }
   

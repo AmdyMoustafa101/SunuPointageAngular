@@ -1,0 +1,54 @@
+.password-reset-container {
+    max-width: 900px;
+    max-height: 900px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.password-reset-container h2 {
+    color: #333;
+}
+
+.password-reset-container p {
+    color: #666;
+}
+
+.password-reset-container .form-control {
+    border-radius: 5px;
+}
+
+h2{
+    color: rgba(89, 50, 234, 1);
+}
+
+.password-reset-container .btn {
+    background-color: rgba(89, 50, 234, 1);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.password-reset-container .btn:hover {
+    background-color: #5a32a1;
+}
+
+.success-message {
+    color: green;
+}
+
+.error-message {
+    color: red;
+}
+
+.password-reset-container a {
+    color: #6f42c1;
+    text-decoration: none;
+}
+
+.password-reset-container a:hover {
+    text-decoration: underline;
+}

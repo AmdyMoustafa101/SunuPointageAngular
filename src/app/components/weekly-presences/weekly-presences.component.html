@@ -1,0 +1,31 @@
+<div class="weekly-presences">
+  <h2>Présences hebdomadaires</h2>
+
+  <!-- Gestion des erreurs -->
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Tableau des présences -->
+  <table *ngIf="presences.length > 0" border="1">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Présent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let presence of presences">
+        <td>{{ presence.date }}</td>
+        <td>{{ presence.nom }}</td>
+        <td>{{ presence.prenom }}</td>
+        <td>{{ presence.present ? 'Oui' : 'Non' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Message lorsqu'aucune donnée n'est disponible -->
+  <p *ngIf="presences.length === 0 && !errorMessage">Aucune donnée trouvée pour cette période et ce département.</p>
+</div>

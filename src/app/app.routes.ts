@@ -13,6 +13,7 @@ import { PresenceComponent } from './components/presence/presence.component';
 import { ListComponent } from './components/list/list.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { HistoricDComponent } from './components/historic-d/historic-d.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -30,5 +31,6 @@ export const routes: Routes = [
   { path: 'list', component: ListComponent },
   { path: 'forgot', component: ForgotPassComponent },
   { path: 'change-password/:email', component: ChangePasswordComponent },
+  { path: 'departH/:id', component: HistoricDComponent },
 
 ];
