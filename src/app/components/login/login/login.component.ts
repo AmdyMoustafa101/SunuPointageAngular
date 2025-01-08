@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EmployeService } from '../../../services/employe.service';
 import { CommonModule } from '@angular/common';
@@ -9,7 +10,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email,  Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
@@ -64,13 +65,12 @@ export class LoginComponent implements OnInit {
 
 
   private handleLoginSuccess(response: any) {
-    this.employeService.setUserData(response.user);
-    this.employeService.saveToken(response.token);
-    Swal.fire('Connexion réussie', response.message, 'success');
-    const role = response.user.role;
-    localStorage.setItem('token', response.token);
-    localStorage.setItem('user', JSON.stringify(response.user));
+    this.employeService.setUserData(response.user);  // Stocker les données utilisateur
+    this.employeService.saveToken(response.token);   // Stocker le token
+    localStorage.setItem('token', response.token);    // Sauvegarder le token dans localStorage
+    localStorage.setItem('user', JSON.stringify(response.user)); // Sauvegarder les données utilisateur dans localStorage
 
+    const role = response.user.role;
     if (role === 'administrateur') {
       this.router.navigate(['/admin-page']);
     } else if (role === 'vigile') {

@@ -10,6 +10,12 @@ import { HistoriqueLogsComponent } from './components/historique-logs/historique
 import { PointageComponent } from './components/pointage/pointage.component';
 import { PresenceComponent } from './components/presence/presence.component';
 import { ListComponent } from './components/list/list.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AuthGuard } from './auth.guard';  // Importez votre guard
+import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ApprenantListComponent } from './components/apprenant-list/apprenant-list.component';
+import { EmployeListComponent } from './components/employe-list/employe-list.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -18,11 +24,16 @@ export const routes: Routes = [
   {path: 'cohorte', component: CohortesComponent},
   {path: 'employe', component: EmployeCreateComponent},
   {path: 'apprenant', component: ApprenantCreateComponent},
-  {path: 'admin-page', component: AdminPageComponent},
-  {path: 'vigile-page', component: VigilePageComponent},
-  { path: 'historiques', component: HistoriqueLogsComponent},
-  { path: 'pointage', component: PointageComponent},
-  { path: 'presence', component: PresenceComponent},
+  {path: 'admin-page', component: AdminPageComponent, canActivate: [AuthGuard]},
+  {path: 'vigile-page', component: VigilePageComponent, canActivate: [AuthGuard]},
+  { path: 'historiques', component: HistoriqueLogsComponent, canActivate: [AuthGuard]},
+  { path: 'pointage', component: PointageComponent, canActivate: [AuthGuard]},
+  { path: 'presence', component: PresenceComponent, canActivate: [AuthGuard]},
   { path: 'list', component: ListComponent},
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'forgot', component: ForgotPassComponent },
+  { path: 'change-password/:email', component: ChangePasswordComponent },
+  { path: 'app-list', component: ApprenantListComponent },
+  { path: 'emp-list', component: EmployeListComponent },
 
 ];

@@ -1,6 +1,23 @@
-<div class="container mt-5">
-  <h2 class="text-center mb-4">Ajouter un Apprenant</h2>
+<app-header-and-sidebar></app-header-and-sidebar>
+<br>
+<br>
+<br>
+<div class="container mt-5" [class.collapsed]="!isSidebarVisible">
+
   <form [formGroup]="apprenantForm" (ngSubmit)="onSubmit()">
+    <h2 class="text-center mb-4">Ajouter un Apprenant</h2>
+
+  <!-- Bouton d'importation de fichier CSV -->
+<div class="mb-4">
+  <label for="csvFile" class="form-label">Importer un fichier CSV</label>
+  <div class="d-flex">
+    <input type="file" id="csvFile" (change)="onCsvFileChange($event)" class="form-control me-2" accept=".csv" />
+    <button class="btn btn-success" (click)="importCsvFile()" [disabled]="!csvFile">
+      <i class="fas fa-file-upload"></i> Importer
+    </button>
+  </div>
+  <small class="form-text text-muted">Téléchargez un fichier CSV contenant les informations des départements.</small>
+</div>
     <div class="form-group">
       <label for="nom">Nom</label>
       <input id="nom" formControlName="nom" class="form-control" required />
@@ -33,7 +50,17 @@
       </select>
     </div>
 
-    <button type="submit" [disabled]="apprenantForm.invalid" class="btn btn-primary">Ajouter Apprenant</button>
+    <br>
+
+    <!-- Boutons -->
+    <div class="d-flex justify-content-between">
+      <button type="submit" class="btn btn-primary" [disabled]="apprenantForm.invalid">
+        <i class="fas fa-user-plus"></i> Ajouter
+      </button>
+      <button type="reset" class="btn btn-secondary">
+        <i class="fas fa-redo"></i> Réinitialiser
+      </button>
+    </div>
   </form>
 
 </div>

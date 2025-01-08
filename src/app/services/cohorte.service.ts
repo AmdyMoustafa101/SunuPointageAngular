@@ -17,19 +17,32 @@ export class CohorteService {
     );
   }
 
+  importCohortes(fileData: FormData): Observable<any> {
+    const url = `${this.apiUrl}/import`; // Assurez-vous que cette route existe côté Laravel
+    return this.http.post<any>(url, fileData).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   getCohortes(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
   private handleError(error: HttpErrorResponse) {
-    let errorMessage = '';
+    let errorMessage = 'Une erreur inconnue est survenue.';
+    let errors = null;
+
     if (error.error instanceof ErrorEvent) {
+      // Erreur côté client
       errorMessage = `Erreur côté client: ${error.error.message}`;
     } else {
-      errorMessage = `Code d'erreur: ${error.status}\nMessage: ${error.message}`;
+      // Erreur côté serveur
+      errorMessage = error.error.message || `Code d'erreur: ${error.status}\nMessage: ${error.message}`;
+      errors = error.error.errors || null; // Vérifiez si des erreurs détaillées sont présentes
     }
-    console.error(errorMessage);  // Affiche l'erreur dans la console pour le débogage
-    return throwError(() => new Error(errorMessage));
+
+    console.error(errorMessage); // Débogage
+    return throwError(() => ({ message: errorMessage, errors }));
   }
 
 }

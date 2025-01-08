@@ -4,16 +4,18 @@ import { EmployeService } from '../../../../services/employe.service';
 import { CommonModule } from '@angular/common';
 
 import Swal from 'sweetalert2';
+import { HeaderAndSidebarComponent } from "../../../header-and-sidebar/header-and-sidebar.component";
 
 @Component({
   selector: 'app-employe-create',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HeaderAndSidebarComponent],
   templateUrl: './employe-create.component.html',
   styleUrls: ['./employe-create.component.css'],
 })
 export class EmployeCreateComponent implements OnInit {
   employeForm!: FormGroup;
+  csvFile: File | null = null;
   departements: any[] = [];
 
   constructor(
@@ -55,6 +57,60 @@ export class EmployeCreateComponent implements OnInit {
       this.employeForm.get('email')?.updateValueAndValidity();
       this.employeForm.get('password')?.updateValueAndValidity();
     });
+  }
+
+  isSidebarVisible: boolean = true; // Par défaut, le sidebar est visible.
+
+  // Exemple d'intégration avec une communication entre composants
+  toggleSidebar(state: boolean): void {
+    this.isSidebarVisible = state;
+  }
+
+  onCsvFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.csvFile = file;
+    }
+  }
+
+  importCsvFile(): void {
+    if (!this.csvFile) {
+      Swal.fire('Erreur', 'Veuillez sélectionner un fichier CSV.', 'error');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.csvFile);
+
+    this.employeService.importEmployes(formData).subscribe(
+      (response) => {
+        const message = response.message || 'Fichier CSV importé avec succès!';
+        Swal.fire('Succès', message, 'success');
+
+        if (response.errors && response.errors.length > 0) {
+          const errorList = response.errors.map((err: string) => `<li>${err}</li>`).join('');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Importation partielle',
+            html: `Certains départements n'ont pas pu être importés :<ul>${errorList}</ul>`,
+          });
+        }
+
+        this.csvFile = null; // Réinitialise la sélection de fichier
+      },
+      (error) => {
+        const errorMsg = error.message || 'Une erreur est survenue lors de l\'importation.';
+        const errorList = error.errors
+          ? error.errors.map((err: string) => `<li>${err}</li>`).join('')
+          : '';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          html: `${errorMsg}${errorList ? `<ul>${errorList}</ul>` : ''}`,
+        });
+      }
+    );
   }
 
   getDepartements(): void {
