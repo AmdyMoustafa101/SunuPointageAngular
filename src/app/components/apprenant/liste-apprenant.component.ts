@@ -119,22 +119,21 @@ export class ListeApprenantsComponent implements OnInit {
   }
 
   // Méthode pour archiver plusieurs apprenants
-  archiveSelectedApprenants(): void {
-    const selectedApprenants = this.apprenants.filter(apprenant => apprenant.selected);
-  
-    if (selectedApprenants.length === 0) {
-      // Si aucun apprenant n'est sélectionné, afficher un message ou effectuer une action
-      console.log('Aucun apprenant sélectionné.');
-      return; // Arrêter l'exécution si aucune sélection
+  archiveSelectedApprenants() {
+    if (this.selectedApprenants.length > 0) {
+      this.apprenantService.archiverApprenants(this.selectedApprenants).subscribe(
+        (response) => {
+          console.log('Apprenants archivés avec succès', response);
+          // Mettez à jour l'interface utilisateur si nécessaire (par exemple, rafraîchir la liste)
+        },
+        (error) => {
+          console.error('Erreur lors de l\'archivage des apprenants:', error);
+        }
+      );
+    } else {
+      console.error('Aucun apprenant sélectionné.');
     }
-  
-    // Traitez les apprenants sélectionnés (par exemple, les archiver)
-    selectedApprenants.forEach(apprenant => {
-      // Logique pour archiver l'apprenant
-      console.log(`Archivage de l'apprenant ${apprenant.matricule}`);
-    });
   }
-  
 
   supprimerApprenants(): void {
     const selectedApprenants = this.apprenants.filter(apprenant => apprenant.selected);
@@ -168,23 +167,21 @@ export class ListeApprenantsComponent implements OnInit {
 
 
 
-isAllSelected(): boolean {
-  return this.apprenants.every(apprenant => apprenant.selected); // Vérifie si tous les apprenants sont sélectionnés
+  isAllSelected(): boolean {
+    return this.apprenants.length > 0 && this.apprenants.every(a => a.selected);
+  }
+
+  toggleSelectAll(event: any): void {
+  const isChecked = event.target.checked;
+  this.apprenants.forEach(apprenant => {
+    apprenant.selected = isChecked; // Marquer tous les apprenants comme sélectionnés/désélectionnés
+  });
 }
 
 
-  toggleSelectAll(event: any): void {
-    const isChecked = event.target.checked;
-    this.apprenants.forEach(apprenant => {
-      apprenant.selected = isChecked; // Marquer tous les apprenants comme sélectionnés/désélectionnés
-    });
-  }
-  
-
   hasSelected(): boolean {
-    return this.apprenants.some(apprenant => apprenant.selected); // Vérifie s'il y a au moins un apprenant sélectionné
+    return this.apprenants.some(apprenant => apprenant.selected);
   }
-  
 
   
 

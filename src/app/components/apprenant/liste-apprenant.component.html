@@ -6,11 +6,26 @@
   <!-- Boutons de sélection et actions -->
   <div class="d-flex gap-3 align-items-center justify-content-end mb-3">
     <!-- Sélectionner/Désélectionner tous -->
-   
+    <div class="form-check me-3">
+      <input 
+        type="checkbox" 
+        class="form-check-input" 
+        id="selectAll"
+        (change)="toggleSelectAll($event)"
+        [checked]="isAllSelected()"
+      >
+      <label class="form-check-label" for="selectAll">Tout sélectionner</label>
+    </div>
 
     <!-- Boutons d'action -->
     <button class="btn btn-primary" (click)="ajouterApprenant()">
       <i class="fas fa-user-plus"></i> Ajouter Apprenant
+    </button>
+    <button class="btn btn-danger" (click)="supprimerApprenants()" [disabled]="!hasSelected()">
+      <i class="fas fa-trash"></i> Supprimer Sélectionnés
+    </button>
+    <button class="btn btn-warning" (click)="archiveSelectedApprenants()" [disabled]="!hasSelected()">
+      <i class="fas fa-archive"></i> Archiver Sélectionnés
     </button>
   </div>
   
@@ -19,6 +34,7 @@
     <table class="table" *ngIf="apprenants.length > 0">
       <thead>
         <tr>
+          <th>Sélection</th>
           <th>Matricule</th>
           <th>Nom</th>
           <th>Prénom</th>
@@ -29,6 +45,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let apprenant of apprenants">
+          <td>
+            <input 
+              type="checkbox" 
+              class="form-check-input" 
+              [(ngModel)]="apprenant.selected"
+            >
+          </td>
           <td>{{ apprenant.matricule }}</td>
           <td>{{ apprenant.nom }}</td>
           <td>{{ apprenant.prenom }}</td>
