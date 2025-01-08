@@ -11,11 +11,12 @@ export interface Cohorte {
     description: string;
     horaires: Horaire[];
     annee: number;
-    statut: StatutCohorte; // Utilisation de l'énumération pour le statut
+    statut: StatutCohorte;
+    selected?: boolean;  // Ajout de la propriété 'selected' pour gérer la sélection
 }
 
 interface Horaire {
-    jours: string[];
+    jours: { [key: string]: boolean };
     heure_debut: string;
     heure_fin: string;
 }

@@ -1,0 +1,74 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+
+<div class="container">
+    <h2>Modifier la Cohorte</h2>
+  
+    <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+    </div>
+  
+    <form [formGroup]="cohorteForm" (ngSubmit)="updateCohorte()">
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" formControlName="nom" class="form-control" required />
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" class="form-control" required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="annee">Session</label>
+        <input type="number" id="annee" formControlName="annee" class="form-control" required />
+      </div>
+  
+      <h3>Horaires</h3>
+      <div formArrayName="horaires">
+        <div *ngFor="let horaire of horaires.controls; let i = index" [formGroupName]="i" class="border p-3 mb-2">
+          <div formGroupName="jours" class="mb-3">
+            <label class="form-label">Jours</label>
+            <div class="d-flex flex-wrap">
+              <div *ngFor="let jour of jours" class="form-check me-3">
+                <input type="checkbox" [formControlName]="jour" class="form-check-input" />
+                <label class="form-check-label">{{ jour }}</label>
+              </div>
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="heure_debut_{{ i }}" class="form-label">Heure début</label>
+            <input
+              id="heure_debut_{{ i }}"
+              formControlName="heure_debut"
+              type="time"
+              class="form-control"
+              required
+            />
+          </div>
+  
+          <div class="mb-3">
+            <label for="heure_fin_{{ i }}" class="form-label">Heure fin</label>
+            <input
+              id="heure_fin_{{ i }}"
+              formControlName="heure_fin"
+              type="time"
+              class="form-control"
+              required
+            />
+          </div>
+  
+          <button type="button" class="btn btn-danger" (click)="removeHoraire(i)">
+            <i class="fas fa-trash-alt"></i> Supprimer l'horaire
+          </button>
+        </div>
+      </div>
+  
+      <button type="submit" class="btn btn-success">Modifier la cohorte</button>
+      <a routerLink="/cohortes" class="btn btn-secondary">Annuler</a>
+    </form>
+  </div>

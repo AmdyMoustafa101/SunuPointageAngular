@@ -1,37 +1,74 @@
-<div class="cohorte-details" class="{{ cohorte ? '' : 'hidden' }}">
-    <div class="header">
-        <h2>Détails de la Cohorte: {{ cohorte ? cohorte.nom : 'Cohorte non disponible' }}</h2>
-        <span [class]="'status-badge ' + (cohorte && cohorte.statut === 'active' ? 'status-active' : 'status-terminee')">
-            {{ cohorte && cohorte.statut === 'active' ? 'En cours' : 'Terminé' }}
-        </span>
-    </div>
+<app-header-and-sidebar></app-header-and-sidebar>
 
-    <div class="info-section">
-        <div class="info-item">
-            <h3>Description</h3>
-            <p>{{ cohorte ? cohorte.description : 'Aucune description disponible.' }}</p>
+<div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+</div>
+
+<div class="container">
+    <div class="cohorte-details" *ngIf="cohorte">
+        <div class="header">
+            <h2>Détails de la Cohorte: {{ cohorte.nom }}</h2>
+            <div class="actions-buttons">
+                <button class="btn btn-primary" (click)="modifierCohorte()">
+                    <i class="fas fa-edit"></i> Modifier
+                </button>
+                <button class="btn btn-danger" (click)="archiverCohorte()">
+                    <i class="fas fa-trash"></i> Archiver
+                </button>
+                <button class="btn btn-info" (click)="voirApprenants()">
+                    <i class="fas fa-users"></i> Voir les apprenants
+                </button>
+            </div>
+            <span [class]="'status-badge ' + (cohorte.statut === 'active' ? 'status-active' : 'status-terminee')">
+                {{ cohorte.statut === 'active' ? 'En cours' : 'Terminé' }}
+            </span>
         </div>
 
-        <div class="info-item">
-            <h3>Année</h3>
-            <p>{{ cohorte ? cohorte.annee : 'Année non disponible.' }}</p>
-        </div>
+        <div class="info-section">
+            <div class="info-item">
+                <h3>Description</h3>
+                <p>{{ cohorte.description }}</p>
+            </div>
 
-        <div class="info-item">
-            <h3>Horaires</h3>
-            <div class="horaires-list">
-                <div class="horaire-item" *ngIf="cohorte && cohorte.horaires.length > 0">
-                    <div class="jours">{{ cohorte.horaires[0].jours.join(', ') }}</div>
-                    <div class="heures">{{ cohorte.horaires[0].heure_debut }} - {{ cohorte.horaires[0].heure_fin }}</div>
-                </div>
-                <div *ngIf="cohorte && cohorte.horaires.length === 0">
-                    <p>Aucun horaire disponible.</p>
+            <div class="info-item">
+                <h3>Session</h3>
+                <p>{{ cohorte.annee }}</p>
+            </div>
+
+            <div class="info-item">
+                <h3>Horaires</h3>
+                <div class="horaires-list">
+                    <div *ngIf="cohorte.horaires && cohorte.horaires.length > 0; else noHoraires">
+                        <div *ngFor="let horaire of cohorte.horaires" class="horaire-item">
+                            <div class="jours">
+                                <p>Jours disponibles:</p>
+                                <ul>
+                                    <li *ngFor="let jour of getJours(horaire.jours)">
+                                        {{ jour }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                Heure de début: {{ horaire.heure_debut || 'Non défini' }}<br>
+                                Heure de fin: {{ horaire.heure_fin || 'Non défini' }}
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #noHoraires>
+                        <p>Aucun horaire disponible.</p>
+                    </ng-template>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="error-message" class="{{ errorMessage ? '' : 'hidden' }}">
-    {{ errorMessage }}
+    <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <!-- Modal de confirmation -->
+    <app-confirmation-modal *ngIf="showModal" 
+        (confirmed)="onConfirmArchiver()" 
+        (closed)="onCloseModal()">
+    </app-confirmation-modal>
 </div>

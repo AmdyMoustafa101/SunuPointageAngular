@@ -1,0 +1,56 @@
+/* apprenant-details.component.css */
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 80px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-control:disabled {
+    background-color: #e9ecef;
+    opacity: 1; /* Pour rendre le fond plus visible */
+}
+
+.photo {
+    display: block;
+    max-width: 200px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+
+.no-details {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    margin-top: 20px;
+}

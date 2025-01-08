@@ -1,0 +1,57 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div class="container">
+  <h2>Liste des Apprenants - {{ cohorte?.nom }}</h2>
+
+  <!-- Boutons de sélection et actions -->
+  <div class="d-flex gap-3 align-items-center justify-content-end mb-3">
+    <!-- Sélectionner/Désélectionner tous -->
+   
+
+    <!-- Boutons d'action -->
+    <button class="btn btn-primary" (click)="ajouterApprenant()">
+      <i class="fas fa-user-plus"></i> Ajouter Apprenant
+    </button>
+  </div>
+  
+  <!-- Tableau des apprenants -->
+  <div class="table-responsive">
+    <table class="table" *ngIf="apprenants.length > 0">
+      <thead>
+        <tr>
+          <th>Matricule</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Adresse</th>
+          <th>Téléphone</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let apprenant of apprenants">
+          <td>{{ apprenant.matricule }}</td>
+          <td>{{ apprenant.nom }}</td>
+          <td>{{ apprenant.prenom }}</td>
+          <td>{{ apprenant.adresse }}</td>
+          <td>{{ apprenant.telephone }}</td>
+          <td>
+            <button class="btn btn-sm btn-info me-1" (click)="voirDetails(apprenant.id)" title="Voir détails">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn btn-sm btn-warning me-1" (click)="modifierApprenant(apprenant.id)" title="Modifier">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="archiverApprenant(apprenant.id)" title="Archiver">
+              <i class="fas fa-archive"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Message lorsque la liste est vide -->
+    <div *ngIf="apprenants.length === 0" class="no-data">
+      Aucun apprenant dans cette cohorte.
+    </div>
+  </div>
+</div>

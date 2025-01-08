@@ -1,0 +1,40 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div *ngIf="apprenant" class="container">
+    <h2>Détails de l'Apprenant</h2>
+    <img *ngIf="apprenant.photo" [src]="apprenant.photo" alt="Photo de l'apprenant" class="photo" />
+
+    <div class="form-group">
+        <label for="matricule"><strong>Matricule :</strong></label>
+        <input type="text" id="matricule" [value]="apprenant.matricule" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label for="nom"><strong>Nom :</strong></label>
+        <input type="text" id="nom" [value]="apprenant.nom" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label for="prenom"><strong>Prénom :</strong></label>
+        <input type="text" id="prenom" [value]="apprenant.prenom" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label for="adresse"><strong>Adresse :</strong></label>
+        <input type="text" id="adresse" [value]="apprenant.adresse" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label for="telephone"><strong>Téléphone :</strong></label>
+        <input type="text" id="telephone" [value]="apprenant.telephone" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label for="created-at"><strong>Compte créé le :</strong></label>
+        <input type="text" id="created-at" [value]="apprenant.created_at | date:'dd/MM/yyyy'" class="form-control" disabled />
+    </div>
+</div>
+
+<div *ngIf="!apprenant" class="no-details">
+    <p>Aucun détail disponible pour cet apprenant.</p>
+</div>

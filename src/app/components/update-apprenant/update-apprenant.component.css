@@ -1,0 +1,80 @@
+/* update-apprenant.component.css */
+
+.container {
+    max-width: 1200px; /* Largeur maximale du formulaire */
+    margin: 30px auto; /* Centrer le conteneur */
+    padding: 80px; /* Espacement interne */
+    border: 1px solid #ccc; /* Bordure */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre */
+    background-color: #f9f9f9; /* Couleur de fond */
+}
+
+h2 {
+    text-align: center; /* Centrer le titre */
+    color: #333; /* Couleur du texte */
+    margin-bottom: 20px; /* Espacement en bas */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Espacement entre les groupes de champs */
+}
+
+label {
+    display: block; /* Affichage en bloc pour les labels */
+    margin-bottom: 5px; /* Espacement en bas des labels */
+    font-weight: bold; /* Gras */
+}
+
+.form-control {
+    width: 100%; /* Largeur complète */
+    padding: 10px; /* Espacement interne */
+    border: 1px solid #ccc; /* Bordure */
+    border-radius: 4px; /* Coins arrondis */
+    font-size: 16px; /* Taille de police */
+    transition: border-color 0.3s; /* Transition pour le changement de couleur */
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Couleur de la bordure au focus */
+    outline: none; /* Supprimer le contour par défaut */
+}
+
+.btn {
+    padding: 12px 20px; /* Espacement interne pour un bouton plus large */
+    font-size: 16px; /* Taille de police */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer; /* Curseur en main */
+    margin-top: 10px; /* Espacement en haut */
+    transition: background-color 0.3s, transform 0.2s; /* Transition pour le changement de couleur et effet de transformation */
+    display: inline-block; /* Affichage en ligne pour un meilleur alignement */
+}
+
+/* Style pour le bouton primaire */
+.btn-primary {
+    background-color: #007bff; /* Couleur de fond du bouton primaire */
+    color: white; /* Couleur du texte */
+}
+
+/* Style pour le bouton secondaire */
+.btn-secondary {
+    background-color: #6c757d; /* Couleur de fond du bouton secondaire */
+    color: white; /* Couleur du texte */
+}
+
+/* Effet de survol */
+.btn-primary:hover {
+    background-color: #0056b3; /* Couleur plus foncée au survol */
+    transform: scale(1.05); /* Légère augmentation de la taille */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Couleur plus foncée au survol */
+    transform: scale(1.05); /* Légère augmentation de la taille */
+}
+
+/* Effet actif (enfoncé) */
+.btn:active {
+    transform: scale(0.95); /* Réduire légèrement la taille lors du clic */
+}

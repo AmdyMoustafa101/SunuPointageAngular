@@ -1,0 +1,80 @@
+.container {
+    max-width: 1200px; /* Limiter la largeur du formulaire */
+    margin: 0 auto; /* Centrer le formulaire */
+    padding: 180px; /* Ajout de padding autour du formulaire */
+    background-color: #f9f9f9; /* Couleur de fond douce */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+h2 {
+    text-align: center; /* Centrer le titre */
+    color: #333; /* Couleur du texte */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Espacement entre les groupes de formulaires */
+}
+
+.form-label {
+    font-weight: bold; /* Mettre les étiquettes en gras */
+    color: #555; /* Couleur des étiquettes */
+}
+
+.form-control {
+    width: 100%; /* Largeur pleine */
+    padding: 10px; /* Padding interne */
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 4px; /* Coins arrondis */
+    transition: border-color 0.3s; /* Transition pour la couleur de la bordure */
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Couleur de la bordure au focus */
+    outline: none; /* Supprimer le contour par défaut */
+}
+
+.btn {
+    width: 100%; /* Largeur pleine pour les boutons */
+    padding: 10px; /* Padding interne */
+    margin-top: 10px; /* Espacement au-dessus des boutons */
+    border-radius: 4px; /* Coins arrondis pour les boutons */
+}
+
+.btn-success {
+    background-color: #28a745; /* Couleur de fond pour le bouton de succès */
+    color: white; /* Couleur du texte */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Couleur de fond pour le bouton de suppression */
+    color: white; /* Couleur du texte */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Couleur de fond pour le bouton secondaire */
+    color: white; /* Couleur du texte */
+}
+
+.border {
+    border: 1px solid #e0e0e0; /* Bordure légère pour les sections */
+    padding: 15px; /* Padding interne pour les sections */
+    border-radius: 4px; /* Coins arrondis */
+    margin-bottom: 15px; /* Espacement entre les sections */
+}
+
+.mb-3 {
+    margin-bottom: 1rem; /* Espacement en bas */
+}
+
+.d-flex {
+    display: flex; /* Flexbox pour l'alignement */
+}
+
+.flex-wrap {
+    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne */
+}
+
+.form-check {
+    margin-right: 15px; /* Espacement entre les checkboxes */
+}

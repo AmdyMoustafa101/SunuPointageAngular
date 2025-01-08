@@ -1,3 +1,4 @@
+// src/app/components/cohortes/cohortes.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CohorteService } from '../../services/cohorte.service';
 import { CommonModule } from '@angular/common';
@@ -6,23 +7,7 @@ import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-side
 import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { AddCohorteComponent } from '../add-cohorte/add-cohorte.component'; // Assurez-vous que le chemin est correct
-
-interface Horaire {
-  jours: string[];
-  heure_debut: string;
-  heure_fin: string;
-}
-
-interface Cohorte {
-  id: number;
-  nom: string;
-  startDate: Date;
-  endDate: Date; // Ajout de l'heure de fin
-  statut: 'active' | 'terminée'; // Changement ici pour le statut
-  annee: number; // Ajout de l'année
-  horaires: Horaire[]; // Ajout des horaires
-  isSelected?: boolean; // Ajout de la propriété pour la sélection
-}
+import { Cohorte, StatutCohorte } from '../../models/cohorte.model'; // Import du modèle
 
 @Component({
   selector: 'app-cohortes',
@@ -32,18 +17,21 @@ interface Cohorte {
   styleUrls: ['./cohortes.component.css']
 })
 export class CohortesComponent implements OnInit {
-  cohortes: Cohorte[] = []; // Utilisation de l'interface Cohorte
+  cohortes: Cohorte[] = []; // Utilisation du modèle Cohorte
   errorMessage: string = '';
   cohorteForm: FormGroup;
   searchText: string = '';
-  masterCheck: boolean = false;
+  selectAll: boolean = false;
+
+  // Ajout de la propriété statutCohorte pour accéder à l'énumération dans le template
+  statutCohorte = StatutCohorte;
 
   constructor(private cohortService: CohorteService, private router: Router, private fb: FormBuilder) {
     this.cohorteForm = this.fb.group({
       nom: ['', Validators.required],
       description: ['', Validators.required],
       annee: ['', [Validators.required, Validators.min(1900), Validators.max(2100)]],
-      statut: ['active', Validators.required], // Ajout du statut avec valeur par défaut
+      statut: [StatutCohorte.ACTIVE, Validators.required], // Utilisation de l'énumération
       horaires: this.fb.array([]),
     });
   }
@@ -54,24 +42,58 @@ export class CohortesComponent implements OnInit {
 
   loadCohortes(): void {
     this.cohortService.getCohortes().subscribe(
-        (data: Cohorte[]) => {
-            this.cohortes = data.map(cohorte => {
-                return {
-                    ...cohorte,
-                    startDate: new Date(cohorte.startDate), // Conversion en date
-                    endDate: new Date(cohorte.endDate), // Conversion en date
-                    // Vous pouvez ajouter des propriétés pour les heures de début et de fin si nécessaire
-                    heure_debut: cohorte.horaires[0]?.heure_debut || 'Non défini', // Récupération de l'heure de début
-                    heure_fin: cohorte.horaires[0]?.heure_fin || 'Non défini', // Récupération de l'heure de fin
-                };
-            });
-        },
-        (error) => {
-            this.errorMessage = 'Erreur lors de la récupération des cohortes : ' + error.message;
-            console.error(error);
-        }
+      (data: Cohorte[]) => {
+        // Inverser l'ordre des cohortes pour afficher le dernier ajouté en premier
+        const sortedData = data.reverse(); // Utilisez `reverse` pour inverser l'ordre
+        
+        this.cohortes = sortedData.map(cohorte => ({
+          ...cohorte,
+          heure_debut: cohorte.horaires[0]?.heure_debut || 'Non défini', // Récupération de l'heure de début
+          heure_fin: cohorte.horaires[0]?.heure_fin || 'Non défini', // Récupération de l'heure de fin
+        }));
+      },
+      (error) => {
+        this.errorMessage = 'Erreur lors de la récupération des cohortes : ' + error.message;
+        console.error(error);
+      }
     );
-}
+  }
+  
+
+    // Gérer la sélection/désélection de toutes les cohortes
+    toggleSelectAll(): void {
+      this.cohortes.forEach(cohorte => {
+        cohorte.selected = this.selectAll;
+      });
+    }
+
+  isAnySelected(): boolean {
+    return this.cohortes.some(cohorte => cohorte.selected);
+  }
+
+  // Gérer la sélection/désélection d'une cohorte
+  toggleSelectCohorte(cohorteId: number): void {
+      const cohorte = this.cohortes.find(c => c.id === cohorteId);
+      if (cohorte) {
+          cohorte.selected = !cohorte.selected;
+      }
+  }
+
+  // Archiver les cohortes sélectionnées
+  archiveSelectedCohortes(): void {
+    const selectedCohortes = this.cohortes.filter(cohorte => cohorte.selected);
+    selectedCohortes.forEach(cohorte => {
+      this.cohortService.archiveCohorte(cohorte.id).subscribe(
+        () => {
+          console.log('Cohorte archivée avec succès');
+          this.loadCohortes(); // Recharger la liste après archivage
+        },
+        (err: any) => {
+          console.error('Erreur lors de l\'archivage de la cohorte', err);
+        }
+      );
+    });
+  }
 
   viewCohorte(id: number): void {
     this.router.navigate(['/cohorte', id]);
@@ -93,6 +115,16 @@ export class CohortesComponent implements OnInit {
         }
       );
     }
+  }
+
+  // Méthode pour filtrer les cohortes par nom
+  filterCohortes(): Cohorte[] {
+    if (!this.searchText.trim()) {
+      return this.cohortes;  // Si le champ de recherche est vide, afficher toutes les cohortes
+    }
+    return this.cohortes.filter(cohorte => 
+      cohorte.nom.toLowerCase().includes(this.searchText.toLowerCase())
+    );
   }
 
   onSubmit(): void {

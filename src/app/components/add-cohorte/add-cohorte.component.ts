@@ -55,9 +55,11 @@ export class AddCohorteComponent implements OnInit { // Changement de nom de cla
       heure_debut: ['', Validators.required],
       heure_fin: ['', Validators.required],
     });
-
-    this.horaires.push(horaireGroup);
+  
+    // Insérer le nouvel horaire à l'index 0 pour le mettre en tête de liste
+    this.horaires.insert(0, horaireGroup);
   }
+  
 
   removeHoraire(index: number): void {
     this.horaires.removeAt(index);
