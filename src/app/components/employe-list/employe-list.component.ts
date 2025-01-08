@@ -4,11 +4,12 @@ import { FormsModule, FormBuilder, FormGroup , Validators, ReactiveFormsModule} 
 import { EmployeService } from '../../services/employe.service';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { HeaderAndSidebarComponent } from "../header-and-sidebar/header-and-sidebar.component";
 
 @Component({
   selector: 'app-employe-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HeaderAndSidebarComponent],
   templateUrl: './employe-list.component.html',
   styleUrl: './employe-list.component.css'
 })
@@ -42,6 +43,13 @@ export class EmployeListComponent {
       email: ['', [Validators.email]],
     });
     this.searchEmployes();
+  }
+
+  isSidebarVisible: boolean = true; // Par défaut, le sidebar est visible.
+
+  // Exemple d'intégration avec une communication entre composants
+  toggleSidebar(state: boolean): void {
+    this.isSidebarVisible = state;
   }
 
   // loadDepartements(): void {

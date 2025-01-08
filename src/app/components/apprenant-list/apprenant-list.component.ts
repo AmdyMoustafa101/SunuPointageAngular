@@ -5,11 +5,12 @@ import { Validators, FormsModule, FormGroup, ReactiveFormsModule, FormBuilder } 
 import { EmployeService } from '../../services/employe.service';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { HeaderAndSidebarComponent } from "../header-and-sidebar/header-and-sidebar.component";
 
 @Component({
   selector: 'app-apprenant-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HeaderAndSidebarComponent],
   templateUrl: './apprenant-list.component.html',
   styleUrl: './apprenant-list.component.css'
 })
@@ -38,6 +39,12 @@ export class ApprenantListComponent implements OnInit {
       cohorte_id: [null],
     });
 
+  }
+  isSidebarVisible: boolean = true; // Par défaut, le sidebar est visible.
+
+  // Exemple d'intégration avec une communication entre composants
+  toggleSidebar(state: boolean): void {
+    this.isSidebarVisible = state;
   }
 
   // openUpdateModal(apprenant: any): void {
