@@ -23,6 +23,14 @@ export class PresenceService {
     return this.http.get(`${this.baseUrl}/api/presences/departement`, { params });
   }
 
+  getPresencesByCohorte(date: string, cohorteId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('date', date)
+      .set('cohorteId', cohorteId);
+
+    return this.http.get(`${this.baseUrl}/api/presences/cohorte`, { params });
+  }
+
   getWeeklyPresencesByDepartement(
     dateRangeStart: string,
     dateRangeEnd: string,
@@ -34,6 +42,19 @@ export class PresenceService {
       .set('departementId', departementId);
 
     return this.http.get(`${this.baseUrl}/api/weekly-presences/departement`, { params });
+  }
+
+  getWeeklyPresencesByCohorte(
+    dateRangeStart: string,
+    dateRangeEnd: string,
+    cohorteId: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('dateRangeStart', dateRangeStart)
+      .set('dateRangeEnd', dateRangeEnd)
+      .set('cohorteId', cohorteId);
+
+    return this.http.get(`${this.baseUrl}/api/weekly-presences/cohorte`, { params });
   }
   
 }

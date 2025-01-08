@@ -1,0 +1,11 @@
+<!-- weekly-presences.component.html -->
+
+<div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+  
+  <div *ngIf="!errorMessage">
+    <!-- Affichage du graphique -->
+    <canvas #weeklyChart width="400" height="200"></canvas>
+  </div>
+  

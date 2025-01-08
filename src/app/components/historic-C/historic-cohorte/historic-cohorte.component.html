@@ -21,14 +21,14 @@
     <hr />
   
     <!-- Affichage dynamique des composants -->
-    <div *ngIf="currentView === 'daily'" class="m-3">
-      <app-daily-presences></app-daily-presences>
+    <div *ngIf="currentView === 'daily'">
+      <app-daily-cohorte></app-daily-cohorte>
     </div>
     <div *ngIf="currentView === 'weekly'">
-      <app-weekly-presences></app-weekly-presences>
+      <app-weekly-cohorte></app-weekly-cohorte>
     </div>
     <div *ngIf="currentView === 'monthly'">
-      <app-monthly-presences></app-monthly-presences>
+      <app-monthly-cohorte></app-monthly-cohorte>
     </div>
   </div>
   

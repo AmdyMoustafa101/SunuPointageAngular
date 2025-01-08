@@ -1,26 +1,25 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { PresenceService } from '../../services/presence.service';
+import { PresenceService } from '../../../services/presence.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Chart, CategoryScale, registerables, LinearScale } from 'chart.js';
 
 @Component({
-  selector: 'app-weekly-presences',
+  selector: 'app-weekly-cohorte',
   standalone: true,
   imports: [
-    FormsModule,
-    CommonModule,
+    CommonModule
   ],
-  templateUrl: './weekly-presences.component.html',
-  styleUrl: './weekly-presences.component.css'
+  templateUrl: './weekly-cohorte.component.html',
+  styleUrl: './weekly-cohorte.component.css'
 })
-export class WeeklyPresencesComponent implements AfterViewInit {
+export class WeeklyCohorteComponent implements AfterViewInit {
   @ViewChild('weeklyChart') weeklyChartRef!: ElementRef<HTMLCanvasElement>;
 
   dateRangeStart: string = ''; // Date de début de la plage
   dateRangeEnd: string = ''; // Date de fin de la plage
-  departementId: string = ''; // ID du département récupéré depuis l'URL
+  cohorteId: string = ''; // ID du département récupéré depuis l'URL
   presences: any = {}; // Données des présences sous forme d'objet {lundi: 0, mardi: 0, ...}
   errorMessage: string = '';
   
@@ -42,8 +41,8 @@ export class WeeklyPresencesComponent implements AfterViewInit {
 
     // Récupérer l'ID du département depuis l'URL
     this.route.params.subscribe((params) => {
-      this.departementId = params['id']; // Récupérer le paramètre 'id' de l'URL
-      if (this.departementId) {
+      this.cohorteId = params['id']; // Récupérer le paramètre 'id' de l'URL
+      if (this.cohorteId) {
         this.getWeeklyPresences(); // Charger les présences automatiquement
       } else {
         this.errorMessage = 'Aucun identifiant de département trouvé dans l’URL.';
@@ -58,7 +57,7 @@ export class WeeklyPresencesComponent implements AfterViewInit {
   }
 
   getWeeklyPresences(): void {
-    this.presenceService.getWeeklyPresencesByDepartement(this.dateRangeStart, this.dateRangeEnd, this.departementId).subscribe(
+    this.presenceService.getWeeklyPresencesByCohorte(this.dateRangeStart, this.dateRangeEnd, this.cohorteId).subscribe(
       (response) => {
         this.presences = response.data; // Exemple de données : { lundi: 0, mardi: 0, ... }
         this.renderChart(this.presences); // Passez les données aux fonctions de rendu
@@ -135,6 +134,4 @@ export class WeeklyPresencesComponent implements AfterViewInit {
     });
   }
 }
-
-  
 }
