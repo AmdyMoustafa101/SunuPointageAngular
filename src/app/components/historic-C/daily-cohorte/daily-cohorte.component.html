@@ -1,0 +1,47 @@
+<div class="daily-presences">
+    <h2>Présences journalières</h2>
+  
+    <!-- Gestion des erreurs -->
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+  
+    <table *ngIf="presences.length > 0" class="table table-striped table-hover mt-3">
+      <thead class="table-dark">
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Heure d'arrivée</th>
+          <th>Retard à l'arrivée</th>
+          <th>Heure de départ</th>
+          <th>Retard au départ</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let presence of presences">
+          <td>{{ presence.nom }}</td>
+          <td>{{ presence.prenom }}</td>
+          <td>{{ presence.heure_arrivee }}</td>
+          <td [ngClass]="{
+                'text-danger': presence.retardArrivee !== 'À l\'heure',
+                'text-success': presence.retardArrivee === 'À l\'heure' || presence.retardArrivee === 'Retard positif'
+              }">
+            {{ presence.retardArrivee }}
+          </td>
+          <td>{{ presence.heure_depart }}</td>
+          <td [ngClass]="{
+                'text-danger': presence.retardDepart !== 'À l\'heure',
+                'text-success': presence.retardDepart === 'À l\'heure' || presence.retardDepart === 'Retard négatif'
+              }">
+            {{ presence.retardDepart }}
+          </td>
+          <td>{{ presence.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Message lorsqu'aucune donnée n'est disponible -->
+    <p *ngIf="presences.length === 0 && !errorMessage">Aucune donnée trouvée pour cette date et ce département.</p>
+  </div>
+  

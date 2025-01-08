@@ -13,17 +13,18 @@ export class MonthlyChartComponent implements AfterViewInit {
   @ViewChild('monthlyChart') monthlyChartRef!: ElementRef<HTMLCanvasElement>;
 
   constructor(private attendanceService: AttendanceService) {
-    Chart.register(...registerables); // Enregistrer tous les composants nécessaires de Chart.js
+    // Enregistrer tous les composants nécessaires de Chart.js
+    Chart.register(...registerables);
   }
 
   ngAfterViewInit() {
-    // Appeler les données mensuelles (exemple pour janvier 2025)
-    const year = '2025';
-    const month = '01';
+    // Obtenir l'année courante
+    const currentYear = new Date().getFullYear().toString();
 
-    this.attendanceService.getMonthlyData(year, month).subscribe({
+    // Appeler la méthode pour récupérer les données annuelles
+    this.attendanceService.getMonthlyData(currentYear).subscribe({
       next: (data) => {
-        console.log('Données reçues :', data);  // Log des données pour vérifier leur structure
+        console.log('Données reçues :', data); // Log pour vérifier la structure des données
         if (this.isValidData(data)) {
           this.renderChart(data);
         } else {
@@ -31,7 +32,7 @@ export class MonthlyChartComponent implements AfterViewInit {
         }
       },
       error: (err) => {
-        console.error('Erreur lors de la récupération des données mensuelles :', err);
+        console.error('Erreur lors de la récupération des données annuelles :', err);
       },
     });
   }
@@ -40,13 +41,12 @@ export class MonthlyChartComponent implements AfterViewInit {
     // Vérification de la structure des données
     console.log('Vérification des données:', data);
 
-    // Vérification si les données sont un tableau d'objets avec les bonnes propriétés
     return (
-      Array.isArray(data) &&
-      data.every((item: any) => {
-        console.log('Vérification de l\'élément:', item);  // Log pour chaque élément
+      data &&
+      typeof data === 'object' &&
+      Object.keys(data).every((month) => {
+        const item = data[month];
         return (
-          typeof item.month === 'string' &&   // Validation du mois
           typeof item.presences === 'number' && // Validation des présences
           typeof item.absences === 'number'    // Validation des absences
         );
@@ -59,9 +59,9 @@ export class MonthlyChartComponent implements AfterViewInit {
 
     if (ctx) {
       // Extraire les labels (mois) et les données
-      const labels = data.map((item: any) => item.month); // Utilisation de 'month' pour les labels
-      const presences = data.map((item: any) => item.presences); // Présences
-      const absences = data.map((item: any) => item.absences); // Absences
+      const labels = Object.keys(data); // Mois de l'année
+      const presences = labels.map((month) => data[month].presences); // Présences
+      const absences = labels.map((month) => data[month].absences); // Absences
 
       // Initialisation du graphique
       new Chart(ctx, {
@@ -93,7 +93,7 @@ export class MonthlyChartComponent implements AfterViewInit {
             x: {
               title: {
                 display: true,
-                text: 'Mois de l\'année', // Modifié pour afficher les mois
+                text: 'Mois de l\'année',
               },
             },
             y: {
@@ -110,4 +110,5 @@ export class MonthlyChartComponent implements AfterViewInit {
       console.error('Impossible d’obtenir le contexte du canvas.');
     }
   }
+
 }

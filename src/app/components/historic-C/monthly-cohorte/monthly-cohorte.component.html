@@ -1,0 +1,9 @@
+<div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  
+  <div *ngIf="!errorMessage">
+    <!-- Affichage du graphique -->
+    <canvas #monthlyChart width="400" height="200"></canvas>
+  </div>
+  

@@ -1,0 +1,34 @@
+<div class="presences-container">
+    <h1>Gestion des présences</h1>
+  
+    <!-- Navigation pour sélectionner la vue -->
+    <nav class="d-grid gap-2 d-md-flex justify-content-md-end" >
+      <button [class.active]="currentView === 'daily'" [class.btn-primary]="currentView === 'daily'" [class.btn-outline-primary]="currentView !== 'daily'" class="btn fw-bold" (click)="currentView = 'daily' ">
+        Présences journalières
+      </button>
+      <button [class.active]="currentView === 'weekly'" [class.btn-primary]="currentView === 'weekly'" 
+      [class.btn-outline-primary]="currentView !== 'weekly'" 
+      class="btn fw-bold"  (click)="currentView = 'weekly'">
+        Présences hebdomadaires
+      </button>
+      <button [class.active]="currentView === 'monthly'" [class.btn-primary]="currentView === 'monthly'" 
+      [class.btn-outline-primary]="currentView !== 'monthly'" 
+      class="btn fw-bold" (click)="currentView = 'monthly'">
+        Présences mensuelles
+      </button>
+    </nav>
+  
+    <hr />
+  
+    <!-- Affichage dynamique des composants -->
+    <div *ngIf="currentView === 'daily'" class="m-3">
+      <app-daily-presences></app-daily-presences>
+    </div>
+    <div *ngIf="currentView === 'weekly'">
+      <app-weekly-presences></app-weekly-presences>
+    </div>
+    <div *ngIf="currentView === 'monthly'">
+      <app-monthly-presences></app-monthly-presences>
+    </div>
+  </div>
+  

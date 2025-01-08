@@ -21,6 +21,8 @@ import { ApprenantDetailsComponent } from './components/apprenant-details/appren
 import { UpdateApprenantComponent } from './components/update-apprenant/update-apprenant.component';
 import { AddApprenantComponent } from './components/add-apprenant/add-apprenant.component';
 
+import { HistoricDComponent } from './components/historic-d/historic-d.component';
+import { HistoricCohorteComponent } from './components/historic-C/historic-cohorte/historic-cohorte.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -46,4 +48,7 @@ export const routes: Routes = [
   { path: 'list', component: ListComponent },
   { path: 'forgot', component: ForgotPassComponent },
   { path: 'change-password/:email', component: ChangePasswordComponent },
+  { path: 'departH/:id', component: HistoricDComponent },
+  { path: 'departC/:id', component: HistoricCohorteComponent },
+
 ];

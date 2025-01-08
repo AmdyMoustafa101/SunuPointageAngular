@@ -15,8 +15,8 @@ export class AttendanceService {
     return this.http.get<any>(url);
   }
 
-  getMonthlyData(year: string, month: string): Observable<any> {
-    const url = `${this.apiUrl}/statistiques-mois?year=${year}&month=${month}`;
+  getMonthlyData(year: string): Observable<any> {
+    const url = `${this.apiUrl}/statistiques-mois?year=${year}`;
     return this.http.get<any>(url);
   }
   
@@ -27,5 +27,46 @@ export class AttendanceService {
     
     return this.http.get(endpoint, { params });
   }
+
+  getMonthlyPresenceByDepartement(
+    month: number,
+    year: number,
+    departementId: number
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('month', month.toString())
+      .set('year', year.toString())
+      .set('departementId', departementId.toString());
+
+    return this.http.get<any>(`${this.apiUrl}/monthly-presences/departement`, {
+      params,
+    });
+  }
+
+  getMonthlyPresenceByCohorte(
+    month: number,
+    year: number,
+    cohorteId: number
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('month', month.toString())
+      .set('year', year.toString())
+      .set('cohorteId', cohorteId.toString());
+
+    return this.http.get<any>(`${this.apiUrl}/monthly-presences/cohorte`, {
+      params,
+    });
+  }
+
+  getDepartementNameById(departementId: number): Observable<string> {
+    const endpoint = `${this.apiUrl}/departements/${departementId}`;
+    return this.http.get<string>(endpoint);
+  }
+
+  getCohorteNameById(cohorteId: number): Observable<string> {
+    const endpoint = `${this.apiUrl}/cohortes/${cohorteId}`;
+    return this.http.get<string>(endpoint);
+  }
+  
   
 }
