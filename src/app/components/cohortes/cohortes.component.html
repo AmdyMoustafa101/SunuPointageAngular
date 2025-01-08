@@ -1,7 +1,24 @@
-<div class="container mt-5">
+<app-header-and-sidebar></app-header-and-sidebar>
+<br>
+<br>
+<br>
+
+<div class="container mt-5" [class.collapsed]="!isSidebarVisible">
   <form [formGroup]="cohorteForm" (ngSubmit)="onSubmit()" class="container mt-5 p-4 border rounded shadow-sm bg-light">
     <!-- Titre du formulaire -->
     <h2 class="text-center mb-4"><i class="fas fa-users"></i> Créer une Cohorte</h2>
+
+    <!-- Bouton d'importation de fichier CSV -->
+<div class="mb-4">
+  <label for="csvFile" class="form-label">Importer un fichier CSV</label>
+  <div class="d-flex">
+    <input type="file" id="csvFile" (change)="onCsvFileChange($event)" class="form-control me-2" accept=".csv" />
+    <button class="btn btn-success" (click)="importCsvFile()" [disabled]="!csvFile">
+      <i class="fas fa-file-upload"></i> Importer
+    </button>
+  </div>
+  <small class="form-text text-muted">Téléchargez un fichier CSV contenant les informations des départements.</small>
+</div>
 
     <!-- Nom de la cohorte -->
     <div class="mb-3">
@@ -14,6 +31,11 @@
         placeholder="Nom de la cohorte"
         required
       />
+      <div *ngIf="cohorteForm.get('nom')?.invalid && cohorteForm.get('nom')?.touched">
+        <small class="text-danger" *ngIf="cohorteForm.get('nom')?.hasError('required')">Le nom est requis.</small>
+        <small class="text-danger" *ngIf="cohorteForm.get('nom')?.hasError('maxlength')">Le nom ne doit pas dépasser 255 caractères.</small>
+        <small class="text-danger" *ngIf="cohorteForm.get('nom')?.hasError('pattern')">Le nom ne peut contenir que des lettres et des espaces.</small>
+      </div>
     </div>
 
     <!-- Description -->
@@ -27,12 +49,28 @@
         placeholder="Brève description de la cohorte"
         required
       ></textarea>
+      <div *ngIf="cohorteForm.get('description')?.invalid && cohorteForm.get('description')?.touched">
+        <small class="text-danger" *ngIf="cohorteForm.get('description')?.hasError('required')">La description est requise.</small>
+        <small class="text-danger" *ngIf="cohorteForm.get('description')?.hasError('maxlength')">La description ne doit pas dépasser 255 caractères.</small>
+        <small class="text-danger" *ngIf="cohorteForm.get('description')?.hasError('pattern')">La description ne peut contenir que des lettres et des espaces.</small>
+      </div>
     </div>
 
     <!-- Année -->
     <div class="mb-3">
-      <label for="annee" class="form-label">Année</label>
-      <input id="annee" formControlName="annee" type="number" class="form-control" placeholder="2024" required />
+      <label for="annee" class="form-label">Année académique</label>
+      <input
+        id="annee"
+        formControlName="annee"
+        type="text"
+        class="form-control"
+        placeholder="2024-2025"
+        required
+      />
+      <!-- Affichage dynamique des erreurs -->
+      <div *ngIf="anneeErrorMessage" class="text-danger mt-1">
+        {{ anneeErrorMessage }}
+      </div>
     </div>
 
     <!-- Horaires -->

@@ -5,7 +5,6 @@ import { SummaryCardsComponent } from '../summary-cards/summary-cards.component'
 import { MonthlyChartComponent } from '../monthly-chart/monthly-chart.component';
 import { WeeklyChartComponent } from '../weekly-chart/weekly-chart.component';
 
-
 @Component({
   selector: 'app-dashboard',
   standalone: true,
