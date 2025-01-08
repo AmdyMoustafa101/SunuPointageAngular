@@ -43,7 +43,7 @@ export class ListComponent {
       .subscribe({
         next: (data) => {
           this.utilisateurs = data;
-          this.applySearchFilter();
+          //this.applySearchFilter();
           this.loading = false;
         },
         error: (err) => {
@@ -59,20 +59,20 @@ export class ListComponent {
   }
 
   // Filtrer les utilisateurs en fonction de la recherche
-  applySearchFilter(): void {
-    this.filteredUtilisateurs = this.utilisateurs.filter((utilisateur) => {
-      const search = this.searchTerm.toLowerCase();
-      return (
-        utilisateur.nom.toLowerCase().includes(search) ||
-        utilisateur.prenom.toLowerCase().includes(search) ||
-        utilisateur.matricule.toLowerCase().includes(search)
-      );
-    });
-  }
+  // applySearchFilter(): void {
+  //   this.filteredUtilisateurs = this.utilisateurs.filter((utilisateur) => {
+  //     const search = this.searchTerm.toLowerCase();
+  //     return (
+  //       utilisateur.nom.toLowerCase().includes(search) ||
+  //       utilisateur.prenom.toLowerCase().includes(search) ||
+  //       utilisateur.matricule.toLowerCase().includes(search)
+  //     );
+  //   });
+  // }
 
   // Gérer les changements de recherche
   onSearchChange(): void {
-    this.applySearchFilter();
+    //this.applySearchFilter();
     this.currentPage = 1; // Réinitialiser la pagination à la première page
   }
 

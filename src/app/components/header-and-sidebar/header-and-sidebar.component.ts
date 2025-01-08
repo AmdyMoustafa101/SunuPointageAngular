@@ -65,7 +65,7 @@ export class HeaderAndSidebarComponent  implements OnInit{
   showProfileModal() {
     Swal.fire({
       title: `<div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
-                <img src="${this.admin?.photo || 'assets/default-photo.jpg'}"
+                <img src="${this.admin?.photo || 'assets/default-photo.jpg'}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
 
 
                 <button class="btn btn-link text-primary" id="change-photo-btn" style="text-decoration: none;">
