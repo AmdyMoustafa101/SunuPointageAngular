@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Departement } from '../models/departement.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,40 +13,53 @@ export class DepartementService {
   constructor(private http: HttpClient) {}
 
   // Récupérer tous les départements
-  getDepartements(): Observable<any> {
-    return this.http.get<any>(this.apiUrl).pipe(
+  getDepartements(): Observable<Departement[]> {
+    return this.http.get<Departement[]>(this.apiUrl).pipe(
       catchError(this.handleError)
     );
   }
 
-  // Créer un nouveau département
-  createDepartement(departementData: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, departementData).pipe(
+  // // Créer un nouveau département
+  // createDepartement(departementData: Departement): Observable<Departement> {
+  //   return this.http.post<Departement>(this.apiUrl, departementData).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+  // Méthode pour ajouter un département
+  addDepartement(departement: Departement): Observable<Departement> {
+    return this.http.post<Departement>(this.apiUrl, departement).pipe(
       catchError(this.handleError)
     );
   }
 
   // Récupérer un département par ID
-  getDepartementById(departementId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${departementId}`).pipe(
+  getDepartementById(id: number): Observable<Departement> {
+    return this.http.get<Departement>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError)
     );
   }
 
   // Mettre à jour un département existant
-  updateDepartement(departementId: number, departementData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${departementId}`, departementData).pipe(
+  updateDepartement(id: number, departementData: Departement): Observable<Departement> {
+    return this.http.put<Departement>(`${this.apiUrl}/${id}`, departementData).pipe(
       catchError(this.handleError)
     );
   }
 
   // Supprimer un département
-  deleteDepartement(departementId: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${departementId}`).pipe(
+  deleteDepartement(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError)
     );
   }
-  
+
+  // Archiver ou désarchiver un département
+  archiveDepartement(id: number): Observable<Departement> {
+    return this.http.patch<Departement>(`${this.apiUrl}/${id}/archive`, {}).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   // Gérer les erreurs
   private handleError(error: HttpErrorResponse) {

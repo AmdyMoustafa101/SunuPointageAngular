@@ -1,10 +1,12 @@
 // src/app/services/apprenant.service.ts
-
+import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Apprenant, ApprenantStats, ApprenantFormData } from '../models/apprenant.model';
+import { Apprenant, ApprenantStats, ApprenantFormData, PaginatedResponse } from '../models/apprenant.model';
+
 
 
 @Injectable({
@@ -21,6 +23,7 @@ export class ApprenantService {
             catchError(this.handleError)
         );
     }
+
 
     // Récupérer un apprenant par ID
     getApprenantById(id: number): Observable<Apprenant> {
@@ -74,15 +77,46 @@ supprimerApprenants(ids: number[]): Observable<any> {
         );
     }
 
-    // Dans apprenant.service.ts, modifiez la méthode archiverApprenant:
-    archiverApprenant(id: number): Observable<any> {
-        return this.http.post(`${this.apiUrl}/apprenants/${id}/archive`, {});
-      }
+        // Archiver un apprenant spécifique
+        archiverApprenant(id: number): Observable<any> {
+            return this.http.post(`${this.apiUrl}/apprenants/${id}/archive`, {}).pipe(
+            catchError(this.handleError)
+            );
+        }
     
-      archiverApprenants(ids: number[]): Observable<any> {
-        return this.http.post(`${this.apiUrl}apprenants/archive`, { ids });
-      }
+      // Archiver plusieurs apprenants
+        archiverApprenants(ids: number[]): Observable<any> {
+            return this.http.post(`${this.apiUrl}/apprenants/archive`, { ids }).pipe(
+            catchError(this.handleError)
+            );
+        }
       
+       // Récupérer les apprenants actifs par cohorte
+        getApprenantsActifsByCohorte(id: number): Observable<Apprenant[]> {
+            return this.http.get<Apprenant[]>(`${this.apiUrl}/cohortes/${id}/apprenants-actifs`).pipe(
+            catchError(this.handleError)
+            );
+        }
+
+        // Récupérer les apprenants archivés par cohorte
+        getApprenantsArchivesByCohorte(id: number): Observable<Apprenant[]> {
+            return this.http.get<Apprenant[]>(`${this.apiUrl}/cohortes/${id}/apprenants-archives`).pipe(
+            catchError(this.handleError)
+            );
+        }
+
+        // Désarchiver un apprenant spécifique
+        desarchiverApprenant(id: number): Observable<any> {
+            return this.http.post(`${this.apiUrl}/apprenants/${id}/desarchive`, {}).pipe(
+            catchError(this.handleError)
+            );
+        }
+
+        desarchiverApprenants(ids: number[]): Observable<any> {
+            return this.http.post(`${this.apiUrl}/apprenants/desarchive`, { ids }).pipe(
+              catchError(this.handleError)
+            );
+          }
 
     // Gestion des erreurs
     private handleError(error: HttpErrorResponse): Observable<never> {

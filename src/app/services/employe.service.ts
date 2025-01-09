@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Employe } from '../models/employe.model';
 
 export interface LogoutResponse {
   message: string;
@@ -61,8 +62,48 @@ export class EmployeService {
     return localStorage.getItem('token');
   }
 
-   // Nouvelle méthode pour récupérer les statistiques
-   getStatistics(): Observable<{ totalEmployees: number; totalLearners: number; totalDepartments: number; totalCohorts: number }> {
+  // Nouvelle méthode pour récupérer les statistiques
+  getStatistics(): Observable<{ totalEmployees: number; totalLearners: number; totalDepartments: number; totalCohorts: number }> {
     return this.http.get<{ totalEmployees: number; totalLearners: number; totalDepartments: number; totalCohorts: number }>('http://localhost:8002/api/statistics');
+  }
+
+  // Nouvelle méthode pour récupérer les employés d'un département spécifique
+  getEmployeesByDepartement(departementId: number): Observable<Employe[]> {
+    return this.http.get<Employe[]>(`${this.apiUrl}/departement/${departementId}`);
+  }
+
+  // Nouvelle méthode pour récupérer les détails d'un employé par ID
+  getEmployeById(id: number): Observable<Employe> {
+    return this.http.get<Employe>(`${this.apiUrl}/${id}`);
+  }
+
+   // Nouvelle méthode pour mettre à jour un employé
+   updateEmploye(id: number, employeData: Partial<Employe>): Observable<Employe> {
+    return this.http.put<Employe>(`${this.apiUrl}/${id}`, employeData);
+  }
+
+  // Nouvelle méthode pour archiver un employé
+  archiveEmploye(id: number): Observable<any> { 
+    return this.http.post<any>(`${this.apiUrl}/archive/${id}`, {});
+  }
+
+  // Nouvelle méthode pour désarchiver un employé
+  unarchiveEmploye(id: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/unarchive/${id}`, {});
+  }
+
+  // Nouvelle méthode pour archiver plusieurs employés
+  archiveMultipleEmployes(ids: number[]): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/archive-multiple`, { ids });
+  }
+
+  // Nouvelle méthode pour désarchiver plusieurs employés
+  unarchiveMultipleEmployes(ids: number[]): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/unarchive-multiple`, { ids });
+  }
+
+  // Nouvelle méthode pour bloquer un employé
+  blockEmploye(id: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/block/${id}`, {}); 
   }
 }

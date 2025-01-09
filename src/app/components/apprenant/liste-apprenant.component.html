@@ -1,80 +1,104 @@
 <app-header-and-sidebar></app-header-and-sidebar>
-
 <div class="container">
-  <h2>Liste des Apprenants - {{ cohorte?.nom }}</h2>
+    <h2>Liste des Apprentis - {{ cohorte?.nom }}</h2>
 
-  <!-- Boutons de sélection et actions -->
-  <div class="d-flex gap-3 align-items-center justify-content-end mb-3">
-    <!-- Sélectionner/Désélectionner tous -->
-    <div class="form-check me-3">
-      <input 
-        type="checkbox" 
-        class="form-check-input" 
-        id="selectAll"
-        (change)="toggleSelectAll($event)"
-        [checked]="isAllSelected()"
-      >
-      <label class="form-check-label" for="selectAll">Tout sélectionner</label>
+     <!-- Champ de recherche -->
+     <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Rechercher..." 
+               [(ngModel)]="searchTerm" (input)="filterApprenants()">
+     </div>
+
+    <!-- Liens pour sélectionner la liste des apprenants -->
+    <div class="d-flex gap-3 align-items-center justify-content-start mb-3">
+        <button class="btn btn-link" (click)="showActiveApprenants()">Apprenants Actifs</button>
+        <button class="btn btn-link" (click)="showArchivedApprenants()">Apprenants Archivés</button>
     </div>
 
-    <!-- Boutons d'action -->
-    <button class="btn btn-primary" (click)="ajouterApprenant()">
-      <i class="fas fa-user-plus"></i> Ajouter Apprenant
-    </button>
-    <button class="btn btn-danger" (click)="supprimerApprenants()" [disabled]="!hasSelected()">
-      <i class="fas fa-trash"></i> Supprimer Sélectionnés
-    </button>
-    <button class="btn btn-warning" (click)="archiveSelectedApprenants()" [disabled]="!hasSelected()">
-      <i class="fas fa-archive"></i> Archiver Sélectionnés
-    </button>
-  </div>
-  
-  <!-- Tableau des apprenants -->
-  <div class="table-responsive">
-    <table class="table" *ngIf="apprenants.length > 0">
-      <thead>
-        <tr>
-          <th>Sélection</th>
-          <th>Matricule</th>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Adresse</th>
-          <th>Téléphone</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let apprenant of apprenants">
-          <td>
-            <input 
-              type="checkbox" 
-              class="form-check-input" 
-              [(ngModel)]="apprenant.selected"
-            >
-          </td>
-          <td>{{ apprenant.matricule }}</td>
-          <td>{{ apprenant.nom }}</td>
-          <td>{{ apprenant.prenom }}</td>
-          <td>{{ apprenant.adresse }}</td>
-          <td>{{ apprenant.telephone }}</td>
-          <td>
-            <button class="btn btn-sm btn-info me-1" (click)="voirDetails(apprenant.id)" title="Voir détails">
-              <i class="fas fa-eye"></i>
-            </button>
-            <button class="btn btn-sm btn-warning me-1" (click)="modifierApprenant(apprenant.id)" title="Modifier">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn btn-sm btn-danger" (click)="archiverApprenant(apprenant.id)" title="Archiver">
-              <i class="fas fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Boutons de sélection et actions -->
+    <div class="d-flex gap-3 align-items-center justify-content-end mb-3">
+        <!-- Sélectionner/Désélectionner tous -->
+        <div class="form-check me-3">
+            <input type="checkbox" class="form-check-input" id="selectAll" (change)="toggleSelectAll($event)" [checked]="isAllSelected()">
+            <label class="form-check-label" for="selectAll">Tout sélectionner</label>
+        </div>
 
-    <!-- Message lorsque la liste est vide -->
-    <div *ngIf="apprenants.length === 0" class="no-data">
-      Aucun apprenant dans cette cohorte.
+        <!-- Actions spécifiques aux apprenants actifs -->
+        <ng-container *ngIf="showActive; else archivedActions">
+            <button class="btn btn-primary" (click)="ajouterApprenant()">
+                <i class="fas fa-user-plus"></i> Ajouter Apprenant
+            </button>
+            <button class="btn btn-danger" (click)="supprimerApprenants()" [disabled]="!hasSelected()">
+                <i class="fas fa-trash"></i> Supprimer Sélectionnés
+            </button>
+            <button class="btn btn-warning" (click)="archiveSelectedApprenants()" [disabled]="!hasSelected()">
+                <i class="fas fa-archive"></i> Archiver Sélectionnés
+            </button>
+        </ng-container>
+        <!-- Actions spécifiques aux apprenants archivés -->
+        <ng-template #archivedActions>
+            <button class="btn btn-success" (click)="desarchiverSelectedApprenants()" [disabled]="!hasSelected()">
+                <i class="fas fa-undo"></i> Désarchiver Sélectionnés
+            </button>
+        </ng-template>
     </div>
-  </div>
+
+    <!-- Tableau des apprenants -->
+    <div class="table-responsive">
+        <table class="table" *ngIf="filteredApprenants.length > 0">
+            <thead>
+                <tr>
+                    <th>Sélection</th>
+                    <th>Matricule</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Adresse</th>
+                    <th>Téléphone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let apprenant of filteredApprenants">
+                    <td>
+                        <input type="checkbox" class="form-check-input" [(ngModel)]="apprenant.selected">
+                    </td>
+                    <td>{{ apprenant.matricule }}</td>
+                    <td>{{ apprenant.nom }}</td>
+                    <td>{{ apprenant.prenom }}</td>
+                    <td>{{ apprenant.adresse }}</td>
+                    <td>{{ apprenant.telephone }}</td>
+                    <td>
+                        <ng-container *ngIf="showActive; else desarchiverAction">
+                            <button class="btn btn-sm btn-info me-1" (click)="voirDetails(apprenant.id)" title="Voir détails">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning me-1" (click)="modifierApprenant(apprenant.id)" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" (click)="archiverApprenant(apprenant.id)" title="Archiver">
+                                <i class="fas fa-archive"></i>
+                            </button>
+                        </ng-container>
+                        <ng-template #desarchiverAction>
+                            <button class="btn btn-sm btn-success" (click)="desarchiverApprenant(apprenant.id)" title="Désarchiver">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                        </ng-template>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+            <pagination-controls (pageChange)="onPageChange($event)"
+                previousLabel="Précédent"
+                nextLabel="Suivant"
+                [maxSize]="5"
+                [directionLinks]="true"
+                [autoHide]="true">
+            </pagination-controls>
+
+
+        <!-- Message lorsque la liste est vide -->
+        <div *ngIf="filteredApprenants.length === 0" class="no-data">Aucun apprenant dans cette cohorte.</div>
+    </div>
 </div>

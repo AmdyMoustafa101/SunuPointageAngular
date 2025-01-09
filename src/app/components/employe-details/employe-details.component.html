@@ -1,0 +1,26 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div *ngIf="employe" class="employe-details">
+    <h2 class="employe-details__title">Détails de l'employé {{ employe?.prenom }} {{ employe?.nom }}</h2>
+    <div class="employe-details__info">
+        <div class="form-group">
+            <label class="employe-details__label">Matricule:</label>
+            <input type="text" class="form-control" [(ngModel)]="employe.matricule" readonly />
+        </div>
+        <div class="form-group">
+            <label class="employe-details__label">Téléphone:</label>
+            <input type="text" class="form-control" [(ngModel)]="employe.telephone" />
+        </div>
+        <div class="form-group">
+            <label class="employe-details__label">Adresse:</label>
+            <input type="text" class="form-control" [(ngModel)]="employe.adresse" />
+        </div>
+        <div class="form-group">
+            <label class="employe-details__label">Rôle:</label>
+            <input type="text" class="form-control form-control--styled" [(ngModel)]="employe.role" />
+        </div>
+    </div>
+</div>
+<div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+</div>

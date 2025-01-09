@@ -41,8 +41,18 @@
     </div>
 
     <h2>Historique des Présences et Absences par mois</h2>
-    <div id="attendanceChart" class="chart mb-4"></div>
+    <div id="attendanceChart" class="chart mb-4">
+        <app-monthly-chart></app-monthly-chart>
+    </div>
+
 
     <h2>Absences et Présences par semaine</h2>
-    <div id="weeklyStats" class="chart"></div>
+    <div id="weeklyStats" class="chart">
+        <app-weekly-chart></app-weekly-chart>
+    </div>
+
+    <h2>Absences et Présences de lajournée</h2>
+    <div id="weeklyStats" class="chart">
+        <app-pie-chart></app-pie-chart>
+    </div>
 </div>

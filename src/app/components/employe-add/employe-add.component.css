@@ -1,0 +1,70 @@
+/* Style for the container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 200px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style for the form row */
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+  
+  /* Style for the form group */
+  .form-group {
+    flex: 1;
+    padding: 0 10px;
+  }
+  
+  /* Style for the form group when it is half width */
+  .form-group.col-md-6 {
+    max-width: 50%;
+    box-sizing: border-box;
+  }
+  
+  /* Style for the labels */
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  /* Style for the form controls */
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* Style for the primary button */
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+  
+  /* Style for the error message */
+  .error-message {
+    color: red;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 18px;
+  }

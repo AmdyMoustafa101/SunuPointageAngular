@@ -1,0 +1,46 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div class="table-container">
+  <div class="header-container">
+    <h2>Liste des départements</h2>
+    <button class="add-button" (click)="addDepartement()">Ajouter Département</button>
+  </div>
+  
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+  
+  <table class="departement-table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Horaires Début</th>
+        <th>Horaires Fin</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let departement of departements">
+        <td>{{ departement.nom }}</td>
+        <td>{{ truncateDescription(departement.description) }}</td>
+        <td>{{ departement.horaires[0]?.heure_debut || 'Non défini' }}</td>
+        <td>{{ departement.horaires[0]?.heure_fin || 'Non défini' }}</td>
+        <td>
+          <button 
+            class="action-button view-button" 
+            (click)="departement.id !== undefined && viewDepartement(departement.id)"
+            [disabled]="departement.id === undefined">
+            <i class="fas fa-eye"></i> 
+          </button>
+          <button 
+            class="action-button edit-button" 
+            (click)="departement.id !== undefined && editDepartement(departement.id)"
+            [disabled]="departement.id === undefined">
+            <i class="fas fa-edit"></i> 
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,87 @@
+/* Style for the employee details container */
+.employe-details {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 200px;
+    background-color: #f9f9f9;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+/* Style for the title */
+.employe-details__title {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+/* Style for the information container */
+.employe-details__info {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+}
+
+/* Style for the form group */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Style for the labels */
+.employe-details__label {
+    font-weight: bold;
+    color: #000;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Style for the form controls */
+/* Style for the form group */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Style for the labels */
+.employe-details__label {
+    font-weight: bold;
+    color: #000;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Style for the form controls */
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Additional style for the styled form control */
+.form-control--styled {
+    background-color: #e8f0fe; /* Light blue background color */
+    border: 1px solid #4a90e2; /* Border color */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.form-control--styled:focus {
+    background-color: #d0e4fd; /* Slightly darker blue when focused */
+    border-color: #357abd; /* Darker border color when focused */
+}
+
+/* Style for the error message */
+.error-message {
+    color: red;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+/* Style for the error message */
+.error-message {
+    color: red;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 18px;
+}

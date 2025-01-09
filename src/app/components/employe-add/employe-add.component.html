@@ -1,0 +1,73 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div class="container">
+  <h2>Ajouter un nouvel employé</h2>
+  <form [formGroup]="employeForm" (ngSubmit)="submitForm()" enctype="multipart/form-data">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Nom:</label>
+        <input type="text" class="form-control" formControlName="nom" />
+      </div>
+      <div class="form-group col-md-6">
+        <label>Prénom:</label>
+        <input type="text" class="form-control" formControlName="prenom" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Adresse:</label>
+        <input type="text" class="form-control" formControlName="adresse" />
+      </div>
+      <div class="form-group col-md-6">
+        <label>Téléphone:</label>
+        <input type="text" class="form-control" formControlName="telephone" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Photo:</label>
+        <input type="file" class="form-control" (change)="onFileChange($event)" />
+      </div>
+      <div class="form-group col-md-6">
+        <label>Rôle:</label>
+        <select class="form-control" formControlName="role">
+          <option value="simple">Simple</option>
+          <option value="vigile">Vigile</option>
+          <option value="administrateur">Administrateur</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="employeForm.get('role')?.value === 'vigile'">
+      <div class="form-group col-md-6">
+        <label>Fonction:</label>
+        <input type="text" class="form-control" formControlName="fonction" value="vigile" readonly />
+      </div>
+    </div>
+    <div class="form-row" *ngIf="employeForm.get('role')?.value !== 'vigile'">
+      <div class="form-group col-md-6">
+        <label>Fonction:</label>
+        <input type="text" class="form-control" formControlName="fonction" />
+      </div>
+      <div class="form-group col-md-6">
+        <label>Département:</label>
+        <select class="form-control" formControlName="departement_id">
+          <option *ngFor="let departement of departements" [value]="departement.id">{{ departement.nom }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="['administrateur', 'vigile'].includes(employeForm.get('role')?.value)">
+      <div class="form-group col-md-6">
+        <label>Email:</label>
+        <input type="email" class="form-control" formControlName="email" />
+      </div>
+      <div class="form-group col-md-6">
+        <label>Mot de passe:</label>
+        <input type="password" class="form-control" formControlName="password" />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter l'employé</button>
+  </form>
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+</div>
+
+<div class="container" *ngIf="departement">
+    <div class="departement-details">
+        <!-- Ajouter le bouton Liste des employés -->
+        <button class="employee-list-button" (click)="EmployeeList()">Liste des employés</button>
+        <div class="header">
+            <h2>Détails du département : {{ departement?.nom }}</h2>
+            
+        </div>
+        <div class="description">
+            <h3>Description</h3>
+            <p>{{ departement?.description }}</p>
+        </div>
+        <div class="horaires">
+            <h3>Horaires :</h3>
+            <ul>
+                <li *ngFor="let horaire of departement.horaires">
+                    <span>Heure de début: {{ horaire.heure_debut || 'Non défini' }}</span><br>
+                    <span>Heure de fin: {{ horaire.heure_fin || 'Non défini' }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+</div>

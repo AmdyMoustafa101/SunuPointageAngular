@@ -1,0 +1,131 @@
+.table-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 500px); /* Ajustez la hauteur pour tenir compte de la hauteur de l'en-tête */
+  padding: 185px; /* Ajustez le padding pour réduire l'espace */
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-left: 0;
+}
+
+.departement-table {
+  width: 85%; /* Ajustez la largeur pour être plus petite */
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px; /* Ajustez la taille de la police */
+  background-color: #f9f9f9; /* Couleur de fond du tableau */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajoutez une ombre pour un effet 3D */
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px 15px; /* Ajustez le padding pour plus d'espace */
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2; /* Couleur de fond pour les lignes paires */
+}
+
+tr:hover {
+  background-color: #ddd; /* Couleur de fond au survol */
+}
+
+.error {
+  color: red;
+  margin: 10px 0;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px; /* Ajustez le padding pour plus d'espace */
+  cursor: pointer;
+  border-radius: 4px; /* Ajoutez des coins arrondis */
+  transition: background-color 0.3s ease; /* Ajoutez une transition pour l'effet de survol */
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button[disabled] {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.add-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 520px;  /* Ajoute de l'espace entre le titre et le bouton */
+}
+
+
+/* Specific styles for each action button */
+.view-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.view-button:hover {
+  background-color: #0056b3;
+}
+
+.edit-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #218838;
+}
+
+.archive-button {
+  background-color: #ffc107;
+  color: white;
+}
+
+.archive-button:hover {
+  background-color: #e0a800;
+}
+
+button[disabled] {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.employee-list-button {
+  background-color: #007bff; /* Couleur de fond */
+  color: white; /* Couleur du texte */
+  border: none; /* Enlever la bordure par défaut */
+  padding: 10px 20px; /* Padding pour le bouton */
+  font-size: 16px; /* Taille de la police */
+  cursor: pointer; /* Changer le curseur au survol */
+  border-radius: 5px; /* Coins arrondis */
+  transition: background-color 0.3s ease; /* Transition pour l'effet au survol */
+}
+
+.employee-list-button:hover {
+  background-color: #0056b3; /* Couleur de fond au survol */
+}

@@ -5,12 +5,15 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { HeaderAndSidebarComponent } from "../../../header-and-sidebar/header-and-sidebar.component";
-import { Chart } from 'chart.js'; // Ajoutez ceci pour les graphiques
+import { Chart } from 'chart.js';
+import { MonthlyChartComponent } from "../../../monthly-chart/monthly-chart.component";
+import { WeeklyChartComponent } from "../../../weekly-chart/weekly-chart.component";
+import { PieChartComponent } from "../../../pie-chart/pie-chart.component"; // Ajoutez ceci pour les graphiques
 
 @Component({
   selector: 'app-admin-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderAndSidebarComponent],
+  imports: [ReactiveFormsModule, CommonModule, HeaderAndSidebarComponent, MonthlyChartComponent, WeeklyChartComponent, PieChartComponent],
   templateUrl: './admin-page.component.html',
   styleUrls: ['./admin-page.component.css'] // Corrigez ici pour 'styleUrls'
 })

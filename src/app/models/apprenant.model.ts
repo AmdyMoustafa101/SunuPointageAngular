@@ -12,6 +12,7 @@ export interface Apprenant {
     archivé: boolean;
     created_at?: string;     // Timestamps Laravel
     updated_at?: string;     // Timestamps Laravel
+    selected?: boolean;
 }
 
 // Interface pour les statistiques
@@ -47,3 +48,10 @@ export interface ApprenantListResponse {
     data: Apprenant[];
     message?: string;
 }
+
+
+export interface PaginatedResponse<T> {
+    items: T[];
+    total: number;
+  }
+  

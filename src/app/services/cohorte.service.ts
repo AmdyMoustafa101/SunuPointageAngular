@@ -38,7 +38,14 @@ export class CohorteService {
   }
 
   archiveCohorte(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}/archive`).pipe(
+    return this.http.post(`${this.apiUrl}/${id}/archive`, {}).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+   // Nouvelle méthode pour archiver plusieurs cohortes
+   archiveMultipleCohortes(ids: number[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/archive-multiple`, { ids }).pipe(
       catchError(this.handleError)
     );
   }

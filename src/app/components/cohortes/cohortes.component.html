@@ -31,7 +31,6 @@
                 </div>
             </div>
 
-            <!-- Case "Sélectionner tout" et bouton d'archivage -->
             <div class="cohortes-actions">
                 <input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" />
                 <label>Sélectionner tout</label>
@@ -53,8 +52,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Appliquer le filtre sur la liste des cohortes -->
-                        <tr *ngFor="let cohorte of filterCohortes()">
+                        <tr *ngFor="let cohorte of filterCohortes() | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
                             <td *ngIf="selectAll"><input type="checkbox" [(ngModel)]="cohorte.selected" /></td>
                             <td>{{ cohorte.nom }}</td>
                             <td>{{ cohorte.horaires[0]?.heure_debut || 'Non défini' }}</td>
@@ -76,6 +74,15 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="pagination-container">
+                    <pagination-controls (pageChange)="page = $event"
+                        previousLabel="Précédent"
+                        nextLabel="Suivant"
+                        [maxSize]="5"
+                        [directionLinks]="true"
+                        [autoHide]="true">
+                    </pagination-controls>
+                </div>
             </div>
         </section>
     </div>

@@ -84,3 +84,38 @@
   padding: 20px;
   color: #666;
 }
+
+/* src/app/components/liste-apprenants/liste-apprenant.component.css */
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-controls {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 5px;
+}
+
+.pagination-controls .ngx-pagination__page {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination-controls .ngx-pagination__page--current {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination-controls .ngx-pagination__direction {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}

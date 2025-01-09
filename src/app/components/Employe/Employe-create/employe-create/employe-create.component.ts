@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { EmployeService } from '../../../../services/employe.service';
 import { CommonModule } from '@angular/common';
-
 import Swal from 'sweetalert2';
+import { HeaderAndSidebarComponent } from '../../../header-and-sidebar/header-and-sidebar.component';
 
 @Component({
   selector: 'app-employe-create',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HeaderAndSidebarComponent],
   templateUrl: './employe-create.component.html',
   styleUrls: ['./employe-create.component.css'],
 })
@@ -44,7 +44,7 @@ export class EmployeCreateComponent implements OnInit {
         this.employeForm.get('departement_id')?.setValue(null);
         this.employeForm.get('departement_id')?.disable(); // Désactiver le champ
         this.employeForm.get('email')?.setValidators([Validators.required, Validators.email]);
-        this.employeForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
+        this.employeForm.get('password')?.setValidators([Validators.required, Validators.minLength(8)]);
       } else {
         this.employeForm.get('departement_id')?.enable(); // Réactiver le champ
         this.employeForm.get('email')?.clearValidators();

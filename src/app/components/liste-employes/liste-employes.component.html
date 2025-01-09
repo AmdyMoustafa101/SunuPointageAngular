@@ -1,0 +1,62 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+</div>
+
+<div class="container">
+    <div>
+        <button class="btn btn-primary me-2" (click)="ajouterEmploye()">Ajouter un nouvel employé</button>
+        <!-- <button class="btn btn-danger me-2" [disabled]="!anySelected" (click)="archiverMultiple()">Archiver multiple</button>
+        <button class="btn btn-success me-2" [disabled]="!anySelected" (click)="desarchiverMultiple()">Désarchiver multiple</button> -->
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Liste des employés du département: {{ departement?.nom }}</h2>
+        <!-- <div>
+            <input type="checkbox" (change)="toggleSelectAll($event)" /> Tout cocher
+        </div> -->
+    </div>
+    <table class="employee-table">
+        <thead>
+            <tr>
+                <!-- <th><input type="checkbox" (change)="toggleSelectAll($event)" /></th> -->
+                <th>Matricule</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Téléphone</th>
+                <th>Adresse</th>
+                <th>Rôle</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of employees">
+                <!-- <td><input type="checkbox" [(ngModel)]="employee.selected" (change)="toggleSelection(employee)" /></td> -->
+                <td>{{ employee.matricule }}</td>
+                <td>{{ employee.nom }}</td>
+                <td>{{ employee.prenom }}</td>
+                <td>{{ employee.telephone }}</td>
+                <td>{{ employee.adresse }}</td>
+                <td>{{ employee.role }}</td>
+                <td>
+                    <ng-container *ngIf="!employee.archive; else desarchiverAction">
+                        <button class="btn btn-sm btn-info me-1" (click)="voirDetails(employee.id)" title="Voir détails">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning me-1" (click)="modifierEmploye(employee.id)" title="Modifier">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="archiverEmploye(employee.id)" title="Archiver">
+                            <i class="fas fa-archive"></i>
+                        </button>
+                    </ng-container>
+                    <ng-template #desarchiverAction>
+                        <button class="btn btn-sm btn-success" (click)="desarchiverEmploye(employee.id)" title="Désarchiver">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                    </ng-template>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

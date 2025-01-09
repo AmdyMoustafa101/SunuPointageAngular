@@ -1,0 +1,29 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div class="container">
+  <h2>Modifier le département</h2>
+  
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+  
+  <form [formGroup]="departementForm" (ngSubmit)="updateDepartement()">
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input id="nom" formControlName="nom" class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" class="form-control"></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="horaires">Horaires</label>
+      <input id="heure_debut" formControlName="heure_debut" class="form-control" placeholder="Heure de début" />
+      <input id="heure_fin" formControlName="heure_fin" class="form-control" placeholder="Heure de fin" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary" [disabled]="departementForm.invalid">Mettre à jour</button>
+  </form>
+</div>

@@ -1,0 +1,42 @@
+<app-header-and-sidebar></app-header-and-sidebar>
+
+<div class="container">
+  <h2>Ajouter un Département</h2>
+
+  <form [formGroup]="departementForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input id="nom" formControlName="nom" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="jours">Jours</label>
+      <div formGroupName="jours">
+        <label *ngFor="let jour of jours">
+          <input type="checkbox" [formControlName]="jour" /> {{ jour }}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="heure_debut">Heure de début</label>
+      <input id="heure_debut" formControlName="heure_debut" type="time" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="heure_fin">Heure de fin</label>
+      <input id="heure_fin" formControlName="heure_fin" type="time" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="departementForm.invalid">Ajouter</button>
+  </form>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+</div>
