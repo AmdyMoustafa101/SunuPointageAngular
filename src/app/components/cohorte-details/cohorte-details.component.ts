@@ -4,14 +4,15 @@ import { CommonModule } from '@angular/common';
 import { CohorteService } from '../../services/cohorte.service';
 import { NotificationService } from '../../services/notification.service';
 import { Cohorte } from '../../models/cohorte.model';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmationModalComponent } from '../modal/modal.component'; // Importer le module
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-cohorte-details',
     standalone: true,
-    imports: [HeaderAndSidebarComponent, CommonModule, ConfirmationModalComponent], // Ajouter le module ici
+    imports: [SideNavComponent, CommonModule, ConfirmationModalComponent, FormsModule], // Ajouter le module ici
     templateUrl: './cohorte-details.component.html',
     styleUrls: ['./cohorte-details.component.css']
 })
@@ -87,4 +88,19 @@ export class CohorteDetailsComponent implements OnInit {
             this.router.navigate(['/cohorte', this.cohorte.id, 'apprenants']);  // Utilisez this.cohorte.id
         }
     }
+
+    onStatutChange(): void {
+        if (this.cohorte) {
+          this.cohorteService.updateCohorte(this.cohorte.id, { statut: this.cohorte.statut }).subscribe(
+            () => {
+              console.log('Statut de la cohorte mis à jour avec succès');
+            },
+            (error) => {
+              this.errorMessage = 'Erreur lors de la mise à jour du statut de la cohorte : ' + error.message;
+            }
+          );
+        }
+      }
+
+      
 }

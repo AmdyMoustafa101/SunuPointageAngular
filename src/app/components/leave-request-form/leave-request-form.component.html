@@ -1,0 +1,76 @@
+<div class="container">
+  <h2>Soumettre une Demande de Congé</h2>
+  <form [formGroup]="leaveRequestForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="first_name">Prénom</label>
+      <input type="text" class="form-control" id="first_name" formControlName="first_name">
+      <div *ngIf="leaveRequestForm.get('first_name')?.invalid && leaveRequestForm.get('first_name')?.touched" class="text-danger">
+        Prénom est requis
+      </div>
+      <div *ngIf="serverErrors.first_name" class="text-danger">
+        {{ serverErrors.first_name[0] }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="last_name">Nom</label>
+      <input type="text" class="form-control" id="last_name" formControlName="last_name">
+      <div *ngIf="leaveRequestForm.get('last_name')?.invalid && leaveRequestForm.get('last_name')?.touched" class="text-danger">
+        Nom est requis
+      </div>
+      <div *ngIf="serverErrors.last_name" class="text-danger">
+        {{ serverErrors.last_name[0] }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="department">Département</label>
+      <select class="form-control" id="department" formControlName="department">
+        <option *ngFor="let department of departments" [value]="department.id">{{ department.nom }}</option>
+      </select>
+      <div *ngIf="leaveRequestForm.get('department')?.invalid && leaveRequestForm.get('department')?.touched" class="text-danger">
+        Département est requis
+      </div>
+      <div *ngIf="serverErrors.department" class="text-danger">
+        {{ serverErrors.department[0] }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="type">Type d'absence</label>
+      <select class="form-control" id="type" formControlName="type">
+        <option value="congé">Congé</option>
+        <option value="maladie">Maladie</option>
+        <option value="autres">Autres</option>
+      </select>
+      <div *ngIf="leaveRequestForm.get('type')?.invalid && leaveRequestForm.get('type')?.touched" class="text-danger">
+        Type d'absence est requis
+      </div>
+      <div *ngIf="serverErrors.type" class="text-danger">
+        {{ serverErrors.type[0] }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="start_date">Date de Début</label>
+      <input type="date" class="form-control" id="start_date" formControlName="start_date">
+      <div *ngIf="leaveRequestForm.get('start_date')?.invalid && leaveRequestForm.get('start_date')?.touched" class="text-danger">
+        Date de début est requis
+      </div>
+      <div *ngIf="serverErrors.start_date" class="text-danger">
+        {{ serverErrors.start_date[0] }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="end_date">Date de Fin</label>
+      <input type="date" class="form-control" id="end_date" formControlName="end_date">
+      <div *ngIf="leaveRequestForm.get('end_date')?.invalid && leaveRequestForm.get('end_date')?.touched" class="text-danger">
+        Date de fin est requis
+      </div>
+      <div *ngIf="serverErrors.end_date" class="text-danger">
+        {{ serverErrors.end_date[0] }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="reason">Raison</label>
+      <textarea class="form-control" id="reason" formControlName="reason"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Soumettre</button>
+  </form>
+</div>

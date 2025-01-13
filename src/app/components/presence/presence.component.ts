@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { HeaderAndSidebarComponent } from "../header-and-sidebar/header-and-sidebar.component";
+import { SideNavComponent } from "../side-nav/side-nav.component";
 
 @Component({
   selector: 'app-presence',
   standalone: true,
-  imports: [FormsModule, CommonModule, HeaderAndSidebarComponent],
+  imports: [FormsModule, CommonModule, SideNavComponent],
   templateUrl: './presence.component.html',
   styleUrls: ['./presence.component.css'],
 })

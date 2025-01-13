@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Employe } from '../models/employe.model';
 
 export interface LogoutResponse {
@@ -12,9 +13,11 @@ export interface LogoutResponse {
 })
 export class EmployeService {
   private apiUrl = 'http://localhost:8002/api/employes'; // URL de l'API Laravel
-  private userData: any = null;
+  private userData: Employe | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.loadUserDataFromLocalStorage();
+  }
 
   createEmploye(employeData: FormData): Observable<any> {
     return this.http.post<any>(this.apiUrl, employeData);
@@ -25,17 +28,37 @@ export class EmployeService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`http://localhost:8002/api/login`, { email, password });
+    return this.http.post(`http://localhost:8002/api/login`, { email, password }).pipe(
+      tap((response: any) => {
+        this.saveToken(response.token);
+        this.setUserData(response.user); // Stocker les données utilisateur
+      })
+    );
   }
 
   // Store user data
-  setUserData(user: any): void {
+  setUserData(user: Employe): void {
     this.userData = user;
+    localStorage.setItem('userData', JSON.stringify(user)); // Stocker dans le localStorage
   }
 
   // Get user data
-  getUserData(): any {
+  getUserData(): Employe | null {
     return this.userData;
+  }
+
+  // Load user data from localStorage
+  loadUserDataFromLocalStorage(): void {
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+      this.userData = JSON.parse(userData);
+    }
+  }
+
+  // Clear user data
+  clearUserData(): void {
+    this.userData = null;
+    localStorage.removeItem('userData');
   }
 
   // Fonction de logout
@@ -44,7 +67,12 @@ export class EmployeService {
       headers: new HttpHeaders({
         Authorization: `Bearer ${localStorage.getItem('token')}`
       })
-    });
+    }).pipe(
+      tap(() => {
+        this.clearToken();
+        this.clearUserData();
+      })
+    );
   }
 
   // Enregistrement du token dans le stockage local
@@ -78,7 +106,7 @@ export class EmployeService {
   }
 
    // Nouvelle méthode pour mettre à jour un employé
-   updateEmploye(id: number, employeData: Partial<Employe>): Observable<Employe> {
+  updateEmploye(id: number, employeData: Partial<Employe>): Observable<Employe> {
     return this.http.put<Employe>(`${this.apiUrl}/${id}`, employeData);
   }
 

@@ -5,12 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApprenantService } from '../../services/apprenant.service';
 import { Apprenant } from '../../models/apprenant.model'; // Assurez-vous d'importer le modèle correct
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
-
+import { SideNavComponent } from '../side-nav/side-nav.component';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-add-apprenant',
   standalone: true,
-  imports: [FormsModule, HeaderAndSidebarComponent, CommonModule],
+  imports: [FormsModule, SideNavComponent, CommonModule],
   templateUrl: './add-apprenant.component.html',
   styleUrls: ['./add-apprenant.component.css']
 })
@@ -57,12 +57,12 @@ export class AddApprenantComponent implements OnInit {
     // Envoyer l'apprenant au service
     this.apprenantService.createApprenant(this.newApprenant).subscribe({
       next: () => {
-        alert('Apprenant ajouté avec succès.');
+        Swal.fire('Succès', 'Apprenant créée avec succès!', 'success');
         this.router.navigate(['/liste-apprenants']);
       },
       error: (error) => {
         console.error('Erreur lors de l\'ajout de l\'apprenant:', error);
-        alert('Une erreur est survenue lors de l\'ajout de l\'apprenant.');
+        Swal.fire('Une erreur est survenue lors de l\'ajout de l\'apprenant.');
       }
     });
   }

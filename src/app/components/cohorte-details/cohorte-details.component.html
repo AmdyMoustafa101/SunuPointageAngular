@@ -1,4 +1,4 @@
-<app-header-and-sidebar></app-header-and-sidebar>
+<app-side-nav></app-side-nav>
 
 <div class="error-message" *ngIf="errorMessage">
     {{ errorMessage }}
@@ -12,13 +12,14 @@
                 <button class="btn btn-primary" (click)="modifierCohorte()">
                     <i class="fas fa-edit"></i> Modifier
                 </button>
-                <button class="btn btn-danger" (click)="archiverCohorte()">
+                <!-- <button class="btn btn-danger" (click)="archiverCohorte()">
                     <i class="fas fa-trash"></i> Archiver
-                </button>
+                </button> -->
                 <button class="btn btn-info" (click)="voirApprenants()">
                     <i class="fas fa-users"></i> Voir les apprenants
                 </button>
             </div>
+            <!-- Statut de la cohorte -->
             <span [class]="'status-badge ' + (cohorte.statut === 'active' ? 'status-active' : 'status-terminee')">
                 {{ cohorte.statut === 'active' ? 'En cours' : 'Terminé' }}
             </span>
@@ -33,6 +34,14 @@
             <div class="info-item">
                 <h3>Session</h3>
                 <p>{{ cohorte.annee }}</p>
+            </div>
+
+            <div class="info-item">
+                <h3>Statut</h3>
+                <select [(ngModel)]="cohorte.statut" (change)="onStatutChange()" class="form-control status-select">
+                    <option value="active">En cours</option>
+                    <option value="terminee">Terminé</option>
+                </select>
             </div>
 
             <div class="info-item">

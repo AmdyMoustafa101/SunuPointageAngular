@@ -1,4 +1,3 @@
-// cohorte.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -43,9 +42,23 @@ export class CohorteService {
     );
   }
 
-   // Nouvelle méthode pour archiver plusieurs cohortes
-   archiveMultipleCohortes(ids: number[]): Observable<any> {
+
+  unarchiveCohorte(id: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${id}/unarchive`, {}).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Méthode pour archiver plusieurs cohortes
+  archiveMultipleCohortes(ids: number[]): Observable<any> {
     return this.http.post(`${this.apiUrl}/archive-multiple`, { ids }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Nouvelle méthode pour désarchiver plusieurs cohortes
+  unarchiveMultipleCohortes(ids: number[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/unarchive-multiple`, { ids }).pipe(
       catchError(this.handleError)
     );
   }
@@ -61,8 +74,10 @@ export class CohorteService {
     return throwError(() => new Error(errorMessage));
   }
 
-   // Méthode pour récupérer les apprenants d'une cohorte spécifique
-  //  getApprenantsByCohorte(id: number): Observable<any[]> {
-  //   return this.http.get<any[]>(`${this.apiUrl}/apcohortes/  /apprenants`);
-  // }  
+  // Méthode pour récupérer les apprenants d'une cohorte spécifique
+  getApprenantsByCohorte(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${id}/apprenants`).pipe(
+      catchError(this.handleError)
+    );
+  }  
 }

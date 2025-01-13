@@ -9,12 +9,16 @@ import { CohorteService } from '../../services/cohorte.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Apprenant } from '../../models/apprenant.model';
 import { Cohorte } from '../../models/cohorte.model';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
+import Swal from 'sweetalert2';
+import { ConfirmationModalComponent } from '../modal/modal.component';
+
+
 
 @Component({
   selector: 'app-liste-apprenants',
   standalone: true,
-  imports: [CommonModule, HeaderAndSidebarComponent, FormsModule, NgxPaginationModule],
+  imports: [CommonModule, SideNavComponent, FormsModule, NgxPaginationModule, ConfirmationModalComponent],
   templateUrl: './liste-apprenant.component.html',
   styleUrls: ['./liste-apprenant.component.css']
 })
@@ -35,6 +39,13 @@ export class ListeApprenantsComponent implements OnInit {
   itemsPerPage: number = 10;
   totalItems: number = 0;
   showArchived: boolean = false;
+
+
+   // Modal properties
+   showModal: boolean = false;
+   modalMessage: string = '';
+   currentAction: (() => void) | null = null;
+
 
   constructor(
     private router: Router,
@@ -67,39 +78,39 @@ export class ListeApprenantsComponent implements OnInit {
     });
   }
 
-  // Récupérer les apprenants actifs par cohorte
-  showActiveApprenants(): void {
-    if (this.cohorte && this.cohorte.id !== null) {
-        this.apprenantService.getApprenantsActifsByCohorte(this.cohorte.id).subscribe(
-            (data: Apprenant[]) => {
-                this.filteredApprenants = data;
-                this.totalItems = data.length;
-                this.page = 1; // Reset to the first page
-                this.showActive = true;
-            },
-            (error) => {
-                console.error('Erreur lors de la récupération des apprenants actifs par cohorte:', error);
-            }
-        );
-    }
+  // Fonction pour récupérer les apprenants actifs par cohorte
+showActiveApprenants(): void {
+  if (this.cohorte && this.cohorte.id !== null) {
+      this.apprenantService.getApprenantsActifsByCohorte(this.cohorte.id).subscribe(
+          (data: Apprenant[]) => {
+              this.filteredApprenants = data;
+              this.totalItems = data.length;
+              this.page = 1; // Reset to the first page
+              this.showActive = true; // Mise à jour de showActive à true
+          },
+          (error) => {
+              console.error('Erreur lors de la récupération des apprenants actifs par cohorte:', error);
+          }
+      );
   }
+}
 
-  // Récupérer les apprenants archivés par cohorte
-  showArchivedApprenants(): void {
-    if (this.cohorte && this.cohorte.id !== null) {
-        this.apprenantService.getApprenantsArchivesByCohorte(this.cohorte.id).subscribe(
-            (data: Apprenant[]) => {
-                this.filteredApprenants = data;
-                this.totalItems = data.length;
-                this.page = 1; // Reset to the first page
-                this.showActive = false;
-            },
-            (error) => {
-                console.error('Erreur lors de la récupération des apprenants archivés par cohorte:', error);
-            }
-        );
-    }
+// Fonction pour récupérer les apprenants archivés par cohorte
+showArchivedApprenants(): void {
+  if (this.cohorte && this.cohorte.id !== null) {
+      this.apprenantService.getApprenantsArchivesByCohorte(this.cohorte.id).subscribe(
+          (data: Apprenant[]) => {
+              this.filteredApprenants = data;
+              this.totalItems = data.length;
+              this.page = 1; // Reset to the first page
+              this.showActive = false; // Mise à jour de showActive à false
+          },
+          (error) => {
+              console.error('Erreur lors de la récupération des apprenants archivés par cohorte:', error);
+          }
+      );
   }
+}
 
   loadApprenants() {
     if (this.id === null) {
@@ -146,19 +157,40 @@ export class ListeApprenantsComponent implements OnInit {
   }
 
   archiverApprenant(id: number): void {
-    if (confirm('Êtes-vous sûr de vouloir archiver cet apprenant ?')) {
-      this.apprenantService.archiverApprenant(id).subscribe({
-        next: () => {
-          this.loadApprenants(); // Recharge la liste
-          alert('Apprenant archivé avec succès.');
-        },
-        error: (error) => {
-          console.error('Erreur lors de l\'archivage de l\'apprenant:', error);
-          alert('Erreur lors de l\'archivage de l\'apprenant.');
-        }
-      });
-    }
+    this.modalMessage = 'Êtes-vous sûr de vouloir archiver cet apprenant ?';
+    this.currentAction = () => {
+        this.apprenantService.archiverApprenant(id).subscribe({
+            next: () => {
+                this.loadApprenants(); // Recharge la liste
+                Swal.fire('Succès', 'Apprenant archivé avec succès.', 'success');
+            },
+            error: (error) => {
+                console.error('Erreur lors de l\'archivage de l\'apprenant:', error);
+                Swal.fire('Erreur', 'Erreur lors de l\'archivage de l\'apprenant.', 'error');
+            }
+        });
+    };
+    this.showModal = true;
   }
+
+  desarchiverApprenant(id: number): void {
+    this.modalMessage = 'Êtes-vous sûr de vouloir désarchiver cet apprenant ?';
+    this.currentAction = () => {
+        this.apprenantService.desarchiverApprenant(id).subscribe(
+            (response) => {
+                console.log('Apprenant désarchivé avec succès:', response);
+                this.showArchivedApprenants(); // Rafraîchir la liste des apprenants archivés
+                Swal.fire('Succès', 'Apprenant désarchivé avec succès.', 'success');
+            },
+            (error) => {
+                console.error('Erreur lors de la désarchivation de l\'apprenant:', error);
+                Swal.fire('Erreur', 'Erreur lors de la désarchivation de l\'apprenant.', 'error');
+            }
+        );
+    };
+    this.showModal = true;
+  }
+
 
   // Méthode pour archiver plusieurs apprenants
   archiveSelectedApprenants() {
@@ -170,9 +202,11 @@ export class ListeApprenantsComponent implements OnInit {
       this.apprenantService.archiverApprenants(ids).subscribe(
         (response) => {
           console.log('Apprenants archivés avec succès', response);
+          Swal.fire('Succès', 'Apprenants archivés avec succès.', 'success');
           this.loadApprenants(); // Recharge la liste des apprenants
         },
         (error) => {
+          Swal.fire('Erreur', 'Erreur lors de l\'archivage de l\'apprenant.', 'error');
           console.error('Erreur lors de l\'archivage des apprenants:', error);
         }
       );
@@ -181,18 +215,7 @@ export class ListeApprenantsComponent implements OnInit {
     }
   }
 
-  desarchiverApprenant(id: number): void {
-    this.apprenantService.desarchiverApprenant(id).subscribe(
-      (response) => {
-        console.log('Apprenant désarchivé avec succès:', response);
-        this.showArchivedApprenants(); // Rafraîchir la liste des apprenants archivés
-      },
-      (error) => {
-        console.error('Erreur lors de la désarchivation de l\'apprenant:', error);
-      }
-    );
-  }
-
+ 
   desarchiverSelectedApprenants(): void {
     const ids = this.filteredApprenants
       .filter(apprenant => apprenant.selected)
@@ -200,10 +223,12 @@ export class ListeApprenantsComponent implements OnInit {
     
     this.apprenantService.desarchiverApprenants(ids).subscribe(
       (response) => {
-        console.log('Apprenants désarchivés avec succès:', response);
+        Swal.fire('Succès', 'Apprenants désarchivés avec succès:', 'success');
+        console.log('Apprenants désarchivés avec succès', response);
         this.showArchivedApprenants(); // Rafraîchir la liste des apprenants archivés
       },
       (error) => {
+        Swal.fire('Erreur', 'Erreur lors de la désarchivation des apprenants', 'error');
         console.error('Erreur lors de la désarchivation des apprenants:', error);
       }
     );
@@ -263,6 +288,8 @@ export class ListeApprenantsComponent implements OnInit {
     return this.filteredApprenants.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
+  
+
   // Méthode de filtrage
   filterApprenants(): void {
     if (!this.searchTerm) {
@@ -277,5 +304,18 @@ export class ListeApprenantsComponent implements OnInit {
             apprenant.telephone.toLowerCase().includes(term)
         );
     }
+  }
+
+
+  handleConfirm() {
+    if (this.currentAction) {
+      this.currentAction();
+    }
+    this.showModal = false;
+  }
+  
+  handleClose() {
+    this.showModal = false;
+    this.currentAction = null;
   }
 }

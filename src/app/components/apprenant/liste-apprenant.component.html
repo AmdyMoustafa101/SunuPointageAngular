@@ -1,18 +1,24 @@
-<app-header-and-sidebar></app-header-and-sidebar>
+<app-side-nav></app-side-nav>
+
 <div class="container">
     <h2>Liste des Apprentis - {{ cohorte?.nom }}</h2>
 
-     <!-- Champ de recherche -->
-     <div class="mb-3">
-        <input type="text" class="form-control" placeholder="Rechercher..." 
-               [(ngModel)]="searchTerm" (input)="filterApprenants()">
-     </div>
+     <div class="d-flex gap-3 align-items-center justify-content-end mb-3">
 
-    <!-- Liens pour sélectionner la liste des apprenants -->
-    <div class="d-flex gap-3 align-items-center justify-content-start mb-3">
-        <button class="btn btn-link" (click)="showActiveApprenants()">Apprenants Actifs</button>
-        <button class="btn btn-link" (click)="showArchivedApprenants()">Apprenants Archivés</button>
-    </div>
+         <!-- Liens pour sélectionner la liste des apprenants -->
+         <div class="apprenants-pagination">
+            <span class="link" [ngClass]="{'active': showActive === true}" (click)="showActiveApprenants()">Apprenants Actifs</span>
+            <span class="link" [ngClass]="{'active': showActive === false}" (click)="showArchivedApprenants()">Apprenants Archivés</span>
+        </div>
+
+        
+        <!-- Champ de recherche -->
+        <div class="mb-3">
+            <input type="text" class="search-input" placeholder="Rechercher..." 
+                [(ngModel)]="searchTerm" (input)="filterApprenants()">
+        </div>
+
+     </div>
 
     <!-- Boutons de sélection et actions -->
     <div class="d-flex gap-3 align-items-center justify-content-end mb-3">
@@ -102,3 +108,11 @@
         <div *ngIf="filteredApprenants.length === 0" class="no-data">Aucun apprenant dans cette cohorte.</div>
     </div>
 </div>
+
+
+<app-confirmation-modal
+  *ngIf="showModal"
+  [message]="modalMessage"
+  (confirm)="handleConfirm()"
+  (close)="handleClose()"
+></app-confirmation-modal>

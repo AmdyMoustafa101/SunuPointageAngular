@@ -1,22 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-  private messageSubject = new Subject<string>();
-  message$ = this.messageSubject.asObservable();
-
-  showMessage(message: string): void {
-    this.messageSubject.next(message);
+  showSuccess(arg0: string) {
+    throw new Error('Method not implemented.');
   }
+  private notificationCount = new BehaviorSubject<number>(0);
+  notificationCount$ = this.notificationCount.asObservable();
 
-  showSuccess(message: string): void {
-    this.showMessage(`Success: ${message}`);
-  }
-
-  showError(message: string): void {
-    this.showMessage(`Error: ${message}`);
+  incrementNotificationCount() {
+    this.notificationCount.next(this.notificationCount.value + 1);
   }
 }

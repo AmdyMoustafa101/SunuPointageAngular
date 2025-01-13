@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { HeaderAndSidebarComponent } from "../header-and-sidebar/header-and-sidebar.component";
+import { SideNavComponent } from "../side-nav/side-nav.component";
 @Component({
   selector: 'app-historique-logs',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule, HeaderAndSidebarComponent],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, SideNavComponent],
   templateUrl: './historique-logs.component.html',
   styleUrl: './historique-logs.component.css'
 })

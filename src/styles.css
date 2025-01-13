@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+/* Styles pour le thème clair */
+.light-theme {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --header-background-color: #f1f1f1;
+  }
+  
+  /* Styles pour le thème sombre */
+  .dark-theme {
+    --background-color: #121212;
+    --text-color: #ffffff;
+    --header-background-color: #1f1f1f;
+  }
+  
+  /* Styles communs */
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  
+  .header {
+    background-color: var(--header-background-color);
+  }
+  
+  /* Ajoutez d'autres styles ici */

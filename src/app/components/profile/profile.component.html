@@ -1,0 +1,20 @@
+<app-side-nav></app-side-nav>
+
+<div class="center-container">
+  
+    <div class="profile-container" *ngIf="user">
+      <div class="profile-header">
+        <img [src]="user.photo ? user.photo : 'assets/default-photo.jpg'" alt="Profile Picture" class="profile-picture">
+        <h2>{{ user.nom }} {{ user.prenom }}</h2>
+        <p class="user-role">{{ user.role }}</p>
+      </div>
+      <div class="profile-details">
+        <h3>Informations personnelles</h3>
+        <p><strong>Matricule:</strong> {{ user.matricule }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Téléphone:</strong> {{ user.telephone }}</p>
+        <p><strong>Adresse:</strong> {{ user.adresse }}</p>
+        <p><strong>Département:</strong> {{ departement?.nom }}</p>
+      </div>
+    </div>
+  </div>

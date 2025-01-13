@@ -1,0 +1,49 @@
+/* Style pour centrer le conteneur parent */
+.center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+  }
+  
+  /* Style pour augmenter la largeur du conteneur de profil */
+  .profile-container {
+    max-width: 1200px; /* Augmenter la largeur maximale */
+    width: 100%; /* Prendre toute la largeur disponible */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  .user-role {
+    color: #6c757d;
+    font-size: 1.1rem;
+  }
+  
+  .profile-details {
+    margin-top: 20px;
+  }
+  
+  .profile-details h3 {
+    margin-bottom: 10px;
+  }
+  
+  .profile-details p {
+    margin: 5px 0;
+  }

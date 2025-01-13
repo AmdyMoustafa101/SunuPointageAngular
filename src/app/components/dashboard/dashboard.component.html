@@ -4,9 +4,21 @@
     <div class="col-auto bg-light">
       <app-side-nav></app-side-nav>
     </div>
-
+    
     <!-- Contenu principal -->
     <div class="col">
+      <!-- Barre de navigation -->
+      <nav class="navbar navbar-light bg-light justify-content-end">
+        <div class="notification-icon position-relative">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-bell"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{ notificationCount }}
+            </span>
+          </button>
+        </div>
+      </nav>
+      
       <div class="dashboard">
         <!-- Cartes de résumé -->
         <app-summary-cards></app-summary-cards>

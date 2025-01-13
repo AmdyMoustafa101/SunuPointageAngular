@@ -2,12 +2,15 @@ import { ActivatedRoute } from '@angular/router';
 import { Component } from '@angular/core';
 import { PresenceService } from '../../services/presence.service';
 import { CommonModule } from '@angular/common';
+import { SideNavComponent } from '../side-nav/side-nav.component';
+
 
 @Component({
   selector: 'app-daily-presences',
   standalone: true,
   imports: [
     CommonModule,
+    SideNavComponent
   ],
   templateUrl: './daily-presences.component.html',
   styleUrl: './daily-presences.component.css'

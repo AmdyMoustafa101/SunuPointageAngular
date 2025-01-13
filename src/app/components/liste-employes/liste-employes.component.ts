@@ -7,12 +7,12 @@ import { EmployeService } from '../../services/employe.service';
 import { DepartementService } from '../../services/departement.service';
 import { Employe } from '../../models/employe.model';
 import { Departement } from '../../models/departement.model'; // Import the Departement model
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
 
 @Component({
   selector: 'app-liste-employes',
   standalone: true,
-  imports: [CommonModule, HeaderAndSidebarComponent, FormsModule],
+  imports: [CommonModule, SideNavComponent, FormsModule],
   templateUrl: './liste-employes.component.html',
   styleUrls: ['./liste-employes.component.css']
 })

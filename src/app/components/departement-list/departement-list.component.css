@@ -1,131 +1,275 @@
-.table-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 500px); /* Ajustez la hauteur pour tenir compte de la hauteur de l'en-tête */
-  padding: 185px; /* Ajustez le padding pour réduire l'espace */
+/* Main Layout */
+.container {
+  padding: 10rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
-.header-container {
+.main-content {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+/* Stats Section */
+.stats {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  right: 100px;
+}
+
+.stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.stat-card h3 {
+  color: #666;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+#export-btn {
+  position: absolute;
+  right: 2rem;
+  top: 1rem;
+}
+
+.btn-primary {
+  background-color: #7c5cfc;
+  color: white;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #25c2a0;
+  color: white;
+  border: none;
+}
+
+/* Départements List Section */
+.departements-list-container {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  margin-top: 2rem;
+  right: 100px;
+}
+
+.departements-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
-h2 {
-  margin-left: 0;
+.search-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.departement-table {
-  width: 85%; /* Ajustez la largeur pour être plus petite */
+.search-input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  width: 300px;
+  font-size: 0.875rem;
+}
+
+.departements-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 16px; /* Ajustez la taille de la police */
-  background-color: #f9f9f9; /* Couleur de fond du tableau */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajoutez une ombre pour un effet 3D */
 }
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px 15px; /* Ajustez le padding pour plus d'espace */
+thead th {
   text-align: left;
+  padding: 1rem;
+  color: #666;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
 }
 
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
+tbody td {
+  padding: 1rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2; /* Couleur de fond pour les lignes paires */
+/* Checkbox Styles */
+.checkbox-container {
+  display: inline-block;
+  margin-right: 1rem;
 }
 
-tr:hover {
-  background-color: #ddd; /* Couleur de fond au survol */
-}
-
-.error {
-  color: red;
-  margin: 10px 0;
-}
-
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 12px; /* Ajustez le padding pour plus d'espace */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   cursor: pointer;
-  border-radius: 4px; /* Ajoutez des coins arrondis */
-  transition: background-color 0.3s ease; /* Ajoutez une transition pour l'effet de survol */
-  margin: 5px;
 }
 
-button:hover {
-  background-color: #0056b3;
+.custom-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid #e0e0e0;
+  cursor: pointer;
 }
 
-button[disabled] {
-  background-color: #cccccc;
-  cursor: not-allowed;
+/* Selection Header */
+.selection-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
 }
 
-.add-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
+/* Table Checkbox Column */
+.checkbox-column {
+  width: 40px;
+  padding-left: 1rem;
+}
+
+/* Selected Row Style */
+tr.selected {
+  background-color: #f0f7ff;
+}
+
+/* Départements Header with Search */
+.departements-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-and-filter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  min-width: 250px;
+}
+
+/* Actions Container */
+.departements-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.5em 1em;
   border-radius: 5px;
-  cursor: pointer;
-  margin-left: 520px;  /* Ajoute de l'espace entre le titre et le bouton */
+  font-weight: bold;
+  text-align: center;
 }
 
+.status-active {
+  background-color: #a5f3b0; /* Couleur de fond pour "En cours" */
+  color: #007f00; /* Couleur du texte */
+  border: 1px solid #007f00; /* Bordure correspondante */
+}
 
-/* Specific styles for each action button */
-.view-button {
+.status-terminee {
+  background-color: #f8d7da; /* Couleur de fond pour "Terminé" */
+  color: #c82333; /* Couleur du texte */
+  border: 1px solid #c82333; /* Bordure correspondante */
+}
+
+/* Pagination Styles */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-controls {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 5px;
+}
+
+.pagination-controls .ngx-pagination__page {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination-controls .ngx-pagination__page--current {
   background-color: #007bff;
   color: white;
+  border-color: #007bff;
 }
 
-.view-button:hover {
-  background-color: #0056b3;
+.pagination-controls .ngx-pagination__direction {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.edit-button {
-  background-color: #28a745;
+/* Custom Styles */
+.link {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.link:hover {
+  background-color: #e9ecef;
+  color: #0056b3;
+}
+
+.link.active {
+  background-color: #007bff;
   color: white;
-}
-
-.edit-button:hover {
-  background-color: #218838;
-}
-
-.archive-button {
-  background-color: #ffc107;
-  color: white;
-}
-
-.archive-button:hover {
-  background-color: #e0a800;
-}
-
-button[disabled] {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-.employee-list-button {
-  background-color: #007bff; /* Couleur de fond */
-  color: white; /* Couleur du texte */
-  border: none; /* Enlever la bordure par défaut */
-  padding: 10px 20px; /* Padding pour le bouton */
-  font-size: 16px; /* Taille de la police */
-  cursor: pointer; /* Changer le curseur au survol */
-  border-radius: 5px; /* Coins arrondis */
-  transition: background-color 0.3s ease; /* Transition pour l'effet au survol */
-}
-
-.employee-list-button:hover {
-  background-color: #0056b3; /* Couleur de fond au survol */
 }

@@ -5,11 +5,13 @@ import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { SideNavComponent } from '../side-nav/side-nav.component';
+
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SideNavComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })

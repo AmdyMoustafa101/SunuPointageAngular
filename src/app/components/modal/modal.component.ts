@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -14,11 +14,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
             </button>
           </div>
           <div class="modal-body">
-            <p>Êtes-vous sûr de vouloir archiver cette cohorte ?</p>
+            <p>{{ message }}</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="close()">Annuler</button>
-            <button type="button" class="btn btn-danger" (click)="confirm()">Archiver</button>
+            <button type="button" class="btn btn-danger" (click)="confirm()">Confirmer</button>
           </div>
         </div>
       </div>
@@ -51,6 +51,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   `]
 })
 export class ConfirmationModalComponent {
+  @Input() message: string = '';
   @Output() confirmed = new EventEmitter<void>();
   @Output() closed = new EventEmitter<void>();
 

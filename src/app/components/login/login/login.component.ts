@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EmployeService } from '../../../services/employe.service';
 import { CommonModule } from '@angular/common';
@@ -53,7 +52,7 @@ export class LoginComponent {
         localStorage.setItem('user', JSON.stringify(response.user));
 
         if (role === 'administrateur') {
-          this.router.navigate(['/admin-page']);
+          this.router.navigate(['/dashboard']);
         } else if (role === 'vigile') {
           this.router.navigate(['/vigile-page']);
         }
@@ -63,5 +62,9 @@ export class LoginComponent {
         Swal.fire('Erreur', err.error.message, 'error');
       },
     });
+  }
+
+  navigateToLeaveRequest() {
+    this.router.navigate(['/leave-request/add']);
   }
 }

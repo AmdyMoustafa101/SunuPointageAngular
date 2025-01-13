@@ -55,6 +55,11 @@
         <button type="submit" class="login-button" [disabled]="loginForm.invalid">
           Se connecter
         </button>
+
+        <!-- Nouveau bouton pour soumettre une demande de congé -->
+        <button type="button" class="submit-leave-button" (click)="navigateToLeaveRequest()">
+          Soumettre une congé
+        </button>
       </form>
     </div>
   </div>

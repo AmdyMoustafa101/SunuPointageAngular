@@ -3,12 +3,13 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { EmployeService } from '../../../../services/employe.service';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
-import { HeaderAndSidebarComponent } from '../../../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../../../side-nav/side-nav.component';
+
 
 @Component({
   selector: 'app-employe-create',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderAndSidebarComponent],
+  imports: [SideNavComponent, CommonModule, ReactiveFormsModule],
   templateUrl: './employe-create.component.html',
   styleUrls: ['./employe-create.component.css'],
 })

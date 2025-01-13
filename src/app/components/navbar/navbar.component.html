@@ -1,0 +1,40 @@
+<div class="sidebar bg-light vh-100 d-flex flex-column">
+    <div class="sidebar-header p-3 text-center">
+        <img src="path/to/logo.png" alt="Logo" class="logo">
+
+        <div class="user-info mt-2">
+            <img [src]="admin?.photo || 'assets/default-photo.jpg'" alt="Profile" class="rounded-circle" style="width: 80px; height: 80px;">
+            <h5 class="user-name">{{ admin?.nom }} {{ admin?.prenom }}</h5>
+            <p class="user-role">{{ admin?.fonction }}</p>
+        </div>
+    </div>
+    <div class="nav flex-column p-3 flex-grow-1">
+        <div class="nav-item">
+            <a class="nav-link text-dark" routerLink="/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <i class="fas fa-user"></i> Liste Présence
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Place the last three items at the bottom -->
+    <div class="nav flex-column p-3 mt-auto">
+        <div class="nav-item">
+            <a class="nav-link text-dark" routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <i class="fas fa-user"></i> Profile
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a class="nav-link text-dark" routerLink="/settings" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <i class="fas fa-cog"></i> Paramètres
+            </a>
+        </div>
+
+        <div class="nav-item mb-3">
+            <a class="nav-link text-danger" (click)="logout()">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
+        </div>
+    </div>
+</div>

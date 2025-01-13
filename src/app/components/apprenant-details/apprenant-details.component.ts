@@ -5,13 +5,13 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ApprenantService } from '../../services/apprenant.service'; // Assurez-vous que le chemin est correct
 import { RouterModule } from '@angular/router';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
 
 
 @Component({
   selector: 'app-apprenant-details',
   standalone: true,
-  imports: [CommonModule, RouterModule, HeaderAndSidebarComponent],
+  imports: [CommonModule, RouterModule, SideNavComponent],
   providers: [ApprenantService], // Assurez-vous d'ajouter ApprenantService à votre module principal
   templateUrl: './apprenant-details.component.html',
   styleUrls: ['./apprenant-details.component.css']

@@ -1,46 +1,108 @@
-<app-header-and-sidebar></app-header-and-sidebar>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <!-- Sidebar -->
+    <div class="col-md-3 sidebar">
+      <app-side-nav></app-side-nav>
+    </div>
 
-<div class="table-container">
-  <div class="header-container">
-    <h2>Liste des départements</h2>
-    <button class="add-button" (click)="addDepartement()">Ajouter Département</button>
+    <!-- Main Content -->
+    <div class="col-md-9 main-content">
+      <div class="main-content-inner">
+        <section class="stats">
+          <div class="stat-card">
+            <h3>Total Départements</h3>
+            <p>{{ departements.length }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Employés Actifs</h3>
+            <p>{{ totalEmployesActifs }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Employés Archivés</h3>
+            <p>{{ totalEmployesArchives }}</p>
+          </div>
+        </section>
+
+        <section class="departements-list-container">
+          <div class="departements-header">
+            <h2>Tous les départements</h2>
+
+            <!-- Pagination Links -->
+            <div class="departements-pagination">
+              <span class="link" [ngClass]="{'active': viewType === 'active'}" (click)="setViewType('active')">Départements Actifs</span>
+              <span class="link" [ngClass]="{'active': viewType === 'archived'}" (click)="setViewType('archived')">Départements Archivés</span>
+            </div>
+
+            <div class="departements-actions">
+              <input type="text" class="search-input" placeholder="Rechercher par nom..." [(ngModel)]="searchText" />
+              <a class="btn btn-primary" id="add-departement-btn" [routerLink]="['/departement-add']">
+                <i class="fas fa-plus-circle"></i> Nouveau Département
+              </a>
+            </div>
+          </div>
+
+          <div class="departements-actions">
+            <input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" />
+            <label>Sélectionner tout</label>
+            <button *ngIf="isAnySelected() && !isArchivedView()" class="btn btn-warning" (click)="archiveSelectedDepartements()">
+              <i class="fas fa-archive"></i> Archiver sélectionnés
+            </button>
+            <button *ngIf="isAnySelected() && isArchivedView()" class="btn btn-danger" (click)="unarchiveSelectedDepartements()">
+              <i class="fas fa-undo"></i> Désarchiver sélectionnés
+            </button>
+          </div>
+
+          <div class="departements-list">
+            <table>
+              <thead>
+                <tr>
+                  <th><input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" /></th>
+                  <th>Nom du Département</th>
+                  <th>Horaires Début</th>
+                  <th>Horaires Fin</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let departement of filterDepartements() | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+                  <td><input type="checkbox" [(ngModel)]="departement.selected" /></td>
+                  <td>{{ departement.nom }}</td>
+                  <td>{{ departement.horaires[0]?.heure_debut || 'Non défini' }}</td>
+                  <td>{{ departement.horaires[0]?.heure_fin || 'Non défini' }}</td>
+                  <td>
+                    <button (click)="viewDepartement(departement.id ?? 0)" class="btn btn-primary mr-2" [routerLink]="['/departement', departement.id ?? 0]">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button *ngIf="!isArchivedView()" class="btn btn-warning mr-2" (click)="openArchiveModal(departement.id ?? 0)">
+                      <i class="fas fa-archive"></i>
+                    </button>
+                    <button *ngIf="isArchivedView()" class="btn btn-danger" (click)="openUnarchiveModal(departement.id ?? 0)">
+                      <i class="fas fa-undo"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pagination-container">
+              <pagination-controls (pageChange)="page = $event"
+                  previousLabel="Précédent"
+                  nextLabel="Suivant"
+                  [maxSize]="5"
+                  [directionLinks]="true"
+                  [autoHide]="true">
+              </pagination-controls>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
   </div>
-  
-  <div *ngIf="errorMessage" class="error">
-    {{ errorMessage }}
-  </div>
-  
-  <table class="departement-table">
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Description</th>
-        <th>Horaires Début</th>
-        <th>Horaires Fin</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let departement of departements">
-        <td>{{ departement.nom }}</td>
-        <td>{{ truncateDescription(departement.description) }}</td>
-        <td>{{ departement.horaires[0]?.heure_debut || 'Non défini' }}</td>
-        <td>{{ departement.horaires[0]?.heure_fin || 'Non défini' }}</td>
-        <td>
-          <button 
-            class="action-button view-button" 
-            (click)="departement.id !== undefined && viewDepartement(departement.id)"
-            [disabled]="departement.id === undefined">
-            <i class="fas fa-eye"></i> 
-          </button>
-          <button 
-            class="action-button edit-button" 
-            (click)="departement.id !== undefined && editDepartement(departement.id)"
-            [disabled]="departement.id === undefined">
-            <i class="fas fa-edit"></i> 
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>
+
+<!-- Confirmation Modal -->
+<app-confirmation-modal 
+  *ngIf="showConfirmationModal" 
+  [message]="confirmationMessage" 
+  (confirmed)="onConfirmed()" 
+  (closed)="onClosed()">
+</app-confirmation-modal>

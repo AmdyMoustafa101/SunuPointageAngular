@@ -1,7 +1,14 @@
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px; /* Pour s'assurer que le conteneur prend toute la hauteur de la fenêtre */
+    padding: 20px; /* Ajout d'un padding pour éviter que le contenu ne touche les bords */
+}
+
 .container {
-    padding: 200px;
+    padding: 40px; /* Réduire le padding pour éviter un trop grand espace */
     max-width: 1200px;
-    margin: 0 auto;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

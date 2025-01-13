@@ -58,6 +58,12 @@ export class DepartementAddComponent implements OnInit {
           }
         ],
         archive: false // ou null, ou laissez cette ligne si archive est optionnel
+        ,
+
+        statut: '',
+        selected: undefined,
+        horaires_fin: undefined,
+        horaires_debut: undefined
       };
 
       this.departementService.addDepartement(newDepartement).subscribe(

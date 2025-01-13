@@ -5,12 +5,13 @@ import { CohorteService } from '../../services/cohorte.service';
 import { Cohorte } from '../../models/cohorte.model';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-cohorte',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderAndSidebarComponent],
+  imports: [ReactiveFormsModule, CommonModule, SideNavComponent],
   providers: [CohorteService],
   templateUrl: './update-cohorte.component.html',
   styleUrls: ['./update-cohorte.component.css']
@@ -139,14 +140,16 @@ export class UpdateCohorteComponent implements OnInit {
       // Vérification des champs requis
       if (!updatedCohorte.nom || !updatedCohorte.description || !updatedCohorte.annee) {
         console.error('Données manquantes dans le formulaire');
-        this.errorMessage = 'Données manquantes dans le formulaire';
+        Swal.fire('Données manquantes dans le formulaire.');
+        // this.errorMessage = 'Données manquantes dans le formulaire';
         return;
       }
   
       this.cohorteService.updateCohorte(id, updatedCohorte).subscribe({
         next: (response) => {
           console.log('Réponse de l\'API après succès:', response);
-          this.successMessage = 'Cohorte mise à jour avec succès!';
+          Swal.fire('Succès', 'Cohorte mise à jour avec succès!', 'success');
+          // this.successMessage = 'Cohorte mise à jour avec succès!';
           this.router.navigate(['/cohortes']);
         },
         error: (err) => {

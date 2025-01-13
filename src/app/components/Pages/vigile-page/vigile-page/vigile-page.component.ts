@@ -6,11 +6,11 @@ import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular
 import { CommonModule } from '@angular/common';
 
 import Swal from 'sweetalert2';
-import { HeaderAndSidebarComponent } from "../../../header-and-sidebar/header-and-sidebar.component";
+import { SideNavComponent } from '../../../side-nav/side-nav.component';
 @Component({
   selector: 'app-vigile-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderAndSidebarComponent],
+  imports: [ReactiveFormsModule, CommonModule, SideNavComponent],
   templateUrl: './vigile-page.component.html',
   styleUrl: './vigile-page.component.css'
 })

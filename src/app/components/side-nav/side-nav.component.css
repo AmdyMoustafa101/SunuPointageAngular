@@ -1,11 +1,37 @@
 .sidebar {
   width: 250px; /* Largeur de la barre latérale */
   background-color: blue; /* Couleur de fond */
+  position: fixed; /* Fixe la sidebar */
+  top: 0;
+  bottom: 0;
 }
 
 .sidebar-header {
   border-bottom: 1px solid #e1e1e1; /* Bordure en bas de l'en-tête */
   padding: 20px; /* Espacement interne */
+}
+
+.main-content {
+  margin-left: 250px; /* Espacement à gauche pour le contenu principal */
+}
+
+a.active {
+  position: relative;
+  font-weight: bold;
+  color: #5932EA !important; /* Couleur du texte actif */
+  background-color: #f9f9f9;
+}
+
+a.active::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 5px;
+  height: 70%;
+  background-color: #5932EA; /* Rectangle bleu à gauche */
+  border-radius: 0 5px 5px 0; /* Coins arrondis */
+  transform: translateY(-50%); /* Centre le rectangle verticalement */
 }
 
 .logo {
@@ -41,11 +67,12 @@
   padding: 10px; /* Espacement interne pour chaque lien */
   border-radius: 4px; /* Arrondir les coins de chaque lien */
   transition: background-color 0.3s; /* Transition pour l'effet de survol */
+  cursor: pointer;
 }
 
 .nav-link i {
   margin-right: 10px; /* Espacement entre l'icône et le texte */
-  color: #007bff; /* Couleur des icônes */
+  color: #5932EA; /* Couleur des icônes */
 }
 
 .nav-link.active {

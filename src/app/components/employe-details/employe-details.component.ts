@@ -4,12 +4,13 @@ import { EmployeService } from '../../services/employe.service';
 import { Employe } from '../../models/employe.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
+
 
 @Component({
   selector: 'app-employe-details',
   standalone: true,
-  imports: [CommonModule, HeaderAndSidebarComponent, FormsModule],
+  imports: [CommonModule, SideNavComponent, FormsModule],
   templateUrl: './employe-details.component.html',
   styleUrls: ['./employe-details.component.css']
 })

@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmployeService } from '../../services/employe.service';
 import { Employe } from '../../models/employe.model';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-employe-edit',
   standalone: true,
-  imports: [HeaderAndSidebarComponent, ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [SideNavComponent, ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './employe-edit.component.html',
   styleUrls: ['./employe-edit.component.css']
 })
@@ -38,7 +40,7 @@ export class EmployeEditComponent implements OnInit {
       },
       (error: any) => {
         this.errorMessage = error.message;
-        console.error('Error retrieving employee details:', error);
+        console.error('Erreur lors de la récupération des détails de l\'employé:', error);
       }
     );
   }
@@ -47,11 +49,13 @@ export class EmployeEditComponent implements OnInit {
     if (this.employe) {
       this.employeService.updateEmploye(this.employe.id, this.employe).subscribe(
         () => {
+          Swal.fire('Succès', 'Employé mis à jour avec succès!', 'success');
           this.router.navigate(['/liste-employes', this.employe?.departementId]);
         },
         (error: any) => {
           this.errorMessage = error.message;
-          console.error('Error updating employee:', error);
+          Swal.fire('Erreur', 'Erreur lors de la mise à jour de l\'employé:', 'error');
+          console.error('Erreur lors de la mise à jour de l\'employé:', error);
         }
       );
     }

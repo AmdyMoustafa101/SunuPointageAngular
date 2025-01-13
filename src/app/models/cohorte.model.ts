@@ -6,6 +6,7 @@ export enum StatutCohorte {
 }
 
 export interface Cohorte {
+    archive: unknown;
     id: number; // ID de la cohorte
     nom: string;
     description: string;

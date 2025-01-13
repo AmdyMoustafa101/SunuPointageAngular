@@ -1,4 +1,3 @@
-// src/app/services/apprenant.service.ts
 import { tap } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -6,8 +5,6 @@ import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Apprenant, ApprenantStats, ApprenantFormData, PaginatedResponse } from '../models/apprenant.model';
-
-
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +21,6 @@ export class ApprenantService {
         );
     }
 
-
     // Récupérer un apprenant par ID
     getApprenantById(id: number): Observable<Apprenant> {
         return this.http.get<Apprenant>(`${this.apiUrl}/apprenants/${id}`).pipe(
@@ -33,35 +29,32 @@ export class ApprenantService {
     }
 
     // Créer un nouvel apprenant
-    // Créer un nouvel apprenant
     createApprenant(apprenantData: Partial<Apprenant>): Observable<Apprenant> {
         return this.http.post<Apprenant>(`${this.apiUrl}/apprenants`, apprenantData).pipe(
             catchError(this.handleError)
         );
     }
 
+    // Récupérer toutes les cohortes
     getCohortes(): Observable<any[]> {
         return this.http.get<any[]>(`${this.apiUrl}/cohortes`).pipe(
-          catchError(this.handleError)
+            catchError(this.handleError)
         );
-      }
+    }
 
-
-    // Dans apprenant.service.ts
+    // Mettre à jour un apprenant
     updateApprenant(id: number, apprenantData: Partial<Apprenant>): Observable<Apprenant> {
         return this.http.put<Apprenant>(`${this.apiUrl}/apprenants/${id}`, apprenantData).pipe(
-          catchError(this.handleError)
+            catchError(this.handleError)
         );
-      }
+    }
 
-    // src/app/services/apprenant.service.ts
-
-supprimerApprenants(ids: number[]): Observable<any> {
-    return this.http.post(`${this.apiUrl}/apprenants/delete-multiple`, { ids }).pipe(
-        catchError(this.handleError)
-    );
-}
-
+    // Supprimer plusieurs apprenants
+    supprimerApprenants(ids: number[]): Observable<any> {
+        return this.http.post(`${this.apiUrl}/apprenants/delete-multiple`, { ids }).pipe(
+            catchError(this.handleError)
+        );
+    }
 
     // Récupérer les statistiques
     getStats(): Observable<ApprenantStats> {
@@ -77,60 +70,75 @@ supprimerApprenants(ids: number[]): Observable<any> {
         );
     }
 
-        // Archiver un apprenant spécifique
-        archiverApprenant(id: number): Observable<any> {
-            return this.http.post(`${this.apiUrl}/apprenants/${id}/archive`, {}).pipe(
+    // Archiver un apprenant spécifique
+    archiverApprenant(id: number): Observable<any> {
+        return this.http.post(`${this.apiUrl}/apprenants/${id}/archive`, {}).pipe(
             catchError(this.handleError)
-            );
-        }
-    
-      // Archiver plusieurs apprenants
-        archiverApprenants(ids: number[]): Observable<any> {
-            return this.http.post(`${this.apiUrl}/apprenants/archive`, { ids }).pipe(
-            catchError(this.handleError)
-            );
-        }
-      
-       // Récupérer les apprenants actifs par cohorte
-        getApprenantsActifsByCohorte(id: number): Observable<Apprenant[]> {
-            return this.http.get<Apprenant[]>(`${this.apiUrl}/cohortes/${id}/apprenants-actifs`).pipe(
-            catchError(this.handleError)
-            );
-        }
+        );
+    }
 
-        // Récupérer les apprenants archivés par cohorte
-        getApprenantsArchivesByCohorte(id: number): Observable<Apprenant[]> {
-            return this.http.get<Apprenant[]>(`${this.apiUrl}/cohortes/${id}/apprenants-archives`).pipe(
+    // Archiver plusieurs apprenants
+    archiverApprenants(ids: number[]): Observable<any> {
+        return this.http.post(`${this.apiUrl}/apprenants/archive`, { ids }).pipe(
             catchError(this.handleError)
-            );
-        }
+        );
+    }
 
-        // Désarchiver un apprenant spécifique
-        desarchiverApprenant(id: number): Observable<any> {
-            return this.http.post(`${this.apiUrl}/apprenants/${id}/desarchive`, {}).pipe(
+    // Récupérer les apprenants actifs par cohorte
+    getApprenantsActifsByCohorte(id: number): Observable<Apprenant[]> {
+        return this.http.get<Apprenant[]>(`${this.apiUrl}/cohortes/${id}/apprenants-actifs`).pipe(
             catchError(this.handleError)
-            );
-        }
+        );
+    }
 
-        desarchiverApprenants(ids: number[]): Observable<any> {
-            return this.http.post(`${this.apiUrl}/apprenants/desarchive`, { ids }).pipe(
-              catchError(this.handleError)
-            );
-          }
+    // Récupérer les apprenants archivés par cohorte
+    getApprenantsArchivesByCohorte(id: number): Observable<Apprenant[]> {
+        return this.http.get<Apprenant[]>(`${this.apiUrl}/cohortes/${id}/apprenants-archives`).pipe(
+            catchError(this.handleError)
+        );
+    }
+
+    // Récupérer tous les apprenants actifs
+    getApprenantsActifs(): Observable<Apprenant[]> {
+        return this.http.get<Apprenant[]>(`${this.apiUrl}/apprenants/actifs`).pipe(
+            catchError(this.handleError)
+        );
+    }
+
+    // Récupérer tous les apprenants archivés
+    getApprenantsArchives(): Observable<Apprenant[]> {
+        return this.http.get<Apprenant[]>(`${this.apiUrl}/apprenants/archives`).pipe(
+            catchError(this.handleError)
+        );
+    }
+
+    // Désarchiver un apprenant spécifique
+    desarchiverApprenant(id: number): Observable<any> {
+        return this.http.post(`${this.apiUrl}/apprenants/${id}/desarchive`, {}).pipe(
+            catchError(this.handleError)
+        );
+    }
+
+    // Désarchiver plusieurs apprenants
+    desarchiverApprenants(ids: number[]): Observable<any> {
+        return this.http.post(`${this.apiUrl}/apprenants/desarchive`, { ids }).pipe(
+            catchError(this.handleError)
+        );
+    }
 
     // Gestion des erreurs
     private handleError(error: HttpErrorResponse): Observable<never> {
-      let errorMessage = 'Une erreur est survenue';
-      
-      if (error.error instanceof ErrorEvent) {
-          // Erreur côté client
-          errorMessage = `Erreur: ${error.error.message}`;
-      } else {
-          // Erreur côté serveur
-          errorMessage = `Code d'erreur: ${error.status}\nMessage: ${error.message}\nDétails: ${JSON.stringify(error.error)}`;
-      }
-      
-      console.error(errorMessage);
-      return throwError(() => new Error(errorMessage));
-  }
+        let errorMessage = 'Une erreur est survenue';
+        
+        if (error.error instanceof ErrorEvent) {
+            // Erreur côté client
+            errorMessage = `Erreur: ${error.error.message}`;
+        } else {
+            // Erreur côté serveur
+            errorMessage = `Code d'erreur: ${error.status}\nMessage: ${error.message}\nDétails: ${JSON.stringify(error.error)}`;
+        }
+        
+        console.error(errorMessage);
+        return throwError(() => new Error(errorMessage));
+    }
 }

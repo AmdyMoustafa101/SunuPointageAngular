@@ -3,12 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApprenantService } from '../../services/apprenant.service';
 import { ApprenantFormData } from '../../models/apprenant.model';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from "../side-nav/side-nav.component";
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-update-apprenant',
     standalone: true,
-    imports: [HeaderAndSidebarComponent, ReactiveFormsModule],
+    imports: [SideNavComponent, ReactiveFormsModule],
     templateUrl: './update-apprenant.component.html',
     styleUrls: ['./update-apprenant.component.css']
 })
@@ -82,12 +83,12 @@ export class UpdateApprenantComponent implements OnInit {
                 this.apprenantService.updateApprenant(id, updatedApprenant).subscribe({
                     next: (response) => {
                         console.log('Réponse de l\'API après succès:', response);
-                        this.successMessage = 'Apprenant mis à jour avec succès!';
-                        this.router.navigate(['/apprenants']);
+                        Swal.fire('Succès', 'Apprenant mis à jour avec succès!', 'success');
+                        // this.router.navigate(['cohorte/{id}/apprenants', id]);
                     },
                     error: (err) => {
                         console.error('Erreur détaillée:', err);
-                        this.errorMessage = 'Erreur lors de la mise à jour de l\'apprenant: ' + err;
+                        Swal.fire('Erreur lors de la mise à jour de l\'apprenant.');
                     }
                 });
             } else {

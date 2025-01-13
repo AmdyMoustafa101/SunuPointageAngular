@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PointageService } from '../../services/pointage.service';
-import { HeaderAndSidebarComponent } from "../header-and-sidebar/header-and-sidebar.component";
+import { SideNavComponent } from "../side-nav/side-nav.component";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   templateUrl: './pointage.component.html',
   styleUrls: ['./pointage.component.css'],
   standalone: true,
-  imports: [FormsModule,CommonModule, HeaderAndSidebarComponent],
+  imports: [FormsModule,CommonModule, SideNavComponent],
 })
 export class PointageComponent implements OnInit {
   public users: any[] = []; // Liste des employés/apprenants

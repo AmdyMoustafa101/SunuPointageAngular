@@ -1,0 +1,33 @@
+<app-side-nav></app-side-nav>
+
+<div class="center-container">
+    
+    <div class="settings-container">
+      <h2>Paramètres</h2>
+      
+      <!-- Changer la langue -->
+      <div class="form-group">
+        <label for="language">Langue</label>
+        <select id="language" [(ngModel)]="selectedLanguage" (change)="changeLanguage()">
+          <option value="fr">Français</option>
+          <option value="en">Anglais</option>
+          <!-- Ajoutez plus de langues ici -->
+        </select>
+      </div>
+      
+      <!-- Changer le thème -->
+      <div class="form-group">
+        <label for="theme">Thème</label>
+        <select id="theme" [(ngModel)]="selectedTheme" (change)="changeTheme()">
+          <option value="light">Clair</option>
+          <option value="dark">Sombre</option>
+        </select>
+      </div>
+      
+      <!-- Activer/Désactiver les notifications -->
+      <div class="form-group">
+        <label for="notifications">Notifications</label>
+        <input type="checkbox" id="notifications" [(ngModel)]="notificationsEnabled" (change)="toggleNotifications()">
+      </div>
+    </div>
+  </div>

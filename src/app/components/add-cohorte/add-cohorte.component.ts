@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { CohorteService } from '../../services/cohorte.service';
 import { CommonModule } from '@angular/common';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
 
 import Swal from 'sweetalert2';
 
@@ -15,7 +15,7 @@ interface Horaire {
 @Component({
   selector: 'app-add-cohorte',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderAndSidebarComponent],
+  imports: [ReactiveFormsModule, CommonModule, SideNavComponent],
   templateUrl: './add-cohorte.component.html', // Assurez-vous que le chemin est correct
   styleUrls: ['./add-cohorte.component.css'] // Correction de styleUrl à styleUrls
 })

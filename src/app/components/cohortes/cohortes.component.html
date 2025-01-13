@@ -1,89 +1,119 @@
-<app-header-and-sidebar></app-header-and-sidebar>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <!-- Sidebar -->
+    <div class="col-md-3 sidebar">
+      <app-side-nav></app-side-nav>
+    </div>
 
-<div class="container">
-    <div class="main-content">
+    <!-- Main Content -->
+    <div class="col-md-9 main-content">
+      <div class="main-content-inner">
         <section class="stats">
-            <div class="stat-card">
-                <h3>Total Cohortes</h3>
-                <p>{{ cohortes.length }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Total Filles</h3>
-                <p>280</p>
-            </div>
-            <div class="stat-card">
-                <h3>Total Garçons</h3>
-                <p>170</p>
-            </div>
+          <div class="stat-card">
+            <h3>Total Cohortes</h3>
+            <p>{{ cohortes.length }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Apprenants Actifs</h3>
+            <p>{{ totalApprenantsActifs }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Apprenants Archivés</h3>
+            <p>{{ totalApprenantsArchives }}</p>
+          </div>
         </section>
 
         <section class="cohortes-list-container">
-            <div class="cohortes-header">
-                <h2>Toutes les cohortes</h2>
-                <a class="btn btn-secondary" id="export-btn" href="#" (click)="exportToCsv()">
-                    <i class="fas fa-file-csv"></i> Excel CSV
-                </a>
-                <div class="cohortes-actions">
-                    <input type="text" class="search-input" placeholder="Rechercher par nom..." [(ngModel)]="searchText" />
-                    <a class="btn btn-primary" id="add-cohort-btn" [routerLink]="['/cohorte/add']">
-                        <i class="fas fa-plus-circle"></i> Nouvelle Cohorte
-                    </a>
-                </div>
+          <div class="cohortes-header">
+            <h2>Toutes les cohortes</h2>
+
+            <!-- Pagination Links -->
+            <div class="cohortes-pagination">
+              <span class="link" [ngClass]="{'active': viewType === 'active'}" (click)="setViewType('active')">Cohortes Actifs</span>
+              <span class="link" [ngClass]="{'active': viewType === 'archived'}" (click)="setViewType('archived')">Cohortes Archivés</span>
             </div>
 
             <div class="cohortes-actions">
-                <input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" />
-                <label>Sélectionner tout</label>
-                <button *ngIf="isAnySelected()" class="btn btn-danger" (click)="archiveSelectedCohortes()">
-                    <i class="fas fa-archive"></i> Archiver sélectionnés
-                </button>
+              <input type="text" class="search-input" placeholder="Rechercher par nom..." [(ngModel)]="searchText" />
+              <a class="btn btn-primary" id="add-cohort-btn" [routerLink]="['/cohorte/add']">
+                <i class="fas fa-plus-circle"></i> Nouvelle Cohorte
+              </a>
             </div>
+          </div>
 
-            <div class="cohortes-list">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom de la Cohorte</th>
-                            <th>Horaires Début</th>
-                            <th>Horaires Fin</th>
-                            <th>Année</th>
-                            <th>Statut</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let cohorte of filterCohortes() | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
-                            <td *ngIf="selectAll"><input type="checkbox" [(ngModel)]="cohorte.selected" /></td>
-                            <td>{{ cohorte.nom }}</td>
-                            <td>{{ cohorte.horaires[0]?.heure_debut || 'Non défini' }}</td>
-                            <td>{{ cohorte.horaires[0]?.heure_fin || 'Non défini' }}</td>
-                            <td>{{ cohorte.annee }}</td>
-                            <td>
-                                <span class="status-badge" [ngClass]="{
-                                    'status-active': cohorte.statut === statutCohorte.ACTIVE, 
-                                    'status-terminee': cohorte.statut === statutCohorte.TERMINEE
-                                }">
-                                    {{ cohorte.statut === statutCohorte.ACTIVE ? 'En cours' : 'Terminé' }}
-                                </span>
-                            </td>
-                            <td>
-                                <button (click)="viewCohorte(cohorte.id)" class="btn btn-info" [routerLink]="['/cohorte', cohorte.id]">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="pagination-container">
-                    <pagination-controls (pageChange)="page = $event"
-                        previousLabel="Précédent"
-                        nextLabel="Suivant"
-                        [maxSize]="5"
-                        [directionLinks]="true"
-                        [autoHide]="true">
-                    </pagination-controls>
-                </div>
+          <div class="cohortes-actions">
+            <input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" />
+            <label>Sélectionner tout</label>
+            <button *ngIf="isAnySelected() && !isArchivedView()" class="btn btn-warning" (click)="archiveSelectedCohortes()">
+              <i class="fas fa-archive"></i> Archiver sélectionnés
+            </button>
+            <button *ngIf="isAnySelected() && isArchivedView()" class="btn btn-danger" (click)="unarchiveSelectedCohortes()">
+              <i class="fas fa-undo"></i> Désarchiver sélectionnés
+            </button>
+          </div>
+
+          <div class="cohortes-list">
+            <table>
+              <thead>
+                <tr>
+                  <th><input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" /></th>
+                  <th>Nom de la Cohorte</th>
+                  <th>Horaires Début</th>
+                  <th>Horaires Fin</th>
+                  <th>Année</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cohorte of filterCohortes() | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+                  <td><input type="checkbox" [(ngModel)]="cohorte.selected" /></td>
+                  <td>{{ cohorte.nom }}</td>
+                  <td>{{ cohorte.horaires[0]?.heure_debut || 'Non défini' }}</td>
+                  <td>{{ cohorte.horaires[0]?.heure_fin || 'Non défini' }}</td>
+                  <td>{{ cohorte.annee }}</td>
+                  <td>
+                    <span class="status-badge" [ngClass]="{
+                      'status-active': cohorte.statut === statutCohorte.ACTIVE, 
+                      'status-terminee': cohorte.statut === statutCohorte.TERMINEE
+                    }">
+                      {{ cohorte.statut === statutCohorte.ACTIVE ? 'En cours' : 'Terminé' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button (click)="viewCohorte(cohorte.id)" class="btn btn-primary mr-2" [routerLink]="['/cohorte', cohorte.id]">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button *ngIf="!isArchivedView()" class="btn btn-warning mr-2" (click)="openArchiveModal(cohorte.id)">
+                      <i class="fas fa-archive"></i>
+                    </button>
+                    <button *ngIf="isArchivedView()" class="btn btn-danger" (click)="openUnarchiveModal(cohorte.id)">
+                      <i class="fas fa-undo"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pagination-container">
+              <pagination-controls (pageChange)="page = $event"
+                  previousLabel="Précédent"
+                  nextLabel="Suivant"
+                  [maxSize]="5"
+                  [directionLinks]="true"
+                  [autoHide]="true">
+              </pagination-controls>
             </div>
+          </div>
         </section>
+      </div>
     </div>
+  </div>
 </div>
+
+<!-- Confirmation Modal -->
+<app-confirmation-modal 
+  *ngIf="showConfirmationModal" 
+  [message]="confirmationMessage" 
+  (confirmed)="onConfirmed()" 
+  (closed)="onClosed()">
+</app-confirmation-modal>

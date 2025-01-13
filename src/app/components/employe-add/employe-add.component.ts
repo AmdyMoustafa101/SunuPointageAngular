@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeService } from '../../services/employe.service';
 import { Router } from '@angular/router';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-employe-add',
   standalone: true,
-  imports: [ReactiveFormsModule, HeaderAndSidebarComponent, CommonModule],
+  imports: [ReactiveFormsModule, SideNavComponent, CommonModule],
   templateUrl: './employe-add.component.html',
   styleUrls: ['./employe-add.component.css']
 })

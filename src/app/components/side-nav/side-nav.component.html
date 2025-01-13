@@ -1,37 +1,104 @@
-<div class="sidebar bg-light vh-100">
+<div class="sidebar bg-light vh-100 d-flex flex-column">
   <div class="sidebar-header p-3 text-center">
-      <img src="path/to/logo.png" alt="Logo" class="logo">
-      <div class="user-info mt-2">
-          <img src="path/to/profile-picture.jpg" alt="Profile" class="profile-pic">
-          <h5 class="user-name">Fatou Dieye</h5>
-          <p class="user-role">HR Manager</p>
-      </div>
+    <img src="path/to/logo.png" alt="Logo" class="logo">
+    
+    <div class="user-info mt-2">
+      <img [src]="admin?.photo || 'assets/default-photo.jpg'" alt="Profile" class="rounded-circle" style="width: 80px; height: 80px;">
+      <h5 class="user-name">{{ admin?.nom }} {{ admin?.prenom }}</h5>
+      <p class="user-role">{{ admin?.fonction }}</p>
+    </div>
   </div>
-  <ul class="nav flex-column p-3">
-      <li class="nav-item mb-3">
-          <a class="nav-link active text-dark" href="#">
-              <i class="fas fa-tachometer"></i> Tableau de bord
-          </a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link text-dark" href="#">
-              <i class="fas fa-users"></i> Cohortes
-          </a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link text-dark" href="#">
-              <i class="fas fa-sitemap"></i> Départements
-          </a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link text-dark" href="#">
-              <i class="fas fa-history"></i> Historiques
-          </a>
-      </li>
-      <li class="nav-item mt-auto">
-          <a class="nav-link text-danger" href="#">
-              <i class="fas fa-sign-out-alt"></i> Déconnexion
-          </a>
-      </li>
-  </ul>
+  <div class="nav flex-column p-3 flex-grow-1">
+    <div class="nav-item mb-3">
+      <a class="nav-link text-dark" routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="toggleDropdown('dashboardDropdownVisible')">
+        <i class="fas fa-tachometer-alt me-3"></i> Tableau de bord
+      </a>
+    </div>
+    
+    <!-- Dropdown Section for Dashboard -->
+    <div *ngIf="dashboardDropdownVisible" class="dropdown-section">
+      <div class="dropdown">
+        <button routerLink="/pointage" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-light dropdown-toggle" type="button" id="dropdownPointer" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-address-card me-2"></i> Pointer
+        </button>
+      </div>
+      <div class="dropdown">
+        <button routerLink="/presence" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-light dropdown-toggle" type="button" id="dropdownPresence" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-users me-2"></i> Liste Présence
+        </button>
+      </div>
+      <div class="dropdown">
+        <button routerLink="/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-light dropdown-toggle" type="button" id="dropdownCard" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-id-card me-2"></i> Attribuer une Carte
+        </button>
+      </div>
+    </div>
+    
+    <div class="nav-item">
+      <a class="nav-link text-dark" routerLink="/cohortes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="toggleDropdown('cohortesDropdownVisible')">
+        <i class="fas fa-users"></i> Cohortes
+      </a>
+    </div>
+    
+    <!-- Dropdown Section for Cohortes -->
+    <div *ngIf="cohortesDropdownVisible" class="dropdown-section">
+      <div class="dropdown">
+        <button routerLink="/cohorte" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-light dropdown-toggle" type="button" id="dropdownCohortes" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-list me-2"></i> Liste des Cohortes
+        </button>
+      </div>
+      <div class="dropdown">
+        <button routerLink="/list-apprenants" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-light dropdown-toggle" type="button" id="dropdownApprenants" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-user-graduate me-2"></i> Liste des Apprenants
+        </button>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a class="nav-link text-dark" routerLink="/departement" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="toggleDropdown('departementsDropdownVisible')">
+        <i class="fas fa-sitemap"></i> Départements
+      </a>
+    </div>
+    
+    <!-- Dropdown Section for Départements -->
+    <div *ngIf="departementsDropdownVisible" class="dropdown-section">
+      <div class="dropdown">
+        <button routerLink="/departements" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-light dropdown-toggle" type="button" id="dropdownDepartements" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-list me-2"></i> Liste des Départements
+        </button>
+      </div>
+      <div class="dropdown">
+        <button routerLink="/list-employes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-light dropdown-toggle" type="button" id="dropdownEmployes" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-user-tie me-2"></i> Liste des Employés
+        </button>
+      </div>
+    </div>
+    
+    <div class="nav-item">
+      <a class="nav-link text-dark" routerLink="/historiques" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="fas fa-history"></i> Historiques
+      </a>
+    </div>
+  </div>
+
+  <!-- Place the last three items at the bottom -->
+  <div class="nav flex-column p-3 mt-auto">
+    <div class="nav-item">
+      <a class="nav-link text-dark" routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="fas fa-user"></i> Profile
+      </a>
+    </div>
+
+    <div class="nav-item">
+      <a class="nav-link text-dark" routerLink="/settings" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="fas fa-cog"></i> Paramètres
+      </a>
+    </div>
+
+    <div class="nav-item mb-3">
+      <a class="nav-link text-danger" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> Déconnexion
+      </a>
+    </div>
+  </div>
 </div>

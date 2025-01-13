@@ -5,12 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DepartementService } from '../../services/departement.service';
 import { Departement } from '../../models/departement.model';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
+
 
 @Component({
   selector: 'app-departement-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HeaderAndSidebarComponent],
+  imports: [CommonModule, ReactiveFormsModule, SideNavComponent],
   templateUrl: './departement-details.component.html',
   styleUrls: ['./departement-details.component.css']
 })

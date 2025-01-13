@@ -4,12 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DepartementService } from '../../services/departement.service';
 import { Departement } from '../../models/departement.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HeaderAndSidebarComponent } from '../header-and-sidebar/header-and-sidebar.component';
+import { SideNavComponent } from '../side-nav/side-nav.component';
+
 
 @Component({
   selector: 'app-departement-edit',
   standalone: true,
-  imports: [ HeaderAndSidebarComponent, ReactiveFormsModule],
+  imports: [ SideNavComponent, ReactiveFormsModule],
   templateUrl: './departement-edit.component.html',
   styleUrls: ['./departement-edit.component.css']
 })
