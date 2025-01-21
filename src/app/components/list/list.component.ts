@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user-service.service';
+import { EmployeService } from '../../services/employe.service';
 import { CommonModule } from '@angular/common';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { HttpClient } from '@angular/common/http';
@@ -28,12 +29,16 @@ export class ListComponent {
   currentPage: number = 1;
   itemsPerPage: number = 10;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private employeService: EmployeService,) {}
 
   ngOnInit(): void {
     this.fetchUtilisateurs();
     this.listenToWebSocket();
   }
+
+  ngOnDestroy(): void {
+    this.employeService.setLoginPageState(false);
+}
 
   // Récupérer la liste des utilisateurs
   fetchUtilisateurs(): void {
@@ -43,7 +48,7 @@ export class ListComponent {
       .subscribe({
         next: (data) => {
           this.utilisateurs = data;
-          //this.applySearchFilter();
+          this.applySearchFilter();
           this.loading = false;
         },
         error: (err) => {
@@ -58,17 +63,17 @@ export class ListComponent {
       });
   }
 
-  // Filtrer les utilisateurs en fonction de la recherche
-  // applySearchFilter(): void {
-  //   this.filteredUtilisateurs = this.utilisateurs.filter((utilisateur) => {
-  //     const search = this.searchTerm.toLowerCase();
-  //     return (
-  //       utilisateur.nom.toLowerCase().includes(search) ||
-  //       utilisateur.prenom.toLowerCase().includes(search) ||
-  //       utilisateur.matricule.toLowerCase().includes(search)
-  //     );
-  //   });
-  // }
+  //Filtrer les utilisateurs en fonction de la recherche
+  applySearchFilter(): void {
+    this.filteredUtilisateurs = this.utilisateurs.filter((utilisateur) => {
+      const search = this.searchTerm.toLowerCase();
+      return (
+        utilisateur.nom.toLowerCase().includes(search) ||
+        utilisateur.prenom.toLowerCase().includes(search) ||
+        utilisateur.matricule.toLowerCase().includes(search)
+      );
+    });
+  }
 
   // Gérer les changements de recherche
   onSearchChange(): void {

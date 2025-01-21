@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
     this.employeService.initializeWebSocket();
     this.employeService.setLoginPageState(true);
     this.listenForRFIDScans();
+    this.listenToWebSocket();
   }
 
   ngOnDestroy(): void {
@@ -60,6 +61,8 @@ export class LoginComponent implements OnInit {
         this.handleLoginError(err);
       },
     });
+
+
   }
 
 
@@ -111,6 +114,14 @@ export class LoginComponent implements OnInit {
         }
     });
 }
+
+listenToWebSocket(): void {
+  const ws = new WebSocket('ws://localhost:3004');
+  ws.onmessage = (event) => {
+    const scannedCard = event.data;
+    console.log('Carte scannée:', scannedCard);
+    this.handleRFIDLogin(scannedCard);
+}}
 
 
 }
